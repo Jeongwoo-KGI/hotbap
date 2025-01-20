@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "495549020839",
+    "project_id": "hotbap-39695",
+    "storage_bucket": "hotbap-39695.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495549020839:android:e8a56da5531e830fcbb982",
+        "android_client_info": {
+          "package_name": "com.example.hotbap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0EYgZpCDlLbksMpD2e-jSFh7v3PCplOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
