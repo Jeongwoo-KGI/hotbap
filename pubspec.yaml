@@ -38,6 +38,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   firebase_core: ^3.10.0
   cloud_firestore: ^5.6.1
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
