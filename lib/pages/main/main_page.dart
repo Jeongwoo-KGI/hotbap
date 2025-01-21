@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
+import 'package:hotbap/pages/main/widgets/recipe_result.dart';
+import 'package:hotbap/pages/main/widgets/say_hi.dart';
 
 /**
  * [Main Landing Page]
@@ -21,13 +24,13 @@ class MainPage extends StatelessWidget{
             
             children: [
               //logo and filter button
-
+              LogoAndFilter(),
               //Name Say Hello Text
-
+              SayHi(userName: userName),
               //Recipe Results
-
+              RecipeResult(),
               //Recipe My Favorites
-
+              
               //Recipe Curated1
 
             ],
