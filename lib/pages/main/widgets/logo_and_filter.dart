@@ -9,7 +9,11 @@ class LogoAndFilter extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Image(image: ), //FIXME: add logo image
+        Container(
+          height: 400,
+          width: 300,
+          child: Image.network("https://picsum.photos/200/300"),//FIXME: add logo image
+        ),
         //FIXME: is the logo not material UI?
         IconButton.filledTonal(onPressed: (){}, icon: Icon(Icons.tune)), //FIXME: send to profile fix page
       ],
