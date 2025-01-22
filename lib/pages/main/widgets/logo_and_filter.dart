@@ -11,20 +11,20 @@ class LogoAndFilter extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: 72,
-            width: 67,
-            child: SvgPicture.asset("assets/images/mainpage_logo.svg", height: 71.27, width: 66.72,)
-          ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: IconButton.filledTonal(
-              onPressed: (){}, //FIXME: send to profile fix page
-              icon: const Icon(Icons.tune),
+          SvgPicture.asset("assets/images/mainpage_logo.svg", height: 71.27, width: 66.72,),
+          SizedBox(
+            height: 44,
+            width: 44,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IconButton.filledTonal(
+                onPressed: (){}, //FIXME: send to profile fix page
+                icon: const Icon(Icons.tune),
+              ),
             ),
           ), 
         ],

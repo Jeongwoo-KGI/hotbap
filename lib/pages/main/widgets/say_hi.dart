@@ -6,13 +6,26 @@ class SayHi extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "$userName 님 반갑습니다",
-      style: TextStyle(
-        fontSize: 20,
-        color: Colors.black,
-        fontWeight: FontWeight.w500,
-        fontFamily: 'Pretendard',
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+          //fontWeight: FontWeight.w500,
+          fontFamily: 'Pretendard',
+        ),
+        children: <TextSpan> [
+          TextSpan(
+            text: "$userName",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Pretendard',
+            ),
+          ),
+          TextSpan(text: " 님 반갑습니다!"),
+        ]
       ),
     );
   }

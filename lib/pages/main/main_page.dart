@@ -27,7 +27,7 @@ class MainPage extends StatelessWidget{
             //logo and filter button
             //LogoAndFilter(),
             Padding(
-              padding: EdgeInsets.only(top: 16, right: 20, left: 22, bottom: 25.73),
+              padding: EdgeInsets.only(right: 20, bottom: 25.73),
               child: SvgPicture.asset("assets/images/mainpage_logo.svg", height: 71.27, width: 66.72,),
             ),
             //Name Say Hello Text
@@ -36,7 +36,7 @@ class MainPage extends StatelessWidget{
               child: SayHi(userName: userName),
             ),
             //Recipe Results
-            RecipeResult(),
+            //RecipeResult(),
             //Recipe My Favorites
         
             //Recipe Curated1
