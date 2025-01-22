@@ -1,6 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/pages/login_page/imsi_page.dart';
 
-class LoginPage extends StatelessWidget {
+// Firebase 인증 상태를 제공하는 StreamProvider
+final authStateProvider = StreamProvider<User?>((ref) {
+  return FirebaseAuth.instance.authStateChanges();
+});
+
+class LoginPage extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+
+    return authState.when(
+      data: (user) {
+        if (user != null) {
+          return ImsiPage(); // 인증 성공 시 이동할 페이지
+        } else {
+          return LoginWidget(); // 로그인 화면
+        }
+      },
+      loading: () => Center(child: CircularProgressIndicator()), // 로딩 화면
+      error: (err, _) => Center(child: Text('오류 발생: $err')), // 에러 화면
+    );
+  }
+}
+
+// 로그인 화면 (현재 작성된 UI와 연결)
+class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,23 +41,21 @@ class LoginPage extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 color: Colors.grey,
-                alignment: Alignment.center, // 중앙 정렬
+                alignment: Alignment.center,
                 child: Text(
                   'SmoothPageIndicator 자리',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-
             // 하단 로그인 영역
             Expanded(
               flex: 4,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center, // 중앙 정렬
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // 상단 텍스트
                     Text(
                       '3초 만에 빠른 로그인',
                       textAlign: TextAlign.center,
@@ -41,8 +67,7 @@ class LoginPage extends StatelessWidget {
                         height: 1.35,
                       ),
                     ),
-                    const SizedBox(height: 14), // 여백 추가
-
+                    const SizedBox(height: 14),
                     // 구글로 시작하기 버튼
                     Container(
                       alignment: Alignment.center,
@@ -71,7 +96,6 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     // Apple로 시작하기 버튼
                     Container(
                       width: double.infinity,
@@ -96,8 +120,6 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // 직접 입력해서 로그인 텍스트
                     Text(
                       '직접 입력해서 로그인',
                       textAlign: TextAlign.center,
