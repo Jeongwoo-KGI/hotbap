@@ -1,6 +1,6 @@
 # hotbap
 
-A new Flutter project. "HotBap"
+A new Flutter project.
 
 ## Getting Started
 
