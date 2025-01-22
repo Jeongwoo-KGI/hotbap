@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/login_page/imsi_page.dart';
 
@@ -27,8 +31,53 @@ class LoginPage extends ConsumerWidget {
   }
 }
 
-// 로그인 화면 (현재 작성된 UI와 연결)
+// 로그인 화면
 class LoginWidget extends StatelessWidget {
+  Future<void> signInWithApple() async {
+    try {
+      // 생성된 nonce
+      final rawNonce = _generateNonce();
+      final hashedNonce = _hashNonce(rawNonce);
+
+      // Apple 로그인 요청
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: hashedNonce, // Firebase와 동일한 nonce를 전달해야 함
+      );
+
+      // OAuthCredential 생성
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      // Firebase 로그인
+      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    } catch (e) {
+      debugPrint('Apple 로그인 실패: $e');
+      rethrow;
+    }
+  }
+
+  // 난수 생성
+  String _generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  // SHA-256 해시 생성
+  String _hashNonce(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,26 +146,29 @@ class LoginWidget extends StatelessWidget {
                       ),
                     ),
                     // Apple로 시작하기 버튼
-                    Container(
-                      width: double.infinity,
-                      height: 56,
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.only(bottom: 20),
-                      decoration: ShapeDecoration(
-                        color: Color(0xFF333333),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                    GestureDetector(
+                      onTap: signInWithApple,
+                      child: Container(
+                        width: double.infinity,
+                        height: 56,
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF333333),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Apple로 시작하기',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w700,
-                          height: 1.35,
+                        child: Text(
+                          'Apple로 시작하기',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w700,
+                            height: 1.35,
+                          ),
                         ),
                       ),
                     ),
