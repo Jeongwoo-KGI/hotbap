@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LogoAndFilter extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Container(
-          height: 400,
-          width: 300,
-          child: Image.network("https://picsum.photos/200/300"),//FIXME: add logo image
-        ),
-        //FIXME: is the logo not material UI?
-        IconButton.filledTonal(onPressed: (){}, icon: Icon(Icons.tune)), //FIXME: send to profile fix page
-      ],
+    return Padding(
+      padding: EdgeInsets.only(left: 22, top: 16, right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            height: 72,
+            width: 67,
+            child: SvgPicture.asset("assets/images/mainpage_logo.svg", height: 71.27, width: 66.72,)
+          ),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IconButton.filledTonal(
+              onPressed: (){}, //FIXME: send to profile fix page
+              icon: const Icon(Icons.tune),
+            ),
+          ), 
+        ],
+      ),
     );
   }
 
