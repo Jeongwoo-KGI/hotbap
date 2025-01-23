@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/search/search_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/pages/main/main_page.dart';
+import 'package:hotbap/pages/login_page/conditions_page.dart';
+import 'package:hotbap/pages/login_page/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
       ),
-      home: SearchPage(),
+      home: LoginPage(), //LoginPage ConditionsPage
     );
   }
 }

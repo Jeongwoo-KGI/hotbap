@@ -10,8 +10,7 @@ import 'package:hotbap/pages/main/widgets/say_hi.dart';
  * and page view of the recipies that are customized and tailored for daily usage
  */
 
-class MainPage extends StatelessWidget{
-
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userName = "테스터"; //FIXME: 나중에 firebase로 업데이트 해둘것
@@ -20,14 +19,11 @@ class MainPage extends StatelessWidget{
         preferredSize: Size.fromHeight(0),
         child: AppBar(
           backgroundColor: Colors.white,
-          
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
-          
           crossAxisAlignment: CrossAxisAlignment.start,
-        
           children: [
             //logo and filter button
             LogoAndFilter(),
@@ -43,21 +39,18 @@ class MainPage extends StatelessWidget{
                 height: 448,
                 width: 339,
                 decoration: ShapeDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage("https://picsum.photos/200/300"), 
-                    fit: BoxFit.fill,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  )
-                ),
-              
+                    image: DecorationImage(
+                      image: NetworkImage("https://picsum.photos/200/300"),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    )),
               ),
             ),
             //Recipe My Favorites
             MyFavorites(),
             //Recipe Curated1
-
           ],
         ),
       ),
