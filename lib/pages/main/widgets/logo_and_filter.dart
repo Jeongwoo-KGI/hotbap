@@ -8,8 +8,7 @@ class LogoAndFilter extends StatelessWidget{
     return Padding(
       padding: EdgeInsets.only(left: 22, top: 16, right: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SvgPicture.asset("assets/images/mainpage_logo.svg", height: 71.27, width: 66.72,),
           SizedBox(
@@ -21,9 +20,9 @@ class LogoAndFilter extends StatelessWidget{
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: IconButton.filledTonal(
+              child: IconButton(
                 onPressed: (){}, //FIXME: send to profile fix page
-                icon: const Icon(Icons.tune),
+                icon: const Icon(Icons.tune, color: Colors.white,),
               ),
             ),
           ), 

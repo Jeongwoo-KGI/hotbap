@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
+import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/recipe_result.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
 
@@ -18,30 +19,43 @@ class MainPage extends StatelessWidget{
     final userName = "테스터"; //FIXME: 나중에 firebase로 업데이트 해둘것
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        body: SingleChildScrollView(
+          child: Column(
+            
+            crossAxisAlignment: CrossAxisAlignment.start,
           
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-        
-          children: <Widget> [
-            //logo and filter button
-            //LogoAndFilter(),
-            Padding(
-              padding: EdgeInsets.only(right: 20, bottom: 25.73),
-              child: SvgPicture.asset("assets/images/mainpage_logo.svg", height: 71.27, width: 66.72,),
-            ),
-            //Name Say Hello Text
-            Padding(
-              padding: EdgeInsets.only(left: 22, bottom: 20),
-              child: SayHi(userName: userName),
-            ),
-            //Recipe Results
-            //RecipeResult(),
-            //Recipe My Favorites
-        
-            //Recipe Curated1
-        
-          ],
+            children: [
+              //logo and filter button
+              LogoAndFilter(),
+              Padding(
+                padding: EdgeInsets.only(left: 22, bottom: 20, top: 25.73),
+                child: SayHi(userName: userName),
+              ),
+              //Recipe Results
+              //RecipeResult(),
+              Padding(
+                padding: EdgeInsets.only(left: 19),
+                child: Container(
+                  height: 448,
+                  width: 339,
+                  decoration: ShapeDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage("https://picsum.photos/200/300"), 
+                      fit: BoxFit.fill,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    )
+                  ),
+                
+                ),
+              ),
+              //Recipe My Favorites
+              MyFavorites(),
+              //Recipe Curated1
+              
+            ],
+          ),
         ),
       ),
     );
