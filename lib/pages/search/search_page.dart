@@ -11,12 +11,14 @@ class Recipe {
   final String nutritionInfo;
   final String cookingTime;
   final String calories;
+  final String imageUrl;
 
   Recipe({
     required this.title,
     required this.nutritionInfo,
     required this.cookingTime,
     required this.calories,
+    required this.imageUrl,
   });
 }
 
@@ -50,8 +52,6 @@ class GeminiApi {
     final prompt = '쿼리를 토대로 5개의 레시피를 한글로 알려줘: $query';
     final response = await model.generateContent([Content.text(prompt)]);
 
-
-    // Null check for response.text
     if (response.text != null) {
       final List<dynamic> responseData = json.decode(response.text!);
       return responseData.map((recipe) => recipe['recipeName'] as String).toList();
@@ -71,32 +71,30 @@ class ApiRecipeRepository implements RecipeRepository {
 
   @override
   Future<List<Recipe>> getRecipesBasedOnGemini(String query) async {
-    // Gemini API를 통해 추천 레시피 이름 가져오기
     final recommendedRecipeNames = await geminiApi.getRecommendedRecipeNames(query);
-    print('1$recommendedRecipeNames');
+    print('Recommended Recipe Names: $recommendedRecipeNames');
     List<Recipe> recipes = [];
 
     for (final recipeName in recommendedRecipeNames) {
       final url = Uri.parse('$_baseUrl/$_serviceKey/COOKRCP01/json/1/10/RCP_NM=$recipeName');
 
       final response = await http.get(url);
-      print('2$response');
+      print('API Response: $response');
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print('3$data');
-        if(data['COOKRCP01']['row']!=null){
+        print('API Data: $data');
+        if (data['COOKRCP01']['row'] != null) {
+          final recipeData = data['COOKRCP01']['row'] as List;
 
-        
-        final recipeData = data['COOKRCP01']['row'] as List;
-
-        recipes.addAll(recipeData.map((recipe) {
-          return Recipe(
-            title: recipe['RCP_NM'] ?? '제목 없음',
-            nutritionInfo: recipe['INFO_NA'] ?? '정보 없음',
-            cookingTime: recipe['INFO_CAR'] ?? '정보 없음',
-            calories: recipe['INFO_ENG'] ?? '정보 없음',
-          );
-        }));
+          recipes.addAll(recipeData.map((recipe) {
+            return Recipe(
+              title: recipe['RCP_NM'] ?? '제목 없음',
+              nutritionInfo: recipe['INFO_NA'] ?? '정보 없음',
+              cookingTime: recipe['INFO_CAR'] ?? '정보 없음',
+              calories: recipe['INFO_ENG'] ?? '정보 없음',
+              imageUrl: recipe['ATT_FILE_NO_MAIN'] ?? '',
+            );
+          }));
         }
       } else {
         print('Failed to fetch recipe for $recipeName');
@@ -268,6 +266,12 @@ class RecipeCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Color(0xFFD9D9D9),
                 borderRadius: BorderRadius.circular(8),
+                image: recipe.imageUrl.isNotEmpty
+                    ? DecorationImage(
+                        image: NetworkImage(recipe.imageUrl),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
               ),
             ),
             SizedBox(width: 12),
