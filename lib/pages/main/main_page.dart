@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
-import 'package:hotbap/pages/main/widgets/recipe_result.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
 
 /**
@@ -17,7 +15,7 @@ class MainPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final userName = "테스터"; //FIXME: 나중에 firebase로 업데이트 해둘것
-    return SafeArea(
+    return SafeArea( //FIXME: 상하단 검은색 띠 제거
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -28,7 +26,7 @@ class MainPage extends StatelessWidget{
               //logo and filter button
               LogoAndFilter(),
               Padding(
-                padding: EdgeInsets.only(left: 22, bottom: 20, top: 25.73),
+                padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
                 child: SayHi(userName: userName),
               ),
               //Recipe Results
@@ -53,7 +51,7 @@ class MainPage extends StatelessWidget{
               //Recipe My Favorites
               MyFavorites(),
               //Recipe Curated1
-              
+
             ],
           ),
         ),
