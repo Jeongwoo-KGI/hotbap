@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/pages/login_page/imsi_page.dart';
+import 'package:hotbap/pages/login_page/conditions_page.dart';
 
 // Firebase 인증 상태를 제공하는 StreamProvider
 final authStateProvider = StreamProvider<User?>((ref) {
@@ -16,7 +16,7 @@ class LoginPage extends ConsumerWidget {
     return authState.when(
       data: (user) {
         if (user != null) {
-          return ImsiPage(); // 인증 성공 시 이동할 페이지
+          return ConditionsPage(); // 인증 성공 시 이동할 페이지 ///수정할것_메인페이지로
         } else {
           return LoginWidget(); // 로그인 화면
         }
@@ -29,17 +29,6 @@ class LoginPage extends ConsumerWidget {
 
 // 로그인 화면 (현재 작성된 UI와 연결)
 class LoginWidget extends StatelessWidget {
-  // Future<UserCredential> signInWithAppleFirebase() async {
-  //   final appleProvider = AppleAuthProvider();
-
-  //   // Apple 로그인 시도 및 반환값 저장
-  //   final userCredential =
-  //       await FirebaseAuth.instance.signInWithProvider(appleProvider);
-
-  //   // 반환값 반환
-  //   return userCredential;
-  // }
-
   @override
   Widget build(BuildContext context) {
     void signInWithAppleFirebase() async {
@@ -55,7 +44,7 @@ class LoginWidget extends StatelessWidget {
         print(value.user?.email);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ImsiPage(),
+            builder: (context) => ConditionsPage(),
           ),
         );
       });

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ConditionsPage extends StatefulWidget {
   @override
@@ -73,10 +75,16 @@ class _ConditionsPageState extends State<ConditionsPage> {
                   });
                 },
               ),
+              SizedBox(
+                height: 16,
+              ),
               // (필수) 서비스 이용약관
+
               _buildCustomCheckboxTile(
                 label: '(필수) 서비스 이용약관',
                 value: _isServiceAgreed,
+                arrowIcon: true,
+                link: 'https://tutle02.tistory.com/60',
                 onChanged: (bool? value) {
                   setState(() {
                     _isServiceAgreed = value ?? false;
@@ -84,10 +92,15 @@ class _ConditionsPageState extends State<ConditionsPage> {
                   });
                 },
               ),
+              SizedBox(
+                height: 12,
+              ),
               // (필수) 개인정보처리방침
               _buildCustomCheckboxTile(
                 label: '(필수) 개인정보 처리방침',
                 value: _isPrivacyAgreed,
+                link: 'https://tutle02.tistory.com/61',
+                arrowIcon: true,
                 onChanged: (bool? value) {
                   setState(() {
                     _isPrivacyAgreed = value ?? false;
@@ -95,10 +108,15 @@ class _ConditionsPageState extends State<ConditionsPage> {
                   });
                 },
               ),
+              SizedBox(
+                height: 12,
+              ),
               // (필수) 14세 이상 확인
               _buildCustomCheckboxTile(
                 label: '(필수) 14세 이상이에요',
                 value: _isAgeConfirmed,
+                link: '',
+                arrowIcon: false,
                 onChanged: (bool? value) {
                   setState(() {
                     _isAgeConfirmed = value ?? false;
@@ -119,8 +137,18 @@ class _ConditionsPageState extends State<ConditionsPage> {
                         : null, // 동의하지 않으면 버튼 비활성화
                 child: Text('다음'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(double.infinity, 56),
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w700,
+                    height: 1.35,
+                  ),
+                  backgroundColor: Color(0xFFE33811), // 버튼 배경색
+                  foregroundColor: Colors.white, // 텍스트 색상
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // 버튼의 모서리 둥글게
+                  ),
                 ),
               ),
             ],
@@ -142,6 +170,8 @@ class _ConditionsPageState extends State<ConditionsPage> {
     required String label,
     required bool value,
     required ValueChanged<bool?> onChanged,
+    required bool arrowIcon,
+    required String link,
   }) {
     return GestureDetector(
       onTap: () {
@@ -193,6 +223,18 @@ class _ConditionsPageState extends State<ConditionsPage> {
               ),
             ),
           ),
+          // arrowIcon이 true일 때만 아이콘 표시
+          if (arrowIcon)
+            GestureDetector(
+              onTap: () async {
+                await launchUrlString(link);
+              },
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 17,
+                color: Colors.grey[400],
+              ),
+            ),
         ],
       ),
     );
