@@ -4,9 +4,8 @@ import 'list_item.dart';
 class SupportSection extends StatelessWidget {
   final double screenWidth;
   final double screenHeight;
-  final VoidCallback logout;
 
-  SupportSection(this.screenWidth, this.screenHeight, this.logout);
+  SupportSection(this.screenWidth, this.screenHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class SupportSection extends StatelessWidget {
         children: [
           ListItem(screenWidth, screenHeight, '이용약관', () {}),
           ListItem(screenWidth, screenHeight, 'FAQ', () {}),
-          ListItem(screenWidth, screenHeight, '로그아웃', logout),
         ],
       ),
     );

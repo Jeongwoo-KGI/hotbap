@@ -5,6 +5,7 @@ import 'package:hotbap/pages/profile/widgets/profile_header.dart';
 import 'package:hotbap/pages/profile/widgets/profile_user_name.dart';
 import 'package:hotbap/pages/profile/widgets/saved_recipes.dart';
 import 'package:hotbap/pages/profile/widgets/account_section.dart';
+import 'package:hotbap/pages/profile/widgets/account_management.dart';
 import 'package:hotbap/pages/profile/widgets/support_section.dart';
 
 class ProfilePageWidget extends StatefulWidget {
@@ -69,6 +70,20 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
     });
   }
 
+  Future<void> _deleteAccount() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .delete();
+      await user!.delete();
+      Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
+    } catch (e) {
+      // 오류 처리
+      print('계정을 삭제하는 동안 오류가 발생했습니다: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -91,7 +106,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
           SavedRecipes(screenWidth, savedRecipes),
           SizedBox(height: screenHeight * 0.02),
           AccountSection(screenWidth, screenHeight, _saveUserName),
-          SupportSection(screenWidth, screenHeight, _logout),
+          AccountManagement(screenWidth, screenHeight, _logout, _deleteAccount),
+          SupportSection(screenWidth, screenHeight),
         ],
       ),
     );
