@@ -11,65 +11,84 @@ class AccountManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        '계정 관리',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Color(0xFF333333),
-          fontSize: screenWidth * 0.04,
-          fontFamily: 'Pretendard',
-          fontWeight: FontWeight.w700,
-          height: 1.35,
-        ),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListItem(screenWidth, screenHeight, '로그아웃', logout),
-          ListItem(screenWidth, screenHeight, '회원 탈퇴', deleteAccount),
-        ],
-      ),
-    );
-  }
-}
-
-class ListItem extends StatelessWidget {
-  final double screenWidth;
-  final double screenHeight;
-  final String text;
-  final VoidCallback onPressed;
-
-  ListItem(this.screenWidth, this.screenHeight, this.text, this.onPressed);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: screenWidth * 0.95,
-      height: screenHeight * 0.05,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TextButton(
-            onPressed: onPressed,
-            child: Text(
-              text,
-              style: TextStyle(
-                color: text == '로그아웃' || text == '회원 탈퇴'
-                    ? Color(0xFFDD0909)
-                    : Color(0xFF333333),
-                fontSize: screenWidth * 0.035,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w600,
-                height: 1.30,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            '계정 관리',
+            style: TextStyle(
+              color: Color(0xFF333333),
+              fontSize: 16,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w700,
+              height: 1.35,
             ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '로그아웃',
+                style: TextStyle(
+                  color: Color(0xFFDD0909),
+                  fontSize: 14,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w600,
+                  height: 1.35,
+                ),
+              ),
+              SizedBox(
+                width: 9.5,
+                height: 17.48,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
+                  onPressed: logout,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '회원 탈퇴',
+                style: TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 14,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w600,
+                  height: 1.35,
+                ),
+              ),
+              SizedBox(
+                width: 9.5,
+                height: 17.48,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
+                  onPressed: deleteAccount,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

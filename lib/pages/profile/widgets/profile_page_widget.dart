@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hotbap/pages/profile/widgets/profile_header.dart';
 import 'package:hotbap/pages/profile/widgets/profile_user_name.dart';
 import 'package:hotbap/pages/profile/widgets/saved_recipes.dart';
 import 'package:hotbap/pages/profile/widgets/account_section.dart';
 import 'package:hotbap/pages/profile/widgets/account_management.dart';
 import 'package:hotbap/pages/profile/widgets/support_section.dart';
+import 'package:hotbap/pages/savedrecipes/saved_recipes_page.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   @override
@@ -84,6 +84,13 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
     }
   }
 
+  void _navigateToSavedRecipes() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SavedRecipesPage()), // 찜리스트 페이지로 이동
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -94,20 +101,21 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProfileHeader(screenWidth, screenHeight),
           SizedBox(height: screenHeight * 0.02),
           ProfileUserName(screenWidth, userName),
           SizedBox(height: screenHeight * 0.02),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('저장한 레시피'),
-          ),
           SizedBox(height: screenHeight * 0.02),
-          SavedRecipes(screenWidth, savedRecipes),
+          SavedRecipes(screenWidth, savedRecipes, _navigateToSavedRecipes),
           SizedBox(height: screenHeight * 0.02),
           AccountSection(screenWidth, screenHeight, _saveUserName),
-          AccountManagement(screenWidth, screenHeight, _logout, _deleteAccount),
+          SizedBox(height: 16),
+          Divider(color: Color(0xFFE6E6E6)),
+          SizedBox(height: 16),
           SupportSection(screenWidth, screenHeight),
+          SizedBox(height: 16),
+          Divider(color: Color(0xFFE6E6E6)),
+          SizedBox(height: 16),
+          AccountManagement(screenWidth, screenHeight, _logout, _deleteAccount),
         ],
       ),
     );

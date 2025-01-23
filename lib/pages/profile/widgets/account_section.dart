@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'list_item.dart';
 
 class AccountSection extends StatelessWidget {
   final double screenWidth;
@@ -10,25 +9,54 @@ class AccountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        '내 계정',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Color(0xFF333333),
-          fontSize: screenWidth * 0.04,
-          fontFamily: 'Pretendard',
-          fontWeight: FontWeight.w700,
-          height: 1.35,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            '내 계정',
+            style: TextStyle(
+              color: Color(0xFF333333),
+              fontSize: 16,
+              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w700,
+              height: 1.35,
+            ),
+          ),
         ),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListItem(screenWidth, screenHeight, '닉네임 수정', saveUserName),
-          ListItem(screenWidth, screenHeight, '비밀번호 변경', () {}),
-        ],
-      ),
+        SizedBox(height: 20),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '닉네임 수정',
+                style: TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 14,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w600,
+                  height: 1.35,
+                ),
+              ),
+              SizedBox(
+                width: 9.5,
+                height: 17.48,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
+                  onPressed: saveUserName,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
