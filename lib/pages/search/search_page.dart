@@ -9,16 +9,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class Recipe {
   final String title;
   final String nutritionInfo;
-  final String cookingTime;
-  final String calories;
   final String imageUrl;
+  final String ingredients;
 
   Recipe({
     required this.title,
     required this.nutritionInfo,
-    required this.cookingTime,
-    required this.calories,
     required this.imageUrl,
+    required this.ingredients,
   });
 }
 
@@ -89,10 +87,9 @@ class ApiRecipeRepository implements RecipeRepository {
           recipes.addAll(recipeData.map((recipe) {
             return Recipe(
               title: recipe['RCP_NM'] ?? '제목 없음',
-              nutritionInfo: recipe['INFO_NA'] ?? '정보 없음',
-              cookingTime: recipe['INFO_CAR'] ?? '정보 없음',
-              calories: recipe['INFO_ENG'] ?? '정보 없음',
+              nutritionInfo: '탄${recipe['INFO_CAR'] ?? 0}g 단${recipe['INFO_PRO'] ?? 0}g 지${recipe['INFO_FAT'] ?? 0}g',
               imageUrl: recipe['ATT_FILE_NO_MAIN'] ?? '',
+              ingredients: recipe['RCP_PARTS_DTLS'] ?? '정보 없음',
             );
           }));
         }
@@ -152,6 +149,23 @@ class SearchPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SearchBar(),
+            ),
+            // 검색 결과 타이틀
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  '검색결과',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w500,
+                    height: 1.50,
+                  ),
+                ),
+              ),
             ),
             // 검색 결과
             Expanded(
@@ -245,27 +259,21 @@ class RecipeCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
-        height: 120,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
+        width: double.infinity, 
+        height: 160, 
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(color: Colors.white),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
+              width: 121, 
+              height: 144, 
+              decoration: ShapeDecoration(
                 color: Color(0xFFD9D9D9),
-                borderRadius: BorderRadius.circular(8),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 image: recipe.imageUrl.isNotEmpty
                     ? DecorationImage(
                         image: NetworkImage(recipe.imageUrl),
@@ -274,68 +282,48 @@ class RecipeCard extends StatelessWidget {
                     : null,
               ),
             ),
-            SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    recipe.title,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 14,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    recipe.nutritionInfo,
-                    style: TextStyle(
-                      color: Color(0xFF7F7F7F),
-                      fontSize: 12,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.timer, size: 14, color: Color(0xFF656565)),
-                          SizedBox(width: 4),
-                          Text(
-                            recipe.cookingTime,
-                            style: TextStyle(
-                              color: Color(0xFF656565),
-                              fontSize: 10,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+            const SizedBox(width: 14),
+            Expanded( // 텍스트 영역 확장
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 13),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      recipe.title,
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 16,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(width: 16),
-                      Row(
-                        children: [
-                          Icon(Icons.local_fire_department, size: 14, color: Color(0xFF656565)),
-                          SizedBox(width: 4),
-                          Text(
-                            recipe.calories,
-                            style: TextStyle(
-                              color: Color(0xFF656565),
-                              fontSize: 10,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      recipe.ingredients,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis, // 말줄임 처리
+                      style: TextStyle(
+                        color: Color(0xFF999999),
+                        fontSize: 12,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w300,
+                        height: 1.50,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const Spacer(),
+                    Text(
+                      recipe.nutritionInfo,
+                      style: TextStyle(
+                        color: Color(0xFF7F7F7F),
+                        fontSize: 12,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
