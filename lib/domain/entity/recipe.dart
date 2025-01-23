@@ -1,5 +1,13 @@
-//Single Recipe
 class Recipe {
-  //이름, 사진, 조리법, 변형조리법, 영양성분, 재료
-  
+  final String title;
+  final String nutritionInfo;
+  final String imageUrl;
+  final String ingredients;
+
+  Recipe({
+    required this.title,
+    required this.nutritionInfo,
+    required this.imageUrl,
+    required this.ingredients,
+  });
 }
