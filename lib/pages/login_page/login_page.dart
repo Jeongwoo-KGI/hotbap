@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:crypto/crypto.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/login_page/imsi_page.dart';
 
@@ -31,51 +27,17 @@ class LoginPage extends ConsumerWidget {
   }
 }
 
-// 로그인 화면
+// 로그인 화면 (현재 작성된 UI와 연결)
 class LoginWidget extends StatelessWidget {
-  Future<void> signInWithApple() async {
-    try {
-      // 생성된 nonce
-      final rawNonce = _generateNonce();
-      final hashedNonce = _hashNonce(rawNonce);
+  Future<UserCredential> signInWithAppleFirebase() async {
+    final appleProvider = AppleAuthProvider();
 
-      // Apple 로그인 요청
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        nonce: hashedNonce, // Firebase와 동일한 nonce를 전달해야 함
-      );
+    // Apple 로그인 시도 및 반환값 저장
+    final userCredential =
+        await FirebaseAuth.instance.signInWithProvider(appleProvider);
 
-      // OAuthCredential 생성
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
-      );
-
-      // Firebase 로그인
-      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-    } catch (e) {
-      debugPrint('Apple 로그인 실패: $e');
-      rethrow;
-    }
-  }
-
-  // 난수 생성
-  String _generateNonce([int length = 32]) {
-    final charset =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
-    final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
-  }
-
-  // SHA-256 해시 생성
-  String _hashNonce(String input) {
-    final bytes = utf8.encode(input);
-    final digest = sha256.convert(bytes);
-    return digest.toString();
+    // 반환값 반환
+    return userCredential;
   }
 
   @override
@@ -147,7 +109,18 @@ class LoginWidget extends StatelessWidget {
                     ),
                     // Apple로 시작하기 버튼
                     GestureDetector(
-                      onTap: signInWithApple,
+                      onTap: () async {
+                        try {
+                          await signInWithAppleFirebase();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Apple 로그인 성공!")),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Apple 로그인 실패: $e")),
+                          );
+                        }
+                      },
                       child: Container(
                         width: double.infinity,
                         height: 56,
