@@ -17,12 +17,13 @@ class LogoAndFilter extends StatelessWidget{
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                color: Colors.black,
+                color: Color(0xFF1A1717),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
                 onPressed: (){}, //FIXME: send to profile fix page
-                icon: const Icon(Icons.tune, color: Colors.white,),
+                //아이콘 변경 
+                icon: const Icon(Icons.filter, color: Colors.white,),
               ),
             ),
           ), 
