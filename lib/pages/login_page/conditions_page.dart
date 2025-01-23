@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/pages/login_page/nick_setting_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -130,8 +131,14 @@ class _ConditionsPageState extends State<ConditionsPage> {
                 onPressed:
                     (_isServiceAgreed && _isPrivacyAgreed && _isAgeConfirmed)
                         ? () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('모든 약관에 동의하셨습니다!')),
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(content: Text('모든 약관에 동의하셨습니다!')),
+                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NickSettingPage(),
+                              ),
                             );
                           }
                         : null, // 동의하지 않으면 버튼 비활성화

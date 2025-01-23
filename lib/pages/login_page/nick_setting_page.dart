@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ImsiPage extends StatelessWidget {
+class NickSettingPage extends StatelessWidget {
   @override
   Widget build(Object context) {
     return Scaffold(
-      body: Text('imsipage'),
+      appBar: AppBar(),
+      body: Text('nick'),
     );
   }
 }
