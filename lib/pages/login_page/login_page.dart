@@ -29,19 +29,38 @@ class LoginPage extends ConsumerWidget {
 
 // 로그인 화면 (현재 작성된 UI와 연결)
 class LoginWidget extends StatelessWidget {
-  Future<UserCredential> signInWithAppleFirebase() async {
-    final appleProvider = AppleAuthProvider();
+  // Future<UserCredential> signInWithAppleFirebase() async {
+  //   final appleProvider = AppleAuthProvider();
 
-    // Apple 로그인 시도 및 반환값 저장
-    final userCredential =
-        await FirebaseAuth.instance.signInWithProvider(appleProvider);
+  //   // Apple 로그인 시도 및 반환값 저장
+  //   final userCredential =
+  //       await FirebaseAuth.instance.signInWithProvider(appleProvider);
 
-    // 반환값 반환
-    return userCredential;
-  }
+  //   // 반환값 반환
+  //   return userCredential;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    void signInWithAppleFirebase() async {
+      print('1111111111');
+
+      final appleProvider = AppleAuthProvider();
+      print('2222222');
+
+      await FirebaseAuth.instance
+          .signInWithProvider(appleProvider)
+          .then((value) {
+        print('3333333');
+        print(value.user?.email);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ImsiPage(),
+          ),
+        );
+      });
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -109,9 +128,9 @@ class LoginWidget extends StatelessWidget {
                     ),
                     // Apple로 시작하기 버튼
                     GestureDetector(
-                      onTap: () async {
+                      onTap: () {
                         try {
-                          await signInWithAppleFirebase();
+                          signInWithAppleFirebase();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Apple 로그인 성공!")),
                           );
@@ -132,16 +151,25 @@ class LoginWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: Text(
-                          'Apple로 시작하기',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
-                            height: 1.35,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.apple,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Apple로 시작하기',
+                              // textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w700,
+                                height: 1.35,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
