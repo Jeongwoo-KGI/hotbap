@@ -10,18 +10,20 @@ class SayHi extends StatelessWidget{
       text: TextSpan(
         style: TextStyle(
           fontSize: 20,
-          color: Colors.black,
-          //fontWeight: FontWeight.w500,
+          color: Color(0xFF656565),
+          fontWeight: FontWeight.w500,
           fontFamily: 'Pretendard',
+          height: 1.35,
         ),
         children: <TextSpan> [
           TextSpan(
             text: "$userName",
             style: TextStyle(
               fontSize: 20,
-              color: Colors.black,
+              color: Color(0xFF333333),
               fontWeight: FontWeight.w700,
               fontFamily: 'Pretendard',
+              height: 1.35
             ),
           ),
           TextSpan(text: " 님 반갑습니다!"),
