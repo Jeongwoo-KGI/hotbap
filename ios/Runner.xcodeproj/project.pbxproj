@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1236074563ACE275C9780A27 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDE82F5CC72F0F8E3DBF016 /* Pods_RunnerTests.framework */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		21521674C15F6195E83ADD1B /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB1033CA68D8EBE3D53C4F03 /* Pods_Runner.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
@@ -17,6 +18,7 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		B7E28B4877D442F332F4E157 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED0B3B949BBDE5917EE39400 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,29 @@
 				331C807B294A618700263BE5 /* RunnerTests.swift */,
 			);
 			path = RunnerTests;
+			sourceTree = "<group>";
+		};
+		57D141E15E84787A5EF69C67 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED0B3B949BBDE5917EE39400 /* Pods_Runner.framework */,
+				DEDE82F5CC72F0F8E3DBF016 /* Pods_RunnerTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6BC887F47F49AFF5A1695576 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C7123FFE0159C5559498A1AB /* Pods-Runner.debug.xcconfig */,
+				46B154E4D48EA062FA52759B /* Pods-Runner.release.xcconfig */,
+				E5A581EDE2B39E3B798C8896 /* Pods-Runner.profile.xcconfig */,
+				6C436FDFC46C4283E3F181AF /* Pods-RunnerTests.debug.xcconfig */,
+				23E9CE64878A83B218BA589E /* Pods-RunnerTests.release.xcconfig */,
+				AA491098B62BF9FACC1FD1B6 /* Pods-RunnerTests.profile.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
