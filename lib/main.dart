@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
       ),
-      home: LoginPage(), //LoginPage ConditionsPage
+      home: SearchPage(), //LoginPage ConditionsPage
     );
   }
 }

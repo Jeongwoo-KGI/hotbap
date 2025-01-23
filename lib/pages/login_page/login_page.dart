@@ -120,9 +120,6 @@ class LoginWidget extends StatelessWidget {
                       onTap: () {
                         try {
                           signInWithAppleFirebase();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Apple 로그인 성공!")),
-                          );
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Apple 로그인 실패: $e")),
