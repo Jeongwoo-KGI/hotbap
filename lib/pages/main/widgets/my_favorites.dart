@@ -16,6 +16,7 @@ class MyFavorites extends StatelessWidget{
               fontSize: 16,
               fontFamily: 'Pretendard',
               fontWeight: FontWeight.w700,
+              color: Color(0xFF333333),
             ),
           ),
         ),
@@ -61,9 +62,9 @@ Widget individualSmallRecipe (String input){ //FixMe: this should be class Recip
           ),
           SizedBox(height: 6,),
           //name
-          Text("$input", style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w400),),
+          Text("$input", style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w600, color: Color(0xFF333333)),),
           //ratio
-          Text("탄 10g 단 10g 지 5g", style: TextStyle(fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w600, height: 1.50),),
+          Text("탄 10g 단 10g 지 5g", style: TextStyle(fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, height: 1.50, color: Color(0xFF7F7F7F)),),
         ],
       ),
       SizedBox(width: 7,),
