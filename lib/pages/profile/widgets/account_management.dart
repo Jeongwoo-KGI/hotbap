@@ -21,14 +21,14 @@ class AccountManagement extends StatelessWidget {
             '계정 관리',
             style: TextStyle(
               color: Color(0xFF333333),
-              fontSize: 16,
+              fontSize: screenWidth * 0.04,
               fontFamily: 'Pretendard',
               fontWeight: FontWeight.w700,
               height: 1.35,
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 20), // 간격 추가
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,19 +46,19 @@ class AccountManagement extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 9.5,
-                height: 17.48,
+                width: 9.5, // 아이콘 너비 설정
+                height: 17.48, // 아이콘 높이 설정
                 child: IconButton(
                   icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
                   onPressed: logout,
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero, // 패딩 제거
                   constraints: BoxConstraints(),
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 20), // 간격 추가
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -76,12 +76,12 @@ class AccountManagement extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 9.5,
-                height: 17.48,
+                width: 9.5, // 아이콘 너비 설정
+                height: 17.48, // 아이콘 높이 설정
                 child: IconButton(
                   icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
                   onPressed: deleteAccount,
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero, // 패딩 제거
                   constraints: BoxConstraints(),
                 ),
               ),
