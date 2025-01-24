@@ -6,7 +6,7 @@ import 'package:hotbap/pages/profile/widgets/saved_recipes.dart';
 import 'package:hotbap/pages/profile/widgets/account_section.dart';
 import 'package:hotbap/pages/profile/widgets/account_management.dart';
 import 'package:hotbap/pages/profile/widgets/support_section.dart';
-import 'package:hotbap/pages/savedrecipes/saved_recipes_page.dart';
+import 'package:hotbap/pages/savedrecipes/saved_recipes_page.dart'; // 찜리스트 페이지 임포트
 
 class ProfilePageWidget extends StatefulWidget {
   @override
@@ -27,7 +27,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _initializeData() async {
     user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    if (user == null) {
+      // 사용자가 로그인되어 있지 않은 경우
+      Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
+    } else {
       await Future.wait([_getUserData(), _getSavedRecipes()]);
     }
   }
@@ -45,8 +48,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getSavedRecipes() async {
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
-        .collection('recipes')
-        .where('userId', isEqualTo: user!.uid)
+        .collection('users')
+        .doc(user!.uid)
+        .collection('favorites')
         .get();
     setState(() {
       savedRecipes =
@@ -65,22 +69,44 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   }
 
   void _logout() {
-    FirebaseAuth.instance.signOut().then((_) {
-      Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
-    });
+    if (user != null) {
+      FirebaseAuth.instance.signOut().then((_) {
+        Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
+      });
+    } else {
+      // 로그인이 되어 있지 않은 경우 알림 메시지 표시
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('로그인 상태가 아닙니다. 먼저 로그인하세요.'),
+      ));
+    }
   }
 
   Future<void> _deleteAccount() async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user!.uid)
-          .delete();
-      await user!.delete();
-      Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
-    } catch (e) {
-      // 오류 처리
-      print('계정을 삭제하는 동안 오류가 발생했습니다: $e');
+    if (user != null) {
+      try {
+        String userId = user!.uid;
+
+        // Firestore에서 사용자 문서 삭제
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .delete();
+       
+        // Firebase Auth에서 사용자 삭제
+        await user!.delete();
+
+        // 로그아웃 처리 및 로그인 페이지로 이동
+        await FirebaseAuth.instance.signOut();
+        Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
+      } catch (e) {
+        // 오류 처리
+        print('계정을 삭제하는 동안 오류가 발생했습니다: $e');
+      }
+    } else {
+      // 로그인이 되어 있지 않은 경우 알림 메시지 표시
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('로그인 상태가 아닙니다. 먼저 로그인하세요.'),
+      ));
     }
   }
 
