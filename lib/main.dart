@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hotbap/firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/pages/login_page/join_sucess_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hotbap/firebase_options.dart';
+import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/search/search_page.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
@@ -21,7 +21,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // ProviderScope 로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
+  // ProviderScope로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -32,12 +32,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hot Bap',
-      theme: ThemeData(
-        //colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        scaffoldBackgroundColor: Colors.white,
-        useMaterial3: true,
-      ),
-      home: LoginPage(), //LoginPage ConditionsPage
+      theme: appTheme, // 테마 파일 적용
+      home: ProfilePage(), // 초기 화면 설정
     );
   }
 }
