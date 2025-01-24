@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hotbap/firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/search/search_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/pages/main/main_page.dart';
