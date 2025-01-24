@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/pages/profile/widgets/profile_page_widget.dart';
+import 'package:hotbap/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -19,11 +20,13 @@ class _ProfilePageState extends State<ProfilePage> {
           fontWeight: FontWeight.w500,
           height: 1.35,
         ),
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ProfilePageWidget(),
       ),
+      bottomNavigationBar: BottomNavBar(initialIndex: 2), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
   }
 }
