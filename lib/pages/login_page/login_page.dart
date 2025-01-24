@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
-
-// Firebase 인증 상태를 제공하는 StreamProvider
-final authStateProvider = StreamProvider<User?>((ref) {
-  return FirebaseAuth.instance.authStateChanges();
-});
+import 'package:hotbap/pages/login_page/viewmodel/login_viewmodel.dart';
 
 class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authStateProvider);
+    final authState =
+        ref.watch(authStateProvider); // authStateProvider를 뷰모델에서 가져옴
+    final loginViewModel = LoginViewModel(); // LoginViewModel 인스턴스 생성
 
     return authState.when(
       data: (user) {
         if (user != null) {
-          return ConditionsPage(); // 인증 성공 시 이동할 페이지 ///수정할것_메인페이지로
+          // 로그인된 사용자 정보 콘솔에 출력
+          print('로그인된 사용자 정보:');
+          print('UID: ${user.uid}');
+          print('이메일: ${user.email}');
+          return ConditionsPage(); // 인증 성공 시 이동할 페이지
         } else {
-          return LoginWidget(); // 로그인 화면
+          return LoginWidget(viewModel: loginViewModel); // 로그인 화면
         }
       },
       loading: () => Center(child: CircularProgressIndicator()), // 로딩 화면
@@ -29,27 +30,12 @@ class LoginPage extends ConsumerWidget {
 
 // 로그인 화면 (현재 작성된 UI와 연결)
 class LoginWidget extends StatelessWidget {
+  final LoginViewModel viewModel;
+
+  LoginWidget({required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
-    void signInWithAppleFirebase() async {
-      print('1111111111');
-
-      final appleProvider = AppleAuthProvider();
-      print('2222222');
-
-      await FirebaseAuth.instance
-          .signInWithProvider(appleProvider)
-          .then((value) {
-        print('3333333');
-        print(value.user?.email);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => ConditionsPage(),
-          ),
-        );
-      });
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -87,42 +73,20 @@ class LoginWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 14),
-                    // 구글로 시작하기 버튼
-                    Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: 56,
-                      margin: const EdgeInsets.only(bottom: 11),
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            color: Color(0xFFE6E6E6),
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        '구글로 시작하기',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w700,
-                          height: 1.35,
-                        ),
-                      ),
-                    ),
+
                     // Apple로 시작하기 버튼
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         try {
-                          signInWithAppleFirebase();
+                          await viewModel.signInWithApple();
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => ConditionsPage(),
+                            ),
+                          );
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Apple 로그인 실패: $e")),
+                            SnackBar(content: Text(e.toString())),
                           );
                         }
                       },
@@ -144,9 +108,9 @@ class LoginWidget extends StatelessWidget {
                               Icons.apple,
                               color: Colors.white,
                             ),
+                            SizedBox(width: 8),
                             Text(
                               'Apple로 시작하기',
-                              // textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -157,17 +121,6 @@ class LoginWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Text(
-                      '직접 입력해서 로그인',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF4C4C4C),
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w600,
-                        height: 1.35,
                       ),
                     ),
                   ],
