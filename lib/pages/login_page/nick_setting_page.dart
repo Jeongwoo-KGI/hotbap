@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hotbap/pages/login_page/join_sucess_page.dart';
 
 class NickSettingPage extends StatefulWidget {
   @override
@@ -7,27 +9,35 @@ class NickSettingPage extends StatefulWidget {
 
 class _NickSettingPageState extends State<NickSettingPage> {
   final TextEditingController _nicknameController = TextEditingController();
-  final FocusNode _nicknameFocusNode = FocusNode();
+  final ValueNotifier<bool> _isButtonEnabled = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 입력값 변화 감지
+    _nicknameController.addListener(() {
+      final isNotEmpty = _nicknameController.text.trim().isNotEmpty;
+      _isButtonEnabled.value = isNotEmpty;
+    });
+  }
 
   @override
   void dispose() {
     _nicknameController.dispose();
-    _nicknameFocusNode.dispose();
+    _isButtonEnabled.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: GestureDetector(
-        // TextFormField 외부를 클릭하면 키보드 및 FocusNode 해제
-        onTap: () {
-          if (_nicknameFocusNode.hasFocus) {
-            _nicknameFocusNode.unfocus();
-          }
-        },
-        child: SafeArea(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -60,7 +70,6 @@ class _NickSettingPageState extends State<NickSettingPage> {
                   child: Center(
                     child: TextFormField(
                       controller: _nicknameController,
-                      focusNode: _nicknameFocusNode,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         hintText: 'ex) 먹보의꿈',
@@ -76,8 +85,13 @@ class _NickSettingPageState extends State<NickSettingPage> {
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFE33811)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            color: Color(0xFFE33811),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       cursorColor: Color(0xFFE33811),
@@ -87,42 +101,57 @@ class _NickSettingPageState extends State<NickSettingPage> {
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w500,
                       ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣㆍ]'), // 영문, 한글 포함
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () {
-                    // 페이지 이동 시 컨트롤러 내용 초기화
-                    _nicknameController.clear();
+                Spacer(),
+                ValueListenableBuilder<bool>(
+                  valueListenable: _isButtonEnabled,
+                  builder: (context, isEnabled, child) {
+                    return ElevatedButton(
+                      onPressed: isEnabled
+                          ? () {
+                              // 페이지 이동 시 컨트롤러 내용 초기화
+                              _nicknameController.clear();
 
-                    // Navigator로 페이지 이동
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AnotherPage()),
+                              // Navigator로 페이지 이동
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => JoinSuccessPage()),
+                              );
+                            }
+                          : null, // 버튼 비활성화
+                      child: Text('다음'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 56),
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w700,
+                          height: 1.35,
+                        ),
+                        backgroundColor:
+                            isEnabled ? Color(0xFFE33811) : Color(0xFFCCCCCC),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     );
                   },
-                  child: Text('다음'),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
-                    textStyle: TextStyle(fontSize: 18),
-                  ),
                 ),
+                SizedBox(height: 9),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class AnotherPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(child: Text('다음 페이지')),
     );
   }
 }

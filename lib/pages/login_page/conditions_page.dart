@@ -158,6 +158,7 @@ class _ConditionsPageState extends State<ConditionsPage> {
                   ),
                 ),
               ),
+              SizedBox(height: 9),
             ],
           ),
         ),
