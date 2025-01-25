@@ -1,41 +1,58 @@
+import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore 패키지 추가
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/pages/login_page/conditions_page.dart';
+import 'package:hotbap/pages/login_page/conditions_page.dart'; // ConditionsPage 임포트
 import 'package:hotbap/pages/login_page/viewmodel/login_viewmodel.dart';
+import 'package:hotbap/pages/main/main_page.dart';
+import 'package:hotbap/providers.dart';
 
 class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState =
-        ref.watch(authStateProvider); // authStateProvider를 뷰모델에서 가져옴
-    final loginViewModel = LoginViewModel(); // LoginViewModel 인스턴스 생성
+    final authState = ref.watch(authStateProvider);
 
     return authState.when(
       data: (user) {
         if (user != null) {
-          // 로그인된 사용자 정보 콘솔에 출력
-          print('로그인된 사용자 정보:');
-          print('UID: ${user.uid}');
-          print('이메일: ${user.email}');
-          return ConditionsPage(); // 인증 성공 시 이동할 페이지
+          print('로그인페이지16 ${user.uid}');
+          return FutureBuilder(
+            future: _checkUserInFirestore(user.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('오류 발생: ${snapshot.error}'));
+              } else if (snapshot.data == true) {
+                // Firestore에 UID가 존재하면 메인 페이지로 이동
+                return MainPage();
+              } else {
+                // Firestore에 UID가 없으면 ConditionsPage로 이동
+                return ConditionsPage();
+              }
+            },
+          );
         } else {
-          return LoginWidget(viewModel: loginViewModel); // 로그인 화면
+          // 로그인 화면
+          return LoginWidget();
         }
       },
-      loading: () => Center(child: CircularProgressIndicator()), // 로딩 화면
-      error: (err, _) => Center(child: Text('오류 발생: $err')), // 에러 화면
+      loading: () => Center(child: CircularProgressIndicator()),
+      error: (err, _) => Center(child: Text('오류 발생: $err')),
     );
+  }
+
+  Future<bool> _checkUserInFirestore(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+    final userDoc = await firestore.collection('user').doc(uid).get();
+    return userDoc.exists; // Firestore에 UID가 존재 여부 반환
   }
 }
 
-// 로그인 화면 (현재 작성된 UI와 연결)
-class LoginWidget extends StatelessWidget {
-  final LoginViewModel viewModel;
-
-  LoginWidget({required this.viewModel});
-
+class LoginWidget extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginViewModel = ref.read(loginViewModelProvider);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -67,27 +84,21 @@ class LoginWidget extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFF333333),
                         fontSize: 14,
-                        fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w700,
-                        height: 1.35,
                       ),
                     ),
-                    const SizedBox(height: 14),
-
-                    // Apple로 시작하기 버튼
+                    const SizedBox(height: 24),
                     GestureDetector(
                       onTap: () async {
                         try {
-                          await viewModel.signInWithApple();
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => ConditionsPage(),
-                            ),
+                          final uid = await loginViewModel.signInWithApple(
+                            context,
                           );
+                          if (uid != null) {
+                            print("로그인 성공: UID -> $uid");
+                          }
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())),
-                          );
+                          print("로그인 실패: $e");
                         }
                       },
                       child: Container(
@@ -104,25 +115,20 @@ class LoginWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.apple,
-                              color: Colors.white,
-                            ),
+                            Icon(Icons.apple, color: Colors.white),
                             SizedBox(width: 8),
                             Text(
                               'Apple로 시작하기',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
-                                fontFamily: 'Pretendard',
                                 fontWeight: FontWeight.w700,
-                                height: 1.35,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

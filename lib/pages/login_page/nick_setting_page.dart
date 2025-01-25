@@ -70,7 +70,7 @@ class _NickSettingPageState extends State<NickSettingPage> {
                   child: Center(
                     child: TextFormField(
                       controller: _nicknameController,
-                      textAlignVertical: TextAlignVertical.center,
+                      textAlignVertical: TextAlignVertical.bottom, //텍스트 높이
                       decoration: InputDecoration(
                         hintText: 'ex) 먹보의꿈',
                         hintStyle: TextStyle(
@@ -116,15 +116,21 @@ class _NickSettingPageState extends State<NickSettingPage> {
                     return ElevatedButton(
                       onPressed: isEnabled
                           ? () {
-                              // 페이지 이동 시 컨트롤러 내용 초기화
-                              _nicknameController.clear();
+                              // 페이지 이동 시 컨트롤러 내용 초기화 없이 이동
+                              final nickname = _nicknameController.text.trim();
 
                               // Navigator로 페이지 이동
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => JoinSuccessPage()),
-                              );
+                                  builder: (context) => JoinSuccessPage(
+                                    nickname: nickname,
+                                  ),
+                                ),
+                              ).then((_) {
+                                // 페이지 이동 후 컨트롤러 초기화
+                                _nicknameController.clear();
+                              });
                             }
                           : null, // 버튼 비활성화
                       child: Text('다음'),

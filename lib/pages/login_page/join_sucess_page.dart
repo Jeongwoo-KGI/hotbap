@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/main/main_page.dart';
+import 'package:hotbap/providers.dart';
 
-class JoinSuccessPage extends StatelessWidget {
+class JoinSuccessPage extends ConsumerWidget {
+  final String nickname;
+
+  JoinSuccessPage({required this.nickname});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uid = ref.watch(authUidProvider); // UID 가져오기
+    print('ddddddddnickname$nickname');
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -18,20 +26,17 @@ class JoinSuccessPage extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
-                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w700,
                   height: 1.35,
                 ),
               ),
               Spacer(),
-              Container(
-                child: Text('로고자리'),
-              ),
+              Text('UID: $uid'), // UID 표시
+              Text('닉네임: $nickname'),
               Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  // 페이지 이동
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => MainPage()),
                   );
@@ -41,14 +46,12 @@ class JoinSuccessPage extends StatelessWidget {
                   minimumSize: Size(double.infinity, 56),
                   textStyle: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
-                    height: 1.35,
                   ),
-                  backgroundColor: Color(0xFFE33811), // 버튼 배경색
-                  foregroundColor: Colors.white, // 텍스트 색상
+                  backgroundColor: Color(0xFFE33811),
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // 버튼의 모서리 둥글게
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
