@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/pages/login_page/viewmodel/login_viewmodel.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:hotbap/domain/usecase/save_user.dart';
@@ -17,11 +16,9 @@ class JoinSuccessPage extends ConsumerWidget {
     // SaveUser를 가져오기
     final saveUserUseCase = ref.watch(loginViewModelProvider).saveUserUseCase;
 
-    // Save user to Firebase
     Future<void> saveUserToFirestore() async {
       if (uid != null && nickname.isNotEmpty) {
         try {
-          // Save user data using SaveUser use case
           await saveUserUseCase
               .call(SaveUserParams(uid: uid, userName: nickname));
           print('User saved to Firestore: UID: $uid, Name: $nickname');
@@ -57,10 +54,8 @@ class JoinSuccessPage extends ConsumerWidget {
               Spacer(),
               ElevatedButton(
                 onPressed: () async {
-                  // Save user to Firestore before navigating
                   await saveUserToFirestore();
 
-                  // Navigate to the main page
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => MainPage()),

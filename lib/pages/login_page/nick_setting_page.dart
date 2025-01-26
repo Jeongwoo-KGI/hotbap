@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hotbap/pages/login_page/join_sucess_page.dart';
+import 'package:hotbap/pages/login_page/viewmodel/nick_setting_view_model.dart';
 
 class NickSettingPage extends StatefulWidget {
   @override
@@ -8,24 +8,17 @@ class NickSettingPage extends StatefulWidget {
 }
 
 class _NickSettingPageState extends State<NickSettingPage> {
-  final TextEditingController _nicknameController = TextEditingController();
-  final ValueNotifier<bool> _isButtonEnabled = ValueNotifier(false);
+  late final NickSettingViewModel _viewModel; // ViewModel 인스턴스 선언
 
   @override
   void initState() {
     super.initState();
-
-    // 입력값 변화 감지
-    _nicknameController.addListener(() {
-      final isNotEmpty = _nicknameController.text.trim().isNotEmpty;
-      _isButtonEnabled.value = isNotEmpty;
-    });
+    _viewModel = NickSettingViewModel(); // ViewModel 초기화
   }
 
   @override
   void dispose() {
-    _nicknameController.dispose();
-    _isButtonEnabled.dispose();
+    _viewModel.dispose(); // ViewModel 리소스 해제
     super.dispose();
   }
 
@@ -33,6 +26,7 @@ class _NickSettingPageState extends State<NickSettingPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // 화면을 터치했을 때 키보드 닫기
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -43,8 +37,8 @@ class _NickSettingPageState extends State<NickSettingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 24),
-                Text(
+                const SizedBox(height: 24),
+                const Text(
                   '어떤 이름으로\n불러드릴까요?',
                   style: TextStyle(
                     color: Colors.black,
@@ -54,8 +48,8 @@ class _NickSettingPageState extends State<NickSettingPage> {
                     height: 1.35,
                   ),
                 ),
-                SizedBox(height: 40),
-                Text(
+                const SizedBox(height: 40),
+                const Text(
                   '닉네임',
                   style: TextStyle(
                     color: Color(0xFF999999),
@@ -69,16 +63,17 @@ class _NickSettingPageState extends State<NickSettingPage> {
                   height: 44,
                   child: Center(
                     child: TextFormField(
-                      controller: _nicknameController,
-                      textAlignVertical: TextAlignVertical.bottom, //텍스트 높이
+                      controller:
+                          _viewModel.nicknameController, // ViewModel의 컨트롤러 사용
+                      textAlignVertical: TextAlignVertical.bottom, // 텍스트 높이
                       decoration: InputDecoration(
                         hintText: 'ex) 먹보의꿈',
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Color(0xFFCCCCCC),
                           fontSize: 16,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 1,
                             strokeAlign: BorderSide.strokeAlignOutside,
                             color: Color(0xFFCCCCCC),
@@ -86,7 +81,7 @@ class _NickSettingPageState extends State<NickSettingPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 1,
                             strokeAlign: BorderSide.strokeAlignOutside,
                             color: Color(0xFFE33811),
@@ -94,30 +89,29 @@ class _NickSettingPageState extends State<NickSettingPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      cursorColor: Color(0xFFE33811),
-                      style: TextStyle(
+                      cursorColor: const Color(0xFFE33811),
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w500,
                       ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp(r'[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣㆍ]'), // 영문, 한글 포함
-                        ),
-                      ],
+                      inputFormatters:
+                          _viewModel.nicknameInputFormatters, // 필터링 규칙 적용
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
+                // 버튼 활성화 상태를 ValueListenableBuilder로 관리
                 ValueListenableBuilder<bool>(
-                  valueListenable: _isButtonEnabled,
+                  valueListenable: _viewModel.isButtonEnabled,
                   builder: (context, isEnabled, child) {
                     return ElevatedButton(
                       onPressed: isEnabled
                           ? () {
-                              // 페이지 이동 시 컨트롤러 내용 초기화 없이 이동
-                              final nickname = _nicknameController.text.trim();
+                              // 페이지 이동 시 닉네임 가져오기
+                              final nickname =
+                                  _viewModel.nicknameController.text.trim();
 
                               // Navigator로 페이지 이동
                               Navigator.push(
@@ -128,22 +122,23 @@ class _NickSettingPageState extends State<NickSettingPage> {
                                   ),
                                 ),
                               ).then((_) {
-                                // 페이지 이동 후 컨트롤러 초기화
-                                _nicknameController.clear();
+                                // 이동 후 닉네임 입력값 초기화
+                                _viewModel.nicknameController.clear();
                               });
                             }
                           : null, // 버튼 비활성화
-                      child: Text('다음'),
+                      child: const Text('다음'),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 56),
-                        textStyle: TextStyle(
+                        minimumSize: const Size(double.infinity, 56),
+                        textStyle: const TextStyle(
                           fontSize: 16,
                           fontFamily: 'Pretendard',
                           fontWeight: FontWeight.w700,
                           height: 1.35,
                         ),
-                        backgroundColor:
-                            isEnabled ? Color(0xFFE33811) : Color(0xFFCCCCCC),
+                        backgroundColor: isEnabled
+                            ? const Color(0xFFE33811)
+                            : const Color(0xFFCCCCCC),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -152,7 +147,7 @@ class _NickSettingPageState extends State<NickSettingPage> {
                     );
                   },
                 ),
-                SizedBox(height: 9),
+                const SizedBox(height: 9),
               ],
             ),
           ),

@@ -1,80 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/login_page/nick_setting_page.dart';
+import 'package:hotbap/providers.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-// 상태 관리용 StateNotifier
-class ConditionsState {
-  final bool isAllAgreed;
-  final bool isServiceAgreed;
-  final bool isPrivacyAgreed;
-  final bool isAgeConfirmed;
-
-  ConditionsState({
-    this.isAllAgreed = false,
-    this.isServiceAgreed = false,
-    this.isPrivacyAgreed = false,
-    this.isAgeConfirmed = false,
-  });
-
-  ConditionsState copyWith({
-    bool? isAllAgreed,
-    bool? isServiceAgreed,
-    bool? isPrivacyAgreed,
-    bool? isAgeConfirmed,
-  }) {
-    return ConditionsState(
-      isAllAgreed: isAllAgreed ?? this.isAllAgreed,
-      isServiceAgreed: isServiceAgreed ?? this.isServiceAgreed,
-      isPrivacyAgreed: isPrivacyAgreed ?? this.isPrivacyAgreed,
-      isAgeConfirmed: isAgeConfirmed ?? this.isAgeConfirmed,
-    );
-  }
-}
-
-class ConditionsNotifier extends StateNotifier<ConditionsState> {
-  ConditionsNotifier() : super(ConditionsState());
-
-  void toggleAllAgreements(bool value) {
-    state = state.copyWith(
-      isAllAgreed: value,
-      isServiceAgreed: value,
-      isPrivacyAgreed: value,
-      isAgeConfirmed: value,
-    );
-  }
-
-  void toggleServiceAgreement(bool value) {
-    state = state.copyWith(
-      isServiceAgreed: value,
-      isAllAgreed: value && state.isPrivacyAgreed && state.isAgeConfirmed,
-    );
-  }
-
-  void togglePrivacyAgreement(bool value) {
-    state = state.copyWith(
-      isPrivacyAgreed: value,
-      isAllAgreed: value && state.isServiceAgreed && state.isAgeConfirmed,
-    );
-  }
-
-  void toggleAgeConfirmation(bool value) {
-    state = state.copyWith(
-      isAgeConfirmed: value,
-      isAllAgreed: value && state.isServiceAgreed && state.isPrivacyAgreed,
-    );
-  }
-}
-
-// 리버팟 Provider
-final conditionsProvider =
-    StateNotifierProvider<ConditionsNotifier, ConditionsState>(
-  (ref) => ConditionsNotifier(),
-);
 
 class ConditionsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 상태와 상태 관리 객체 가져오기
     final conditionsState = ref.watch(conditionsProvider);
     final conditionsNotifier = ref.read(conditionsProvider.notifier);
 
@@ -162,7 +95,7 @@ class ConditionsPage extends ConsumerWidget {
                 },
               ),
               const Spacer(),
-              // 모두 동의 시 버튼 활성화
+              // 동의가 완료되면 다음 버튼 활성화
               ElevatedButton(
                 onPressed: (conditionsState.isServiceAgreed &&
                         conditionsState.isPrivacyAgreed &&

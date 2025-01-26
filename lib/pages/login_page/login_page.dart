@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore 패키지 추가
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/pages/login_page/conditions_page.dart'; // ConditionsPage 임포트
-import 'package:hotbap/pages/login_page/viewmodel/login_viewmodel.dart';
+import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/providers.dart';
 
@@ -11,14 +10,17 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
 
+    // authStateProvider의 상태에 따라 위젯을 빌드
     return authState.when(
       data: (user) {
         if (user != null) {
           print('로그인페이지16 ${user.uid}');
           return FutureBuilder(
+            // Firestore에서 사용자의 UID 존재 여부 확인
             future: _checkUserInFirestore(user.uid),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
+                // Firestore 작업이 진행 중일 때 로딩 표시
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('오류 발생: ${snapshot.error}'));
@@ -36,11 +38,13 @@ class LoginPage extends ConsumerWidget {
           return LoginWidget();
         }
       },
+      // 인증 상태 확인 중 로딩 표시
       loading: () => Center(child: CircularProgressIndicator()),
       error: (err, _) => Center(child: Text('오류 발생: $err')),
     );
   }
 
+  // Firestore에서 사용자의 UID가 존재하는지 확인하는 메서드
   Future<bool> _checkUserInFirestore(String uid) async {
     final firestore = FirebaseFirestore.instance;
     final userDoc = await firestore.collection('user').doc(uid).get();
@@ -51,6 +55,7 @@ class LoginPage extends ConsumerWidget {
 class LoginWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 로그인 로직을 처리하는 ViewModel 가져오기
     final loginViewModel = ref.read(loginViewModelProvider);
 
     return Scaffold(
@@ -88,6 +93,7 @@ class LoginWidget extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
+                    // Apple 로그인 버튼
                     GestureDetector(
                       onTap: () async {
                         try {
