@@ -48,8 +48,20 @@ class JoinSuccessPage extends ConsumerWidget {
                 ),
               ),
               Spacer(),
-              Text('UID: $uid'), // UID 표시
-              Text('닉네임: $nickname'),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 164.3,
+                  height: 198,
+                  child: Image.asset(
+                    'assets/images/hotbap.png', // 이미지 경로
+                    fit: BoxFit.fill, // 이미지 크기 조정 옵션
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 69,
+              ),
               Spacer(),
               ElevatedButton(
                 onPressed: () async {
