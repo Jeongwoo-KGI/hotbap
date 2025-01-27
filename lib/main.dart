@@ -22,9 +22,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // 로그아웃 처리
-  await FirebaseAuth.instance.signOut();
-
   // ProviderScope로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -37,7 +34,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hot Bap',
       theme: appTheme, // 테마 파일 적용
-      home: SearchPage(), // 초기 화면 설정
+      initialRoute: '/login', // 초기 화면을 로그인 페이지로 설정
+      routes: {
+        '/login': (context) => LoginPage(), // 로그인 페이지 추가
+        '/profile': (context) => ProfilePage(), // 프로필 페이지 추가
+      },
     );
   }
 }
