@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget{
-  int width;
+  //int height;
   String content;
 
-  Button({required this.width, required this.content})
+  Button({required this.content});
+  
   @override
   Widget build(BuildContext context) {
     //white button become red on tap
