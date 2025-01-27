@@ -37,7 +37,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getUserData() async {
     DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('user')
         .doc(user!.uid)
         .get();
     setState(() {
@@ -48,7 +48,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getSavedRecipes() async {
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('user')
         .doc(user!.uid)
         .collection('favorites')
         .get();
@@ -60,7 +60,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _saveUserName() async {
     await FirebaseFirestore.instance
-        .collection('users')
+        .collection('user')
         .doc(user!.uid)
         .set({'name': _nameController.text});
     setState(() {
@@ -88,7 +88,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
         // Firestore에서 사용자 문서 삭제
         await FirebaseFirestore.instance
-            .collection('users')
+            .collection('user')
             .doc(userId)
             .delete();
        
@@ -113,7 +113,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   void _navigateToSavedRecipes() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SavedRecipesPage()), // 찜리스트 페이지로 이동
+      MaterialPageRoute(builder: (context) => SavedRecipesPage(userId: user!.uid)), // 찜리스트 페이지로 이동
     );
   }
 
