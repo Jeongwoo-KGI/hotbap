@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/theme.dart';
 import 'package:provider/provider.dart';
 import '../../application/viewmodels/recipe_viewmodel.dart';
 import '../../data/data_source/api_recipe_repository.dart';
@@ -90,6 +91,8 @@ class SearchPage extends StatelessWidget {
             ),
           ],
         ),
+        bottomNavigationBar:
+            BottomNavBar(initialIndex: 1), // 초기 인덱스를 설정하여 네비게이션 바 추가
       ),
     );
   }

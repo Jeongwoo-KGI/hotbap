@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
+import 'package:hotbap/theme.dart';
 
 /**
  * [Main Landing Page]
@@ -54,6 +55,8 @@ class MainPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar:
+          BottomNavBar(initialIndex: 0), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
   }
 }
