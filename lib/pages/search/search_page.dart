@@ -26,7 +26,7 @@ class SearchPage extends StatelessWidget {
             // 검색 바
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SearchBar(),
+              child: SearchWidget(),
             ),
             // 검색 결과 타이틀
             Padding(
