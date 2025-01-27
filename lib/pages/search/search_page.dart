@@ -6,6 +6,7 @@ import '../../data/data_source/gemini_api.dart';
 import 'widgets/search_widget.dart';
 import 'widgets/recipe_card.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -24,7 +25,7 @@ class SearchPage extends StatelessWidget {
             // 검색 바
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SearchWidget(),
+              child: SearchBar(),
             ),
             // 검색 결과 타이틀
             Padding(
@@ -69,7 +70,17 @@ class SearchPage extends StatelessWidget {
                     itemCount: viewModel.recipes.length,
                     itemBuilder: (context, index) {
                       final recipe = viewModel.recipes[index];
-                      return RecipeCard(recipe: recipe);
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(rcp_nm: recipe.title),
+                            ),
+                          );
+                        },
+                        child: RecipeCard(recipe: recipe),
+                      );
                     },
                   );
                 },

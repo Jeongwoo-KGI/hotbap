@@ -27,6 +27,7 @@ class ApiRecipeRepository implements RecipeRepository {
         if (data['COOKRCP01']['row'] != null) {
           final recipeData = data['COOKRCP01']['row'] as List;
 
+
           // Use RecipeDTO to map API data
           recipes.addAll(recipeData.map((json) => RecipeDTO.fromJson(json).toEntity()));
         }
