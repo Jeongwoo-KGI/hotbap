@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotbap/filter/widgets/button.dart';
+import 'package:hotbap/pages/filter/widgets/button.dart';
 
 class JustButtons extends StatelessWidget{
   String input;
