@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/theme.dart';
 import 'package:provider/provider.dart';
 import '../../application/viewmodels/recipe_viewmodel.dart';
 import '../../data/data_source/api_recipe_repository.dart';
@@ -19,76 +20,87 @@ class SearchPage extends StatelessWidget {
           serviceKey: dotenv.env['FOOD_SAFETY_API_KEY']!, // .env에서 서비스 키 로드
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            // 검색 바
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SearchBar(),
-            ),
-            // 검색 결과 타이틀
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: Text(
-                  '검색결과',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontFamily: 'Pretendard',
-                    fontWeight: FontWeight.w500,
-                    height: 1.50,
+      child: GestureDetector(
+        onTap: () {
+          // 화면을 터치했을 때 키보드 닫기
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: Column(
+              children: [
+                // 검색 바
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SearchWidget(),
+                ),
+                // 검색 결과 타이틀
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      '검색결과',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                        height: 1.50,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            // 검색 결과
-            Expanded(
-              child: Consumer<RecipeViewModel>(
-                builder: (context, viewModel, child) {
-                  if (viewModel.isLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
+                // 검색 결과
+                Expanded(
+                  child: Consumer<RecipeViewModel>(
+                    builder: (context, viewModel, child) {
+                      if (viewModel.isLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
 
-                  if (viewModel.recipes.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '검색 결과가 없습니다.',
-                        style: TextStyle(
-                          color: Color(0xFF7F7F7F),
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: viewModel.recipes.length,
-                    itemBuilder: (context, index) {
-                      final recipe = viewModel.recipes[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPage(recipe: recipe),
+                      if (viewModel.recipes.isEmpty) {
+                        return Center(
+                          child: Text(
+                            '검색 결과가 없습니다.',
+                            style: TextStyle(
+                              color: Color(0xFF7F7F7F),
+                              fontSize: 14,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w500,
                             ),
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: viewModel.recipes.length,
+                        itemBuilder: (context, index) {
+                          final recipe = viewModel.recipes[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailPage(recipe: recipe),
+                                ),
+                              );
+                            },
+                            child: RecipeCard(recipe: recipe),
                           );
                         },
-                        child: RecipeCard(recipe: recipe),
                       );
                     },
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
+          bottomNavigationBar:
+              BottomNavBar(initialIndex: 1), // 초기 인덱스를 설정하여 네비게이션 바 추가
         ),
       ),
     );
