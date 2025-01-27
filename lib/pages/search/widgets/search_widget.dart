@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:hotbap/application/viewmodels/recipe_viewmodel.dart';
+
 class SearchWidget extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
 
@@ -23,7 +24,7 @@ class SearchWidget extends StatelessWidget {
               controller: _controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: '검색',
+                hintText: '재료, 레시피, 키워드를 검색해주세요',
                 hintStyle: TextStyle(
                   color: Color(0xFFB3B3B3),
                   fontSize: 14,
@@ -33,7 +34,8 @@ class SearchWidget extends StatelessWidget {
               ),
               onSubmitted: (query) {
                 if (query.isNotEmpty) {
-                  Provider.of<RecipeViewModel>(context, listen: false).searchRecipes(query);
+                  Provider.of<RecipeViewModel>(context, listen: false)
+                      .searchRecipes(query);
                 }
               },
             ),
