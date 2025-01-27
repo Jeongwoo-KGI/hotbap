@@ -14,7 +14,8 @@ class SearchPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => RecipeViewModel(
         repository: ApiRecipeRepository(
-          geminiApi: GeminiApi(dotenv.env['GEMINI_API_KEY']!), // .env에서 API 키 로드
+          geminiApi:
+              GeminiApi(dotenv.env['GEMINI_API_KEY']!), // .env에서 API 키 로드
           serviceKey: dotenv.env['FOOD_SAFETY_API_KEY']!, // .env에서 서비스 키 로드
         ),
       ),
@@ -29,7 +30,8 @@ class SearchPage extends StatelessWidget {
             ),
             // 검색 결과 타이틀
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: SizedBox(
                 width: double.infinity,
                 child: Text(
@@ -75,7 +77,7 @@ class SearchPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailPage(rcp_nm: recipe.title),
+                              builder: (context) => DetailPage(recipe: recipe),
                             ),
                           );
                         },
