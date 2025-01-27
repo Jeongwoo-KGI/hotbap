@@ -5,7 +5,9 @@ import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
+import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/providers.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LoginPage extends ConsumerWidget {
   @override
@@ -29,15 +31,7 @@ class LoginPage extends ConsumerWidget {
               } else if (snapshot.data == true) {
                 // Firestore에 UID가 존재하면 메인 페이지로 이동
                 // return MainPage();
-                return MainPage();
-                // DetailPage(
-                //   recipe: Recipe(
-                //     title: "사과 새우 북엇국",
-                //     nutritionInfo: "Low Calorie",
-                //     imageUrl: "https://example.com/image.jpg",
-                //     ingredients: "사과, 새우, 북어, 물",
-                //   ),
-                // );
+                return SearchPage(); //mainpage
               } else {
                 // Firestore에 UID가 없으면 ConditionsPage로 이동
                 return ConditionsPage();
@@ -68,24 +62,41 @@ class LoginWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // 로그인 로직을 처리하는 ViewModel 가져오기
     final loginViewModel = ref.read(loginViewModelProvider);
+    final PageController _controller = PageController();
 
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             // 상단 영역
+            SmoothPageIndicator(
+              controller: _controller, // PageView의 컨트롤러
+              count: 3, // 페이지 개수
+              effect: WormEffect(
+                dotHeight: 12,
+                dotWidth: 12,
+                activeDotColor: Color(0xFFE33811),
+              ), // 원하는 효과 지정
+            ),
+            SizedBox(height: 16),
+
             Expanded(
               flex: 6,
               child: Container(
                 width: double.infinity,
                 color: Colors.grey,
                 alignment: Alignment.center,
-                child: Text(
-                  'SmoothPageIndicator 자리',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child: PageView(
+                  controller: _controller,
+                  children: [
+                    Container(color: Colors.red),
+                    Container(color: Colors.green),
+                    Container(color: Colors.blue),
+                  ],
                 ),
               ),
             ),
+
             // 하단 로그인 영역
             Expanded(
               flex: 4,

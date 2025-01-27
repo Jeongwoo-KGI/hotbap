@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hot Bap',
       theme: appTheme, // 테마 파일 적용
-      home: LoginPage(), // 초기 화면 설정
+      home: SearchPage(), // 초기 화면 설정
     );
   }
 }
