@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart'; // url_launcher 패키지 추가
 
 class SupportSection extends StatelessWidget {
   final double screenWidth;
   final double screenHeight;
 
   SupportSection(this.screenWidth, this.screenHeight);
+
+  final String termsUrl = 'https://tutle02.tistory.com/60';
+
+  void _launchURL() async {
+    if (await canLaunch(termsUrl)) {
+      await launch(termsUrl);
+    } else {
+      throw 'Could not launch $termsUrl';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +58,7 @@ class SupportSection extends StatelessWidget {
                 height: 17.48,
                 child: IconButton(
                   icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
-                  onPressed: () {},
+                  onPressed: _launchURL, // 버튼을 눌렀을 때 URL을 열도록 설정
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
                 ),
