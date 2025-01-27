@@ -1,54 +1,73 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
-
-// Firebase 인증 상태를 제공하는 StreamProvider
-final authStateProvider = StreamProvider<User?>((ref) {
-  return FirebaseAuth.instance.authStateChanges();
-});
+import 'package:hotbap/pages/main/main_page.dart';
+import 'package:hotbap/providers.dart';
 
 class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
 
+    // authStateProvider의 상태에 따라 위젯을 빌드
     return authState.when(
       data: (user) {
         if (user != null) {
-          return ConditionsPage(); // 인증 성공 시 이동할 페이지 ///수정할것_메인페이지로
+          print('로그인페이지16 ${user.uid}');
+          return FutureBuilder(
+            // Firestore에서 사용자의 UID 존재 여부 확인
+            future: _checkUserInFirestore(user.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Firestore 작업이 진행 중일 때 로딩 표시
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('오류 발생: ${snapshot.error}'));
+              } else if (snapshot.data == true) {
+                // Firestore에 UID가 존재하면 메인 페이지로 이동
+                // return MainPage();
+                return MainPage();
+                // DetailPage(
+                //   recipe: Recipe(
+                //     title: "사과 새우 북엇국",
+                //     nutritionInfo: "Low Calorie",
+                //     imageUrl: "https://example.com/image.jpg",
+                //     ingredients: "사과, 새우, 북어, 물",
+                //   ),
+                // );
+              } else {
+                // Firestore에 UID가 없으면 ConditionsPage로 이동
+                return ConditionsPage();
+              }
+            },
+          );
         } else {
-          return LoginWidget(); // 로그인 화면
+          // 로그인 화면
+          return LoginWidget();
         }
       },
-      loading: () => Center(child: CircularProgressIndicator()), // 로딩 화면
-      error: (err, _) => Center(child: Text('오류 발생: $err')), // 에러 화면
+      // 인증 상태 확인 중 로딩 표시
+      loading: () => Center(child: CircularProgressIndicator()),
+      error: (err, _) => Center(child: Text('오류 발생: $err')),
     );
+  }
+
+  // Firestore에서 사용자의 UID가 존재하는지 확인하는 메서드
+  Future<bool> _checkUserInFirestore(String uid) async {
+    final firestore = FirebaseFirestore.instance;
+    final userDoc = await firestore.collection('user').doc(uid).get();
+    return userDoc.exists; // Firestore에 UID가 존재 여부 반환
   }
 }
 
-// 로그인 화면 (현재 작성된 UI와 연결)
-class LoginWidget extends StatelessWidget {
+class LoginWidget extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    void signInWithAppleFirebase() async {
-      print('1111111111');
-
-      final appleProvider = AppleAuthProvider();
-      print('2222222');
-
-      await FirebaseAuth.instance
-          .signInWithProvider(appleProvider)
-          .then((value) {
-        print('3333333');
-        print(value.user?.email);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => ConditionsPage(),
-          ),
-        );
-      });
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 로그인 로직을 처리하는 ViewModel 가져오기
+    final loginViewModel = ref.read(loginViewModelProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -81,52 +100,22 @@ class LoginWidget extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFF333333),
                         fontSize: 14,
-                        fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w700,
-                        height: 1.35,
                       ),
                     ),
-                    const SizedBox(height: 14),
-                    // 구글로 시작하기 버튼
-                    Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: 56,
-                      margin: const EdgeInsets.only(bottom: 11),
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            color: Color(0xFFE6E6E6),
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        '구글로 시작하기',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w700,
-                          height: 1.35,
-                        ),
-                      ),
-                    ),
-                    // Apple로 시작하기 버튼
+                    const SizedBox(height: 24),
+                    // Apple 로그인 버튼
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         try {
-                          signInWithAppleFirebase();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Apple 로그인 성공!")),
+                          final uid = await loginViewModel.signInWithApple(
+                            context,
                           );
+                          if (uid != null) {
+                            print("로그인 성공: UID -> $uid");
+                          }
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Apple 로그인 실패: $e")),
-                          );
+                          print("로그인 실패: $e");
                         }
                       },
                       child: Container(
@@ -143,36 +132,20 @@ class LoginWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.apple,
-                              color: Colors.white,
-                            ),
+                            Icon(Icons.apple, color: Colors.white),
+                            SizedBox(width: 8),
                             Text(
                               'Apple로 시작하기',
-                              // textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
-                                fontFamily: 'Pretendard',
                                 fontWeight: FontWeight.w700,
-                                height: 1.35,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Text(
-                      '직접 입력해서 로그인',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF4C4C4C),
-                        fontSize: 12,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w600,
-                        height: 1.35,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               ),

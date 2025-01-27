@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // 로그아웃 처리
+  await FirebaseAuth.instance.signOut();
+
   // ProviderScope로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -33,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hot Bap',
       theme: appTheme, // 테마 파일 적용
-      home: ProfilePage(), // 초기 화면 설정
+      home: LoginPage(), // 초기 화면 설정
     );
   }
 }

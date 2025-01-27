@@ -6,6 +6,7 @@ import '../../data/data_source/gemini_api.dart';
 import 'widgets/search_widget.dart';
 import 'widgets/recipe_card.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart';
 
 class SearchPage extends StatelessWidget {
   @override
@@ -13,7 +14,8 @@ class SearchPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => RecipeViewModel(
         repository: ApiRecipeRepository(
-          geminiApi: GeminiApi(dotenv.env['GEMINI_API_KEY']!), // .env에서 API 키 로드
+          geminiApi:
+              GeminiApi(dotenv.env['GEMINI_API_KEY']!), // .env에서 API 키 로드
           serviceKey: dotenv.env['FOOD_SAFETY_API_KEY']!, // .env에서 서비스 키 로드
         ),
       ),
@@ -24,11 +26,12 @@ class SearchPage extends StatelessWidget {
             // 검색 바
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SearchWidget(),
+              child: SearchBar(),
             ),
             // 검색 결과 타이틀
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: SizedBox(
                 width: double.infinity,
                 child: Text(
@@ -69,7 +72,17 @@ class SearchPage extends StatelessWidget {
                     itemCount: viewModel.recipes.length,
                     itemBuilder: (context, index) {
                       final recipe = viewModel.recipes[index];
-                      return RecipeCard(recipe: recipe);
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(recipe: recipe),
+                            ),
+                          );
+                        },
+                        child: RecipeCard(recipe: recipe),
+                      );
                     },
                   );
                 },
