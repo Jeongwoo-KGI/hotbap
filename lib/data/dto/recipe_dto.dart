@@ -22,7 +22,6 @@ class RecipeDTO {
     );
   }
 
-  // Convert DTO to domain entity
   Recipe toEntity() {
     return Recipe(
       title: title,
