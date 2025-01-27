@@ -29,14 +29,15 @@ class LoginPage extends ConsumerWidget {
               } else if (snapshot.data == true) {
                 // Firestore에 UID가 존재하면 메인 페이지로 이동
                 // return MainPage();
-                return DetailPage(
-                  recipe: Recipe(
-                    title: "사과 새우 북엇국",
-                    nutritionInfo: "Low Calorie",
-                    imageUrl: "https://example.com/image.jpg",
-                    ingredients: "사과, 새우, 북어, 물",
-                  ),
-                );
+                return MainPage();
+                // DetailPage(
+                //   recipe: Recipe(
+                //     title: "사과 새우 북엇국",
+                //     nutritionInfo: "Low Calorie",
+                //     imageUrl: "https://example.com/image.jpg",
+                //     ingredients: "사과, 새우, 북어, 물",
+                //   ),
+                // );
               } else {
                 // Firestore에 UID가 없으면 ConditionsPage로 이동
                 return ConditionsPage();
