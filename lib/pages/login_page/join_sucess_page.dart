@@ -15,7 +15,6 @@ class JoinSuccessPage extends ConsumerWidget {
 
     // SaveUser를 가져오기
     final saveUserUseCase = ref.watch(loginViewModelProvider).saveUserUseCase;
-
     Future<void> saveUserToFirestore() async {
       if (uid != null && nickname.isNotEmpty) {
         try {
