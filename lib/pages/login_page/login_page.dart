@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/providers.dart';
@@ -26,7 +28,15 @@ class LoginPage extends ConsumerWidget {
                 return Center(child: Text('오류 발생: ${snapshot.error}'));
               } else if (snapshot.data == true) {
                 // Firestore에 UID가 존재하면 메인 페이지로 이동
-                return MainPage();
+                // return MainPage();
+                return DetailPage(
+                  recipe: Recipe(
+                    title: "사과 새우 북엇국",
+                    nutritionInfo: "Low Calorie",
+                    imageUrl: "https://example.com/image.jpg",
+                    ingredients: "사과, 새우, 북어, 물",
+                  ),
+                );
               } else {
                 // Firestore에 UID가 없으면 ConditionsPage로 이동
                 return ConditionsPage();

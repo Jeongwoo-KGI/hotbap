@@ -2,27 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
-
-// 상태를 관리하는 StateProvider
-final isHeartFilledProvider = StateProvider<bool>((ref) => false);
+import 'package:hotbap/providers.dart';
 
 class DetailPage extends ConsumerWidget {
-  final Recipe recipe; // 음식명
+  final Recipe recipe;
 
   const DetailPage({required this.recipe, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isHeartFilled = ref.watch(isHeartFilledProvider); // 현재 상태 값 가져오기
+    final isFavorite = ref.watch(favoriteProvider(recipe));
+    print(recipe.title);
 
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
-            const SizedBox(
-              // 텍스트 가운데로 하기 위해 추가
-              width: 20,
-            ),
             const Spacer(),
             Text(
               recipe.title,
@@ -38,14 +33,13 @@ class DetailPage extends ConsumerWidget {
             const Spacer(),
             GestureDetector(
               onTap: () {
-                // 상태 토글 (true ↔ false)
-                ref.read(isHeartFilledProvider.notifier).state = !isHeartFilled;
+                // 즐겨찾기 추가/삭제 처리
+                ref.read(favoriteProvider(recipe).notifier).toggleFavorite();
+                print('detailpage111111');
               },
               child: Icon(
-                isHeartFilled
-                    ? CupertinoIcons.heart_fill
-                    : CupertinoIcons.heart, // 상태에 따른 아이콘 변경
-                color: isHeartFilled ? Colors.red : Colors.black,
+                isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                color: isFavorite ? Colors.red : Colors.black,
               ),
             ),
           ],
