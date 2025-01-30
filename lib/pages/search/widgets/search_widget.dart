@@ -16,6 +16,7 @@ class SearchWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(Icons.search, color: Color(0xFFB3B3B3)),
           SizedBox(width: 8),
@@ -24,20 +25,17 @@ class SearchWidget extends StatelessWidget {
               controller: _controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: '재료, 레시피, 키워드를 검색해주세요',
+                hintText: '검색',
                 hintStyle: TextStyle(
                   color: Color(0xFFB3B3B3),
                   fontSize: 14,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w500,
                 ),
+                isCollapsed: true, 
+                contentPadding: EdgeInsets.symmetric(vertical: 10), 
               ),
-              onSubmitted: (query) {
-                if (query.isNotEmpty) {
-                  Provider.of<RecipeViewModel>(context, listen: false)
-                      .searchRecipes(query);
-                }
-              },
+              textAlignVertical: TextAlignVertical.center, 
             ),
           ),
         ],
