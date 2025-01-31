@@ -11,8 +11,20 @@ class SavedRecipesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // 페이지 배경 색상 설정
       appBar: AppBar(
-        title: Text('찜리스트'),
+        backgroundColor: Colors.white,
+        title: Text(
+          '나의 찜',
+          textAlign: TextAlign.center, // 텍스트 가운데 정렬
+          style: TextStyle(
+            color: Color(0xFF333333),
+            fontSize: 20,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w600,
+            height: 1.35,
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

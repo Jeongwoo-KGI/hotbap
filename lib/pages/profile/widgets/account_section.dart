@@ -28,7 +28,7 @@ class _AccountSectionState extends State<AccountSection> {
       children: [
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             '내 계정',
             style: TextStyle(
@@ -43,7 +43,7 @@ class _AccountSectionState extends State<AccountSection> {
         SizedBox(height: 20),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
