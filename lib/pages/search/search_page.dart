@@ -62,14 +62,19 @@ class SearchPage extends StatelessWidget {
                       }
 
                       if (viewModel.recipes.isEmpty) {
-                        return Center(
-                          child: Text(
-                            '검색 결과가 없습니다.',
-                            style: TextStyle(
-                              color: Color(0xFF7F7F7F),
-                              fontSize: 14,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
+                        return Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 146.0),
+                            child: Text(
+                              '검색 결과가 없습니다\n다시 입력해주세요',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w700, // 텍스트 굵게 변경
+                              ),
                             ),
                           ),
                         );
