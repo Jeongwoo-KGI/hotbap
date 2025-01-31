@@ -29,63 +29,39 @@ class AccountManagement extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20), // 간격 추가
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '로그아웃',
-                style: TextStyle(
-                  color: Color(0xFFDD0909),
-                  fontSize: 14,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w600,
-                  height: 1.35,
-                ),
+        GestureDetector(
+          onTap: logout, // 로그아웃 기능 설정
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              '로그아웃',
+              style: TextStyle(
+                color: Color(0xFFDD0909),
+                fontSize: 14,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w600,
+                height: 1.35,
               ),
-              SizedBox(
-                width: 9.5, // 아이콘 너비 설정
-                height: 17.48, // 아이콘 높이 설정
-                child: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
-                  onPressed: logout,
-                  padding: EdgeInsets.zero, // 패딩 제거
-                  constraints: BoxConstraints(),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
         SizedBox(height: 20), // 간격 추가
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '회원 탈퇴',
-                style: TextStyle(
-                  color: Color(0xFF333333),
-                  fontSize: 14,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w600,
-                  height: 1.35,
-                ),
+        GestureDetector(
+          onTap: deleteAccount, // 회원 탈퇴 기능 설정
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              '회원 탈퇴',
+              style: TextStyle(
+                color: Color(0xFF333333),
+                fontSize: 14,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w600,
+                height: 1.35,
               ),
-              SizedBox(
-                width: 9.5, // 아이콘 너비 설정
-                height: 17.48, // 아이콘 높이 설정
-                child: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
-                  onPressed: deleteAccount,
-                  padding: EdgeInsets.zero, // 패딩 제거
-                  constraints: BoxConstraints(),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ],
