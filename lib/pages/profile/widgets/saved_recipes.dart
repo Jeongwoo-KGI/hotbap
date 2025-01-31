@@ -16,7 +16,7 @@ class SavedRecipes extends StatelessWidget {
           child: GestureDetector(
             onTap: navigateToSavedRecipes,
             child: Container(
-              width: 335, // 너비 설정
+              width: 330, // 너비 설정
               height: 60, // 높이 설정
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
               margin: const EdgeInsets.symmetric(vertical: 10), // 상하 여백 추가

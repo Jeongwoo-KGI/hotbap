@@ -15,7 +15,7 @@ class ProfileUserName extends StatelessWidget {
               color: Color(0xFF333333),
               fontSize: 32,
               fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               height: 1.35,
             ),
           ),
@@ -25,7 +25,7 @@ class ProfileUserName extends StatelessWidget {
               color: Color(0xFF999999), // '님' 텍스트 색상 설정
               fontSize: 32,
               fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               height: 1.35,
             ),
           ),
