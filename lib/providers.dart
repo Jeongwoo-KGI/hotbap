@@ -79,8 +79,8 @@ class FavoriteNotifier extends StateNotifier<bool> {
 
   // 즐겨찾기 상태 토글
   Future<void> toggleFavorite() async {
-    print('111111111$userId');
-    if (userId == null) return; // userId가 null이면 아무 작업도 하지 않음
-    state = await toggleFavoriteUseCase.execute(userId!, recipe); // 즐겨찾기 추가/삭제
+    final newState = await toggleFavoriteUseCase.execute(userId!, recipe);
+    state = newState; // state를 직접 업데이트
+    print('State updated to: $newState');
   }
 }

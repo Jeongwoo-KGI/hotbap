@@ -17,9 +17,10 @@ class DetailPage extends ConsumerWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     final uid = user!.uid; // UID 가져오기
+    print('디테일페이지 uid:${uid}');
+
     final isFavorite = ref.watch(favoriteProvider(RecipeUid(recipe, uid)));
     print(recipe.title);
-    print('디테일페이지 uid:${uid}');
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -43,6 +44,7 @@ class DetailPage extends ConsumerWidget {
                 ref
                     .read(favoriteProvider(RecipeUid(recipe, uid)).notifier)
                     .toggleFavorite();
+                print('isFavorite---$isFavorite');
               },
               child: Icon(
                 isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
@@ -331,4 +333,13 @@ class RecipeUid {
   final String uid;
 
   RecipeUid(this.recipe, this.uid);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is RecipeUid && other.recipe == recipe && other.uid == uid;
+  }
+
+  @override
+  int get hashCode => recipe.hashCode ^ uid.hashCode;
 }
