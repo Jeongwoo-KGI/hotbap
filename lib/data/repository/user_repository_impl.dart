@@ -1,3 +1,4 @@
+import 'package:hotbap/data/data_source/user_data_source.dart';
 import 'package:hotbap/data/data_source/user_remote_data_source.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
@@ -6,8 +7,9 @@ import 'package:hotbap/domain/repository/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource remoteDataSource;
+  final UserDataSource _userDataSource;
 
-  UserRepositoryImpl({required this.remoteDataSource});
+  UserRepositoryImpl(this.remoteDataSource, this._userDataSource);
 
   @override
   Future<void> saveUser(String uid, String userName) async {
@@ -17,8 +19,10 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Stream<User?> fetchUser() {
-    // TODO: implement fetchUser
-    throw UnimplementedError();
+    return _userDataSource.fetchUser().map((userDto) {
+      //UserDto -> User
+      return userDto == null ? null : User.fromDto(userDto);
+    });
   }
 
   @override
@@ -34,15 +38,24 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<String> returnUserName() {
-    // TODO: implement returnUserName
-    throw UnimplementedError();
+  Future<String> returnUserName(String id) async {
+    try {
+      final result = await _userDataSource.returnUserName(id);
+      if (result != null) {
+        return User.fromDto(result);
+      } else {
+        throw Exception('no user found with id: $id');
+      }
+    }
   }
 
   @override
-  Future<void> updateUserData(String name) {
-    // TODO: implement updateUserData
-    throw UnimplementedError();
+  Future<void> updateUserData(String name)async {
+    try {
+      await _userDataSource.updateUserData(name);
+    } catch(e) {
+      throw Exception('Failed to update user data');
+    }
   }
 
 }
