@@ -99,7 +99,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                           ),
                         ],
                       ),
-                      duration: Duration(seconds: 2), // 2초 후 사라짐
+                      duration: Duration(milliseconds: 2500), // 2.5초 후 사라짐
                     ),
                   );
                 }

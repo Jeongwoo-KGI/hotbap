@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,7 +46,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
         .get();
     setState(() {
       userName = userDoc['userName'] ?? 'Anonymous';
-      _nameController.text = userName;
+      // _nameController.text = userName;
     });
   }
 
@@ -65,12 +66,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
     if (user != null) {
       try {
         await FirebaseFirestore.instance
-          .collection('user')
-          .doc(user!.uid)
-          .update({'userName': _nameController.text});
+            .collection('user')
+            .doc(user!.uid)
+            .update({'userName': _nameController.text});
+
         setState(() {
           userName = _nameController.text;
         });
+
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('닉네임이 성공적으로 저장되었습니다.'),
         ));
@@ -106,7 +109,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
             .collection('user')
             .doc(userId)
             .delete();
-       
+
         // Firebase Auth에서 사용자 삭제
         await user!.delete();
 
@@ -128,7 +131,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   void _navigateToSavedRecipes() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SavedRecipesPage(userId: user!.uid)), // userId를 전달
+      MaterialPageRoute(
+          builder: (context) =>
+              SavedRecipesPage(userId: user!.uid)), // userId를 전달
     );
   }
 
@@ -146,7 +151,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
               children: [
                 SizedBox(height: screenHeight * 0.02),
                 StreamBuilder<DocumentSnapshot>(
-                  stream: FirebaseFirestore.instance.collection('user').doc(user!.uid).snapshots(),  // 'users' 대신 'user'로 수정
+                  stream: FirebaseFirestore.instance
+                      .collection('user')
+                      .doc(user!.uid)
+                      .snapshots(), // 'users' 대신 'user'로 수정
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator();
@@ -154,7 +162,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                     if (!snapshot.hasData || !snapshot.data!.exists) {
                       return Text('데이터를 불러올 수 없습니다.');
                     }
-                    var userData = snapshot.data!.data() as Map<String, dynamic>;
+                    var userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
                     userName = userData['userName'] ?? 'Anonymous';
                     _nameController.text = userName;
                     return ProfileUserName(screenWidth, userName);
@@ -162,7 +171,11 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('user').doc(user!.uid).collection('favorites').snapshots(),  // 'users' 대신 'user'로 수정
+                  stream: FirebaseFirestore.instance
+                      .collection('user')
+                      .doc(user!.uid)
+                      .collection('favorites')
+                      .snapshots(), // 'users' 대신 'user'로 수정
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator();
@@ -170,12 +183,20 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                     if (!snapshot.hasData) {
                       return Text('저장된 레시피가 없습니다.');
                     }
-                    savedRecipes = snapshot.data!.docs.map((doc) => doc['title'] as String).toList();
-                    return SavedRecipes(screenWidth, savedRecipes, _navigateToSavedRecipes);
+                    savedRecipes = snapshot.data!.docs
+                        .map((doc) => doc['title'] as String)
+                        .toList();
+                    return SavedRecipes(
+                        screenWidth, savedRecipes, _navigateToSavedRecipes);
                   },
                 ),
                 SizedBox(height: 16),
-                AccountSection(screenWidth, screenHeight, _saveUserName),
+                AccountSection(
+                  screenWidth,
+                  screenHeight,
+                  nameController: _nameController,
+                  saveUserName: _saveUserName,
+                ),
                 SizedBox(height: 16), // 간격 추가
                 Divider(color: Color(0xFFE6E6E6)),
                 SizedBox(height: 16), // 간격 추가
@@ -183,7 +204,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                 SizedBox(height: 16), // 간격 추가
                 Divider(color: Color(0xFFE6E6E6)),
                 SizedBox(height: 16), // 간격 추가
-                AccountManagement(screenWidth, screenHeight, _logout, _deleteAccount),
+                AccountManagement(
+                    screenWidth, screenHeight, _logout, _deleteAccount),
               ],
             ),
           );
