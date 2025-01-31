@@ -8,26 +8,13 @@ import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/domain/repository/favorite_repository.dart';
 import 'package:hotbap/domain/usecase/save_user.dart';
 import 'package:hotbap/domain/usecase/toggle_favorite_usecase.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/login_page/viewmodel/conditions_view_model.dart';
 import 'package:hotbap/pages/login_page/viewmodel/login_viewmodel.dart';
 
 // Firebase 인증 상태를 감시하는 StreamProvider
 final authStateProvider = StreamProvider<User?>((ref) {
   return FirebaseAuth.instance.authStateChanges();
-});
-
-// UID 상태를 관리하는 StateNotifier
-class AuthUidNotifier extends StateNotifier<String?> {
-  AuthUidNotifier() : super(null);
-
-  void setUid(String? uid) {
-    state = uid;
-  }
-}
-
-// UID 상태를 관리하는 Provider
-final authUidProvider = StateNotifierProvider<AuthUidNotifier, String?>((ref) {
-  return AuthUidNotifier();
 });
 
 // ViewModel Provider
@@ -48,15 +35,28 @@ final conditionsProvider =
   (ref) => ConditionsNotifier(),
 );
 
+// 즐겨찾기 상태를 관리하는 Provider
 final favoriteProvider =
-    StateNotifierProvider.family<FavoriteNotifier, bool, Recipe>(
-  (ref, recipe) {
+    StateNotifierProvider.family<FavoriteNotifier, bool, RecipeUid>(
+  (ref, params) {
+    final recipe = params.recipe;
+    final uid = params.uid;
+
     final toggleFavoriteUseCase = ref.read(toggleFavoriteUseCaseProvider);
-    final userId = ref.read(authUidProvider); // userId를 가져옵니다.
-    return FavoriteNotifier(
-        ref, userId, recipe, toggleFavoriteUseCase); // ref와 userId를 전달
+    return FavoriteNotifier(ref, uid, recipe, toggleFavoriteUseCase);
   },
 );
+
+// FavoriteRepository Provider
+final favoriteRepositoryProvider = Provider<FavoriteRepository>((ref) {
+  return FavoriteRepositoryImpl(firebaseFirestore: FirebaseFirestore.instance);
+});
+
+// ToggleFavoriteUseCase Provider
+final toggleFavoriteUseCaseProvider = Provider<ToggleFavoriteUseCase>((ref) {
+  final repository = ref.read(favoriteRepositoryProvider);
+  return ToggleFavoriteUseCase(repository);
+});
 
 class FavoriteNotifier extends StateNotifier<bool> {
   final String? userId; // userId를 nullable로 유지
@@ -84,14 +84,3 @@ class FavoriteNotifier extends StateNotifier<bool> {
     state = await toggleFavoriteUseCase.execute(userId!, recipe); // 즐겨찾기 추가/삭제
   }
 }
-
-// FavoriteRepository Provider
-final favoriteRepositoryProvider = Provider<FavoriteRepository>((ref) {
-  return FavoriteRepositoryImpl(firebaseFirestore: FirebaseFirestore.instance);
-});
-
-// ToggleFavoriteUseCase Provider
-final toggleFavoriteUseCaseProvider = Provider<ToggleFavoriteUseCase>((ref) {
-  final repository = ref.read(favoriteRepositoryProvider);
-  return ToggleFavoriteUseCase(repository);
-});

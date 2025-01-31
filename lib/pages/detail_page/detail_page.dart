@@ -1,19 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/domain/entity/user.dart' as userDomain;
 import 'package:hotbap/providers.dart';
 
 class DetailPage extends ConsumerWidget {
   final Recipe recipe;
+  userDomain.User? user;
 
-  const DetailPage({required this.recipe, Key? key}) : super(key: key);
+  DetailPage({required this.recipe, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isFavorite = ref.watch(favoriteProvider(recipe));
-    print(recipe.title);
+    final user = FirebaseAuth.instance.currentUser;
 
+    final uid = user!.uid; // UID 가져오기
+    final isFavorite = ref.watch(favoriteProvider(RecipeUid(recipe, uid)));
+    print(recipe.title);
+    print('디테일페이지 uid:${uid}');
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -34,8 +40,9 @@ class DetailPage extends ConsumerWidget {
             GestureDetector(
               onTap: () {
                 // 즐겨찾기 추가/삭제 처리
-                ref.read(favoriteProvider(recipe).notifier).toggleFavorite();
-                print('detailpage111111');
+                ref
+                    .read(favoriteProvider(RecipeUid(recipe, uid)).notifier)
+                    .toggleFavorite();
               },
               child: Icon(
                 isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
@@ -57,9 +64,8 @@ class DetailPage extends ConsumerWidget {
                     height: 409,
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                            "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Flbfit%2FbtsLiTVNW1j%2FC39fMZOruNK3JhuOscrjy0%2Fimg.jpg"),
+                      image: DecorationImage(
+                        image: NetworkImage(recipe.imageUrl),
                         fit: BoxFit.cover, // contain? cover?
                       ),
                       shape: RoundedRectangleBorder(
@@ -78,8 +84,8 @@ class DetailPage extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(26),
                       ),
                     ),
-                    child: const Text(
-                      '국 & 찌개',
+                    child: Text(
+                      recipe.category,
                       style: TextStyle(
                         color: Color(0xFFFEF7F5),
                         fontSize: 12,
@@ -102,10 +108,10 @@ class DetailPage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const SizedBox(
+                  SizedBox(
                     width: 258,
                     child: Text(
-                      '소금과 간장 대신 북어채와 새우의 짠맛으로 간을 한 담백한 맛의 북엇국을 만들었어요, 홍합이나 바지락을 넣으면 시원한 국물을 연출할 수 있어요.',
+                      recipe.lowSodiumTip,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF999999),
@@ -119,6 +125,74 @@ class DetailPage extends ConsumerWidget {
                   const SizedBox(height: 28),
                   const Divider(),
                   const SizedBox(height: 28),
+                  SizedBox(
+                      height: 60,
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          //열량
+                          Column(
+                            children: [
+                              Container(
+                                  height: 30,
+                                  width: 65,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFFEF7F5),
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 1,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignOutside,
+                                        color: Color(0xFFFCE3DD),
+                                      ),
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(8), // 위쪽 모서리만 둥글게
+                                      ),
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text('열량')),
+                              Container(
+                                  height: 30,
+                                  width: 65,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFFEF7F5),
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 1,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignOutside,
+                                        color: Color(0xFFFCE3DD),
+                                      ),
+                                      borderRadius: BorderRadius.vertical(
+                                        bottom:
+                                            Radius.circular(8), // 위쪽 모서리만 둥글게
+                                      ),
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                      '${recipe.calorie.split('.')[0]}kcal'))
+                            ],
+                          ),
+                          nutritionLabelUi(
+                              '탄수화물', '${recipe.carbohydrate.split('.')[0]}g'),
+                          SizedBox(width: 6),
+                          nutritionLabelUi(
+                              '단백질', '${recipe.protein.split('.')[0]}g'),
+                          SizedBox(width: 6),
+
+                          nutritionLabelUi(
+                              '지방', '${recipe.fat.split('.')[0]}g'),
+                          SizedBox(width: 6),
+
+                          nutritionLabelUi(
+                              '나트륨', '${recipe.sodium.split('.')[0]}g'),
+                        ],
+                      )),
+                  SizedBox(
+                    height: 28,
+                  ),
                   const Text(
                     '재료',
                     style: TextStyle(
@@ -130,8 +204,8 @@ class DetailPage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text(
-                    '●방울토마토 소박이 : \n방울토마토 150g(5개), 양파 10g(3×1cm), 부추 10g(5줄기)\n●양념장 : \n고춧가루 4g(1작은술), 멸치액젓 3g(2/3작은술), 다진 마늘 2.5g(1/2쪽), 매실액 2g(1/3작은술), 설탕 2g(1/3작은술), 물 2ml(1/3작은술), 통깨 약간',
+                  Text(
+                    recipe.material,
                     style: TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 14,
@@ -140,6 +214,14 @@ class DetailPage extends ConsumerWidget {
                       height: 1.50,
                     ),
                   ),
+                  SizedBox(
+                    height: 28,
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  manualListUi()
                 ],
               ),
             ),
@@ -148,4 +230,105 @@ class DetailPage extends ConsumerWidget {
       ),
     );
   }
+
+  Widget manualListUi() {
+    return ListView.builder(
+      shrinkWrap: true, // 부모 위젯의 크기 제한 내에서 크기를 조정
+      physics: const NeverScrollableScrollPhysics(), // 스크롤 방지 (부모의 스크롤뷰를 사용)
+      itemCount: recipe.manuals.length,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            SizedBox(height: 38),
+            // 번호를 보여주는 동그라미
+            Container(
+              width: 42,
+              height: 42,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                color: const Color(0xFFFCE3DD),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(43),
+                ),
+              ),
+              child: Text(
+                '${index + 1}', // 번호 (1부터 시작)
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 20,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w700,
+                  height: 1.10,
+                ),
+              ),
+            ),
+            const SizedBox(height: 38),
+            // 조리 순서 텍스트
+            Text(
+              recipe.manuals[index],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF333333),
+                fontSize: 14,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w400,
+                height: 1.50,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Column nutritionLabelUi(String title, String weight) {
+    return Column(
+      children: [
+        Container(
+            height: 30,
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Color(0xFFFEF7F5),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 1,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                  color: Color(0xFFFCE3DD),
+                ),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(8), // 위쪽 모서리만 둥글게
+                ),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(title)),
+        Container(
+            height: 30,
+            width: 60,
+            decoration: ShapeDecoration(
+              color: Color(0xFFFEF7F5),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 1,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                  color: Color(0xFFFCE3DD),
+                ),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(8), // 위쪽 모서리만 둥글게
+                ),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(weight))
+      ],
+    );
+  }
+}
+
+class RecipeUid {
+  final Recipe recipe;
+  final String uid;
+
+  RecipeUid(this.recipe, this.uid);
 }
