@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/domain/entity/recipe.dart';
-import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
-import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -62,6 +59,7 @@ class LoginWidget extends ConsumerWidget {
     final PageController _controller = PageController();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -95,13 +93,15 @@ class LoginWidget extends ConsumerWidget {
             ),
 
             // 하단 로그인 영역
-            Expanded(
-              flex: 4,
+            Container(
+              height: 271,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 85,
+                    ),
                     Text(
                       '3초 만에 빠른 로그인',
                       textAlign: TextAlign.center,
