@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hotbap/data/dto/user_dto.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
@@ -14,7 +17,16 @@ import 'package:hotbap/theme.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final userName = "테스터"; //FIXME: 나중에 firebase로 업데이트 해둘것
+    //ToDo: get user data through impl later
+    final user = FirebaseAuth.instance.currentUser;
+    try {
+      final query = FirebaseFirestore.instance
+      .collection('user')
+      .doc(user!.uid);
+    } catch (e) {
+      throw Exception('failed to get user data. $e');
+    }
+    final userName = ;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
@@ -58,5 +70,28 @@ class MainPage extends StatelessWidget {
       bottomNavigationBar:
           BottomNavBar(initialIndex: 0), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
+  }
+}
+
+Stream<UserDto?> fetchUser() {
+  try {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      throw Exception('user unknown signin method');
+    }
+
+    final firestore = FirebaseFirestore.instance;
+    final collectionRef = firestore.collection('user');
+    final query = collectionRef.doc(user.uid);
+
+    return query.snapshots().map((snapshot){
+      if (snapshot.exists) {
+        return UserDto.fromMap(snapshot.data()!);
+      }
+      throw Exception();
+    });
+  } catch (e) {
+    throw Exception('no user found with uid. Error: $e');
   }
 }
