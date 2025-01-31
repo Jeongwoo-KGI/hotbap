@@ -40,18 +40,18 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getUserData() async {
     DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('user')  // 'users' 대신 'user'로 수정
+        .collection('user')
         .doc(user!.uid)
         .get();
     setState(() {
-      userName = userDoc['userName'] ?? 'Anonymous'; // 'name'을 'userName'으로 변경
+      userName = userDoc['userName'] ?? 'Anonymous';
       _nameController.text = userName;
     });
   }
 
   Future<void> _getSavedRecipes() async {
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
-        .collection('user')  // 'users' 대신 'user'로 수정
+        .collection('user')
         .doc(user!.uid)
         .collection('favorites')
         .get();
@@ -65,9 +65,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
     if (user != null) {
       try {
         await FirebaseFirestore.instance
-          .collection('user')  // 'users' 대신 'user'로 수정
+          .collection('user')
           .doc(user!.uid)
-          .update({'userName': _nameController.text}); // 'name'을 'userName'으로 변경
+          .update({'userName': _nameController.text});
         setState(() {
           userName = _nameController.text;
         });
@@ -103,7 +103,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
         // Firestore에서 사용자 문서 삭제
         await FirebaseFirestore.instance
-            .collection('user')  // 'users' 대신 'user'로 수정
+            .collection('user')
             .doc(userId)
             .delete();
        
@@ -174,7 +174,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                     return SavedRecipes(screenWidth, savedRecipes, _navigateToSavedRecipes);
                   },
                 ),
-                SizedBox(height: screenHeight * 0.02),
+                SizedBox(height: 16),
                 AccountSection(screenWidth, screenHeight, _saveUserName),
                 SizedBox(height: 16), // 간격 추가
                 Divider(color: Color(0xFFE6E6E6)),

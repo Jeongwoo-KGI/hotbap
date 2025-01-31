@@ -18,8 +18,8 @@ class SavedRecipes extends StatelessWidget {
             child: Container(
               width: 330, // 너비 설정
               height: 60, // 높이 설정
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
-              margin: const EdgeInsets.symmetric(vertical: 10), // 상하 여백 추가
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical:15),
+              margin: const EdgeInsets.symmetric(vertical: 5), // 상하 여백 추가
               decoration: ShapeDecoration(
                 color: Color(0xFFFCE3DD),
                 shape: RoundedRectangleBorder(
@@ -41,7 +41,7 @@ class SavedRecipes extends StatelessWidget {
                       height: 1.35,
                     ),
                   ),
-                  SizedBox(width: 240), // 여백 추가
+                  SizedBox(width: 235), // 여백 추가
                   Text(
                     '${savedRecipes.length}', // 저장한 레시피 개수 표시
                     style: TextStyle(

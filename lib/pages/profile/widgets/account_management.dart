@@ -12,11 +12,11 @@ class AccountManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             '계정 관리',
             style: TextStyle(
@@ -31,7 +31,7 @@ class AccountManagement extends StatelessWidget {
         SizedBox(height: 20), // 간격 추가
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -61,7 +61,7 @@ class AccountManagement extends StatelessWidget {
         SizedBox(height: 20), // 간격 추가
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
