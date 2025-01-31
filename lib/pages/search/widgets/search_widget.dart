@@ -32,10 +32,16 @@ class SearchWidget extends StatelessWidget {
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w500,
                 ),
-                isCollapsed: true, 
-                contentPadding: EdgeInsets.symmetric(vertical: 10), 
+                isCollapsed: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
               ),
-              textAlignVertical: TextAlignVertical.center, 
+              textAlignVertical: TextAlignVertical.center,
+              onSubmitted: (query) {
+                if (query.isNotEmpty) {
+                  // 검색 기능 호출
+                  Provider.of<RecipeViewModel>(context, listen: false).searchRecipes(query);
+                }
+              },
             ),
           ),
         ],
@@ -43,3 +49,4 @@ class SearchWidget extends StatelessWidget {
     );
   }
 }
+
