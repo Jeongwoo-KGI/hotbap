@@ -40,7 +40,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getUserData() async {
     DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('user')
+        .collection('user')  // 'users' 대신 'user'로 수정
         .doc(user!.uid)
         .get();
     setState(() {
@@ -51,7 +51,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _getSavedRecipes() async {
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
-        .collection('user')
+        .collection('user')  // 'users' 대신 'user'로 수정
         .doc(user!.uid)
         .collection('favorites')
         .get();
@@ -63,36 +63,38 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _saveUserName() async {
     if (user != null) {
-      await FirebaseFirestore.instance
-          .collection('user')
+      try {
+        await FirebaseFirestore.instance
+          .collection('user')  // 'users' 대신 'user'로 수정
           .doc(user!.uid)
-          .update({'userName': _nameController.text}) // 'name'을 'userName'으로 변경
-          .then((_) {
+          .update({'userName': _nameController.text}); // 'name'을 'userName'으로 변경
         setState(() {
           userName = _nameController.text;
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('닉네임이 성공적으로 저장되었습니다.'),
         ));
-      }).catchError((error) {
+        // 닉네임 저장 후 데이터를 다시 불러옴
+        await _getUserData();
+      } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('닉네임 저장 중 오류가 발생했습니다: $error'),
         ));
-      });
+      }
     }
   }
 
   void _logout() async {
-  try {
-    await FirebaseAuth.instance.signOut(); // 로그아웃 처리
-    Navigator.pushReplacementNamed(context, '/login'); // 로그아웃 후 로그인 페이지로 이동
-  } catch (error) {
-    // 오류 처리
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('로그아웃 중 오류가 발생했습니다: $error'),
-    ));
+    try {
+      await FirebaseAuth.instance.signOut(); // 로그아웃 처리
+      Navigator.pushReplacementNamed(context, '/login'); // 로그아웃 후 로그인 페이지로 이동
+    } catch (error) {
+      // 오류 처리
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('로그아웃 중 오류가 발생했습니다: $error'),
+      ));
+    }
   }
-}
 
   Future<void> _deleteAccount() async {
     if (user != null) {
@@ -101,7 +103,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
         // Firestore에서 사용자 문서 삭제
         await FirebaseFirestore.instance
-            .collection('user')
+            .collection('user')  // 'users' 대신 'user'로 수정
             .doc(userId)
             .delete();
        
@@ -143,10 +145,35 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: screenHeight * 0.02),
-                ProfileUserName(screenWidth, userName),
+                StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance.collection('user').doc(user!.uid).snapshots(),  // 'users' 대신 'user'로 수정
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return Text('데이터를 불러올 수 없습니다.');
+                    }
+                    var userData = snapshot.data!.data() as Map<String, dynamic>;
+                    userName = userData['userName'] ?? 'Anonymous';
+                    _nameController.text = userName;
+                    return ProfileUserName(screenWidth, userName);
+                  },
+                ),
                 SizedBox(height: screenHeight * 0.02),
-                SizedBox(height: screenHeight * 0.02),
-                SavedRecipes(screenWidth, savedRecipes, _navigateToSavedRecipes),
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('user').doc(user!.uid).collection('favorites').snapshots(),  // 'users' 대신 'user'로 수정
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+                    if (!snapshot.hasData) {
+                      return Text('저장된 레시피가 없습니다.');
+                    }
+                    savedRecipes = snapshot.data!.docs.map((doc) => doc['title'] as String).toList();
+                    return SavedRecipes(screenWidth, savedRecipes, _navigateToSavedRecipes);
+                  },
+                ),
                 SizedBox(height: screenHeight * 0.02),
                 AccountSection(screenWidth, screenHeight, _saveUserName),
                 SizedBox(height: 16), // 간격 추가
