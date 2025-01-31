@@ -1,13 +1,12 @@
 import 'package:hotbap/data/dto/user_dto.dart';
-
 class User {
   final String userName;
   final String userId;
   final String seasonFilter;
   final String timeFilter;
   final List<String> ingredientFilter;
-
-  User({required this.userName, required this.userId});
+  //
+  User({required this.userName, required this.userId, required this.ingredientFilter, this.seasonFilter = "", this.timeFilter = ""});
 
   factory User.fromDto(UserDto dto) {
     return User(
