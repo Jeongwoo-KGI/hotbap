@@ -4,6 +4,9 @@ import 'package:hotbap/application/viewmodels/recipe_viewmodel.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
+  final Function(String) onSearchSubmitted;
+
+  SearchWidget({required this.onSearchSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +41,8 @@ class SearchWidget extends StatelessWidget {
               textAlignVertical: TextAlignVertical.center,
               onSubmitted: (query) {
                 if (query.isNotEmpty) {
-                  // 검색 기능 호출
                   Provider.of<RecipeViewModel>(context, listen: false).searchRecipes(query);
+                  onSearchSubmitted(query); // 입력된 검색어 전달
                 }
               },
             ),
@@ -49,4 +52,3 @@ class SearchWidget extends StatelessWidget {
     );
   }
 }
-
