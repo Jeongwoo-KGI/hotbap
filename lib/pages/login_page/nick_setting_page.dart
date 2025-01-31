@@ -30,7 +30,14 @@ class _NickSettingPageState extends State<NickSettingPage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              color: Colors.white, // 단색 배경
+            ),
+          ),
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

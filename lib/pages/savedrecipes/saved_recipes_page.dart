@@ -52,6 +52,15 @@ class SavedRecipesPage extends StatelessWidget {
                 nutritionInfo: favorite['nutritionInfo'],
                 imageUrl: favorite['imageUrl'],
                 ingredients: favorite['ingredients'],
+                material: favorite['material'],
+                category: favorite['category'],
+                calorie: favorite['calorie'],
+                carbohydrate: favorite['carbohydrate'],
+                protein: favorite['protein'],
+                fat: favorite['fat'],
+                sodium: favorite['sodium'],
+                manuals: favorite['manuals'],
+                lowSodiumTip: favorite['lowSodiumTip'],
               );
 
               return ListTile(

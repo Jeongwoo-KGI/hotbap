@@ -20,13 +20,12 @@ class MainPage extends StatelessWidget {
     //ToDo: get user data through impl later
     final user = FirebaseAuth.instance.currentUser;
     try {
-      final query = FirebaseFirestore.instance
-      .collection('user')
-      .doc(user!.uid);
+      final query =
+          FirebaseFirestore.instance.collection('user').doc(user!.uid);
     } catch (e) {
       throw Exception('failed to get user data. $e');
     }
-    final userName = ;
+    final userName = '';
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
@@ -85,7 +84,7 @@ Stream<UserDto?> fetchUser() {
     final collectionRef = firestore.collection('user');
     final query = collectionRef.doc(user.uid);
 
-    return query.snapshots().map((snapshot){
+    return query.snapshots().map((snapshot) {
       if (snapshot.exists) {
         return UserDto.fromMap(snapshot.data()!);
       }

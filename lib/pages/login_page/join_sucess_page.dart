@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/main/main_page.dart';
@@ -6,12 +7,15 @@ import 'package:hotbap/domain/usecase/save_user.dart';
 
 class JoinSuccessPage extends ConsumerWidget {
   final String nickname;
+  User? user;
 
   JoinSuccessPage({required this.nickname});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uid = ref.watch(authUidProvider); // UID 가져오기
+    user = FirebaseAuth.instance.currentUser;
+
+    final uid = user!.uid; // UID 가져오기
 
     // SaveUser를 가져오기
     final saveUserUseCase = ref.watch(loginViewModelProvider).saveUserUseCase;
@@ -30,7 +34,14 @@ class JoinSuccessPage extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.white, // 단색 배경
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
