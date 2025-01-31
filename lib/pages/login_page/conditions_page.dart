@@ -12,7 +12,14 @@ class ConditionsPage extends ConsumerWidget {
     final conditionsNotifier = ref.read(conditionsProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.white, // 단색 배경
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
