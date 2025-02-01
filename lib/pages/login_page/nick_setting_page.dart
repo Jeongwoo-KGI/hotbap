@@ -67,17 +67,23 @@ class _NickSettingPageState extends State<NickSettingPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 44,
+                  height: 8,
+                ),
+                SizedBox(
+                  height: 56,
                   child: Center(
                     child: TextFormField(
                       controller:
                           _viewModel.nicknameController, // ViewModel의 컨트롤러 사용
-                      textAlignVertical: TextAlignVertical.bottom, // 텍스트 높이
+                      textAlignVertical: TextAlignVertical.center, // 텍스트 높이
                       decoration: InputDecoration(
                         hintText: 'ex) 먹보의꿈',
                         hintStyle: const TextStyle(
-                          color: Color(0xFFCCCCCC),
-                          fontSize: 16,
+                          color: Color(0xFFB3B3B3),
+                          fontSize: 20,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w400,
+                          height: 1.35,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
@@ -98,10 +104,11 @@ class _NickSettingPageState extends State<NickSettingPage> {
                       ),
                       cursorColor: const Color(0xFFE33811),
                       style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
+                        color: Color(0xFF333333),
+                        fontSize: 20,
                         fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
+                        height: 1.50,
                       ),
                       inputFormatters:
                           _viewModel.nicknameInputFormatters, // 필터링 규칙 적용

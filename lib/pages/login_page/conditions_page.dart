@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/login_page/nick_setting_page.dart';
@@ -36,7 +37,7 @@ class ConditionsPage extends ConsumerWidget {
                   height: 1.35,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 23),
               Container(
                 height: 80,
                 width: double.infinity,
@@ -58,7 +59,7 @@ class ConditionsPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 44.5),
               // 모두 동의하기
               _buildCustomCheckboxTileAll(
                 value: conditionsState.isAllAgreed,
@@ -66,7 +67,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.toggleAllAgreements(value ?? false);
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 34),
               // (필수) 서비스 이용약관
               _buildCustomCheckboxTile(
                 label: '(필수) 서비스 이용약관',
@@ -77,7 +78,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.toggleServiceAgreement(value ?? false);
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 31),
               // (필수) 개인정보처리방침
               _buildCustomCheckboxTile(
                 label: '(필수) 개인정보 처리방침',
@@ -88,7 +89,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.togglePrivacyAgreement(value ?? false);
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 29.5),
               // (필수) 14세 이상 확인
               _buildCustomCheckboxTile(
                 label: '(필수) 14세 이상이에요',
@@ -114,7 +115,16 @@ class ConditionsPage extends ConsumerWidget {
                         );
                       }
                     : null,
-                child: const Text('다음'),
+                child: const Text(
+                  '다음',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w700,
+                    height: 1.35,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 56),
                   textStyle: const TextStyle(
@@ -122,8 +132,11 @@ class ConditionsPage extends ConsumerWidget {
                     fontWeight: FontWeight.w700,
                     height: 1.35,
                   ),
-                  backgroundColor: const Color(0xFFE33811),
-                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFFE33811), // 활성화 상태 배경색
+                  foregroundColor: Colors.white, // 활성화 상태 글씨 색
+                  disabledBackgroundColor:
+                      const Color(0xFFE6E6E6), // 비활성화 상태 배경색
+                  disabledForegroundColor: Colors.white, // 비활성화 상태 글씨 색
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -190,7 +203,7 @@ class ConditionsPage extends ConsumerWidget {
                 await launchUrlString(link);
               },
               child: Icon(
-                Icons.arrow_forward_ios,
+                CupertinoIcons.chevron_forward,
                 size: 17,
                 color: Colors.grey[400],
               ),
