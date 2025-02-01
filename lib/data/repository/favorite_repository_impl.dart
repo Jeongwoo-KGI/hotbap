@@ -20,6 +20,15 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       'nutritionInfo': recipe.nutritionInfo,
       'imageUrl': recipe.imageUrl,
       'ingredients': recipe.ingredients,
+      'material': recipe.material,
+      'category': recipe.category,
+      'calorie': recipe.calorie,
+      'carbohydrate': recipe.carbohydrate,
+      'protein': recipe.protein,
+      'fat': recipe.fat,
+      'sodium': recipe.sodium,
+      'manuals': recipe.manuals,
+      'lowSodiumTip': recipe.lowSodiumTip,
     });
   }
 

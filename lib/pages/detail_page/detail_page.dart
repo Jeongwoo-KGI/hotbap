@@ -67,18 +67,18 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         ),
         title: Row(
           children: [
-            const Spacer(),
-            Text(
-              widget.recipe.title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                height: 1.35,
+            Expanded(
+              child: Text(
+                widget.recipe.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  height: 1.35,
+                ),
               ),
             ),
-            const Spacer(),
             GestureDetector(
               onTap: () {
                 ref
@@ -88,6 +88,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 if (!isFavorite) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      behavior: SnackBarBehavior.floating, // 떠 있는 형태
                       content: Row(
                         children: [
                           Expanded(
@@ -227,8 +228,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 );
               },
               child: const Icon(Icons.arrow_upward),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Color(0xFFE33811),
+              foregroundColor: Colors.white,
               elevation: 4,
             )
           : null,
