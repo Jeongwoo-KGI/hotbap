@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
 
-class Button extends StatelessWidget{
-  //int height;
-  String content;
+class Button extends StatelessWidget {
+  final String content;
+  final double height; // 높이 속성 추가
+  final Function onPressed; // 버튼 액션 함수 추가
 
-  Button({required this.content});
-  
+  Button({required this.content, this.height = 50.0, required this.onPressed});
+
   @override
   Widget build(BuildContext context) {
-    //white button become red on tap
     return OutlinedButton(
-      onPressed: (){
-        //button action
+      onPressed: () {
+        onPressed();
       },
-      //button shape
       style: OutlinedButton.styleFrom(
-        side: BorderSide(width: 1, color: Color(0xFFE6E6E6), strokeAlign: BorderSide.strokeAlignOutside),
+        side: BorderSide(
+          width: 1,
+          color: Color(0xFFE6E6E6),
+          strokeAlign: BorderSide.strokeAlignOutside,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
         ),
+        backgroundColor: Colors.white, // 기본 버튼 색상
       ),
-      //button text
       child: Text(
-        "$content", 
+        content,
         style: TextStyle(
           fontSize: 14,
           fontFamily: 'Pretendard',
           fontWeight: FontWeight.w400,
-          height: 1.50, 
+          height: 1.50,
           color: Color(0xFF333333),
-        ),));
+        ),
+      ),
+    );
   }
 }

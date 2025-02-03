@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/pages/filter/widgets/button.dart';
 
-class TextfieldWithButton extends StatelessWidget{
-  String input;
-  List<String> content;
-  //controller
-
+class TextfieldWithButton extends StatelessWidget {
+  final String input; // final 추가
+  final List<String> content; // final 추가
+  final TextEditingController controller = TextEditingController(); // 컨트롤러 추가
 
   TextfieldWithButton({required this.input, required this.content});
 
@@ -16,7 +15,7 @@ class TextfieldWithButton extends StatelessWidget{
         SizedBox(
           width: 335,
           child: Text(
-            "$input",
+            input,
             style: TextStyle(
               color: Color(0xFF333333),
               fontSize: 20,
@@ -29,7 +28,13 @@ class TextfieldWithButton extends StatelessWidget{
         SizedBox(
           height: 16,
         ),
-        
+        TextField(
+          controller: controller, // 텍스트 필드에 컨트롤러 추가
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Input Text',
+          ),
+        ),
         SizedBox(
           height: 16,
         ),
@@ -41,12 +46,14 @@ class TextfieldWithButton extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //for loop widget
-              for (int i = 1; i<content.length; i++)
+              // for loop widget
+              for (int i = 0; i < content.length; i++) // 인덱스 0으로 수정
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: Button(content: content[i]),
-                )
+                  child: Button(content: content[i], onPressed: () {
+                    // 버튼 클릭 시 실행될 코드 추가
+                  }),
+                ),
             ],
           ),
         )
