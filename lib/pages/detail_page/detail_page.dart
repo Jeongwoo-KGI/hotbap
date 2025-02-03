@@ -88,65 +88,63 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             color: Colors.white, // 단색 배경
           ),
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Text(
-                widget.recipe.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontFamily: 'Pretendard',
-                  fontWeight: FontWeight.w700,
-                  height: 1.35,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                ref
-                    .read(favoriteProvider(RecipeUid(widget.recipe, uid))
-                        .notifier)
-                    .toggleFavorite();
-                if (!isFavorite) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Color(0xFF4C4C4C),
-                      behavior: SnackBarBehavior.fixed, // 떠 있는 형태
-                      content: Row(
-                        children: [
-                          Expanded(
-                              child: Text(
-                            '나의 찜에서 \n저장한 레시피를 확인하실 수 있습니다',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
-                              height: 1.35,
-                            ),
-                          )),
-                          Icon(
-                            CupertinoIcons.heart_fill,
-                            weight: 16,
-                            color: Color(0xFFF70F36),
+        title: Text(
+          widget.recipe.title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w700,
+            height: 1.35,
+          ),
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              ref
+                  .read(
+                      favoriteProvider(RecipeUid(widget.recipe, uid)).notifier)
+                  .toggleFavorite();
+              if (!isFavorite) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Color(0xFF4C4C4C).withOpacity(0.9),
+                    behavior: SnackBarBehavior.floating, // 떠 있는 형태
+                    content: Row(
+                      children: [
+                        Expanded(
+                            child: Text(
+                          '나의 찜에서 \n저장한 레시피를 확인하실 수 있습니다',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w500,
+                            height: 1.35,
                           ),
-                        ],
-                      ),
-                      duration: Duration(milliseconds: 2500), // 2.5초 후 사라짐
+                        )),
+                        Icon(
+                          CupertinoIcons.heart_fill,
+                          weight: 16,
+                          color: Color(0xFFF70F36),
+                        ),
+                      ],
                     ),
-                  );
-                }
-              },
+                    duration: Duration(milliseconds: 2500), // 2.5초 후 사라짐
+                  ),
+                );
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 14),
               child: Icon(
                 isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
                 color: isFavorite ? Colors.red : Colors.black,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
