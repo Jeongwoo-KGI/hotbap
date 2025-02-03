@@ -4,8 +4,9 @@ class TagBox extends StatefulWidget {
   final String text;
   final bool initiallySelected;
   final Function onRemove;
+  final bool isDefault;
 
-  TagBox({required this.text, this.initiallySelected = false, required this.onRemove});
+  TagBox({required this.text, this.initiallySelected = false, required this.onRemove, this.isDefault = false});
 
   @override
   _TagBoxState createState() => _TagBoxState();
@@ -33,7 +34,7 @@ class _TagBoxState extends State<TagBox> {
         decoration: BoxDecoration(
           color: isSelected ? Color(0xFFFCE3DD) : Colors.white,
           border: Border.all(
-            color: isSelected ? Color(0xFFE33811) : Color(0xFFE6E6E6),
+            color: Color(0xFFE6E6E6),
           ),
           borderRadius: BorderRadius.circular(26),
         ),
@@ -41,22 +42,27 @@ class _TagBoxState extends State<TagBox> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              widget.text,
+              widget.text ?? '',
               style: TextStyle(
                 color: isSelected ? Color(0xFFE33811) : Color(0xFF000000),
               ),
             ),
             if (isSelected)
-              IconButton(
-                icon: Icon(Icons.close, size: 16, color: Color(0xFFE33811)),
-                onPressed: () {
-                  setState(() {
-                    isSelected = false;
-                  });
-                  widget.onRemove();
-                },
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(),
+              Row(
+                children: [
+                  SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isSelected = false;
+                      });
+                      if (!widget.isDefault) {
+                        widget.onRemove();
+                      }
+                    },
+                    child: Icon(Icons.close, size: 16, color: Color(0xFFE33811)),
+                  ),
+                ],
               ),
           ],
         ),

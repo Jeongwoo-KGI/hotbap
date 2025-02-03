@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/domain/entity/user.dart';
@@ -11,27 +10,19 @@ class MainPageViewmodel extends StateNotifier<User?> {
 
   MainPageViewmodel({required this.ref}) : super(null) {_init();}
 
-  void _init() {
-    FirebaseAuth.FirebaseAuth.instance.authStateChanges().listen((FirebaseAuth.User? user){
-      if (user != null){
-        _loadUserData(user.uid);
-      } else {
-        _userSubscription?.cancel();
-        state = null;
-      }
+  void _init() async {
+    _userSubscription?.cancel();
+    _userSubscription = ref.read(fetchUserUsecaseProvider).execute().listen((user){
+    //print(user);
+    state = user;
     });
   }
 
   User? build() {
-    ref.read(fetchUserUsecaseProvider).execute().listen((user){
-      state = user;
-    });
+    // ref.read(fetchUserUsecaseProvider).execute().listen((user){
+    //   state = user;
+    // });
     return null;
-  }
-
-  Future<void> _loadUserData(String uid) async {
-    _userSubscription?.cancel();
-    _userSubscription = ref.read(fetchUserUsecaseProvider).execute().listen((user){state = user;});
   }
 
   Future<User?> returnUserName(String id) async {

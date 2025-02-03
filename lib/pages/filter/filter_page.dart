@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hotbap/pages/filter/widgets/just_buttons.dart';
-import 'package:hotbap/pages/filter/widgets/input_box.dart';
 import 'package:hotbap/pages/main/main_page.dart';
-import 'package:hotbap/pages/filter/widgets/tag_box.dart';
+import 'package:hotbap/pages/filter/widgets/filter_page_widget.dart';
 
 class FilterPage extends StatefulWidget {
   @override
@@ -95,10 +93,9 @@ class _FilterPageState extends State<FilterPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
                   children: [
-                    _buildSectionWithInput(
+                    buildSectionWithInput(
                       '카테고리',
                       categories,
                       categoryController,
@@ -108,7 +105,7 @@ class _FilterPageState extends State<FilterPage> {
                         });
                       },
                     ),
-                    _buildSectionWithInput(
+                    buildSectionWithInput(
                       '좋아하는 재료',
                       ingredients,
                       ingredientController,
@@ -118,8 +115,8 @@ class _FilterPageState extends State<FilterPage> {
                         });
                       },
                     ),
-                    _buildSectionWithoutInput('날씨', weather),
-                    _buildSectionWithoutInput('계절', seasons),
+                    buildSectionWithoutInput('날씨', weather),
+                    buildSectionWithoutInput('계절', seasons),
                   ],
                 ),
               ),
@@ -205,7 +202,7 @@ class _FilterPageState extends State<FilterPage> {
                         ),
                         child: Center(
                           child: Text(
-                            '검색결과 5건',
+                            '검색결과',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -226,78 +223,6 @@ class _FilterPageState extends State<FilterPage> {
         ),
       ),
       backgroundColor: Colors.white,
-    );
-  }
-
-  Widget _buildSectionWithInput(
-    String title,
-    List<String> options,
-    TextEditingController controller,
-    Function(String) onSubmitted,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        InputBox(
-          controller: controller,
-          label: title == '카테고리' ? '재료를 입력해주세요' : '재료를 입력해주세요', // 라벨 텍스트 설정
-          onSubmitted: (value) {
-            setState(() {
-              options.add(value);
-            });
-          },
-        ),
-        SizedBox(height: 10),
-        Wrap(
-          spacing: 10,
-          runSpacing: 9, // 줄 간격 추가
-          children: options.map((option) {
-            return TagBox(
-              text: option,
-              initiallySelected: !defaultCategories.contains(option) && !defaultIngredients.contains(option),
-              onRemove: () {
-                setState(() {
-                  options.remove(option);
-                });
-              },
-            );
-          }).toList(),
-        ),
-        SizedBox(height: 20),
-      ],
-    );
-  }
-
-  Widget _buildSectionWithoutInput(String title, List<String> options) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        Wrap(
-          spacing: 10,
-          runSpacing: 9, // 줄 간격 추가
-          children: options.map((option) {
-            return TagBox(
-              text: option,
-              onRemove: () {
-                setState(() {
-                  options.remove(option);
-                });
-              },
-            );
-          }).toList(),
-        ),
-        SizedBox(height: 20),
-      ],
     );
   }
 }
