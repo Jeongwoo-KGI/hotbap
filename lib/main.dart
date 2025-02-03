@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/firebase_options.dart';
-import 'package:hotbap/pages/splash_page/splash_page.dart';
 import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/search/search_page.dart';
@@ -38,9 +37,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hot Bap',
       theme: appTheme, // 테마 파일 적용
-      initialRoute: '/splash', // 초기 화면을 로그인 페이지로 설정
+      initialRoute: '/login', // 초기 화면을 로그인 페이지로 설정
       routes: {
-        '/splash': (context) => SplashPage(), // 로그인 페이지 추가
         '/login': (context) => LoginPage(), // 로그인 페이지 추가
         '/profile': (context) => ProfilePage(), // 프로필 페이지 추가
       },
