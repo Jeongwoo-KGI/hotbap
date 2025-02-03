@@ -213,6 +213,27 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 13),
+                SizedBox(
+                    child: Column(
+                  children: [
+                    Container(
+                      width: 121,
+                      height: 144,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(8),
+                        image: widget.recipe.imageUrl.isNotEmpty
+                            ? DecorationImage(
+                                image: NetworkImage(widget.recipe.imageUrl),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
+                      ),
+                    ),
+                    Text(widget.recipe.title),
+                    Text(widget.recipe.nutritionInfo),
+                  ],
+                ))
               ],
             ),
           ),
