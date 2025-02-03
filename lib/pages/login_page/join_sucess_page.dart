@@ -58,29 +58,30 @@ class JoinSuccessPage extends ConsumerWidget {
                   height: 1.35,
                 ),
               ),
-              Spacer(),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 164.3,
-                  height: 198,
-                  child: Image.asset(
-                    'assets/images/hotbap.png', // 이미지 경로
-                    fit: BoxFit.fill, // 이미지 크기 조정 옵션
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 164.3,
+                    height: 198,
+                    child: Image.asset(
+                      'assets/images/hotbap.png', // 이미지 경로
+                      fit: BoxFit.fill, // 이미지 크기 조정 옵션
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: 69,
               ),
-              Spacer(),
               ElevatedButton(
                 onPressed: () async {
                   await saveUserToFirestore();
 
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => MainPage()),
+                    (route) => false, // 모든 기존 스택 제거
                   );
                 },
                 child: Text('완료'),

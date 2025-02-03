@@ -67,18 +67,18 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         ),
         title: Row(
           children: [
-            const Spacer(),
-            Text(
-              widget.recipe.title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                height: 1.35,
+            Expanded(
+              child: Text(
+                widget.recipe.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  height: 1.35,
+                ),
               ),
             ),
-            const Spacer(),
             GestureDetector(
               onTap: () {
                 ref
@@ -88,6 +88,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 if (!isFavorite) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      behavior: SnackBarBehavior.floating, // 떠 있는 형태
                       content: Row(
                         children: [
                           Expanded(
@@ -130,31 +131,82 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                     borderRadius: BorderRadius.circular(24),
                   ),
                 ),
-                const SizedBox(height: 24),
-                Text(widget.recipe.title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.w700)),
+                SizedBox(
+                  height: 26,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: 69,
+                  height: 26,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFF05937),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(26),
+                    ),
+                  ),
+                  child: Text(
+                    widget.recipe.category,
+                    style: TextStyle(
+                      color: Color(0xFFFEF7F5),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w600,
+                      height: 1.83,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  widget.recipe.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF333333),
+                    fontSize: 24,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w700,
+                    height: 1.35,
+                  ),
+                ),
                 const SizedBox(height: 12),
-                Text(widget.recipe.lowSodiumTip,
+                SizedBox(
+                  width: 258,
+                  child: Text(
+                    widget.recipe.lowSodiumTip,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                    style: TextStyle(
+                      color: Color(0xFF999999),
+                      fontSize: 12,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w300,
+                      height: 1.50,
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 28),
-                const Divider(),
+                const Divider(
+                  thickness: 0.5,
+                  color: Color(0xFFE6E6E6),
+                ),
                 const SizedBox(height: 28),
                 buildNutritionRow(),
                 const SizedBox(height: 28),
-                const Divider(),
+                const Divider(
+                  thickness: 0.5,
+                  color: Color(0xFFE6E6E6),
+                ),
                 const SizedBox(height: 28),
                 const Text('재료',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 12),
                 Text(processedMaterial,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 14)),
                 const SizedBox(height: 28),
-                const Divider(),
+                const Divider(
+                  thickness: 0.5,
+                  color: Color(0xFFE6E6E6),
+                ),
                 manualListUi(),
                 const SizedBox(height: 44),
                 const Text('이런 레시피는 어때요?',
@@ -176,8 +228,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 );
               },
               child: const Icon(Icons.arrow_upward),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Color(0xFFE33811),
+              foregroundColor: Colors.white,
               elevation: 4,
             )
           : null,
@@ -235,18 +287,38 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         Container(
           height: 30,
           width: 60,
-          decoration: BoxDecoration(
-              color: const Color(0xFFFEF7F5),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8))),
+          decoration: ShapeDecoration(
+            color: Color(0xFFFEF7F5),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                strokeAlign: BorderSide.strokeAlignOutside,
+                color: Color(0xFFFCE3DD),
+              ),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(8), // 위쪽 모서리만 둥글게
+              ),
+            ),
+          ),
           alignment: Alignment.center,
           child: Text(title),
         ),
         Container(
           height: 30,
           width: 60,
-          decoration: BoxDecoration(
-              color: const Color(0xFFFEF7F5),
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(8))),
+          decoration: ShapeDecoration(
+            color: Color(0xFFFEF7F5),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                strokeAlign: BorderSide.strokeAlignOutside,
+                color: Color(0xFFFCE3DD),
+              ),
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(8), // 위쪽 모서리만 둥글게
+              ),
+            ),
+          ),
           alignment: Alignment.center,
           child: Text(weight),
         ),

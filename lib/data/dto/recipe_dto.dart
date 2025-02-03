@@ -37,10 +37,18 @@ class RecipeDTO {
     for (int i = 1; i <= 20; i++) {
       String key =
           'MANUAL${i.toString().padLeft(2, '0')}'; // "MANUAL01", "MANUAL02" ...
+
       if (json[key] != null && json[key].toString().isNotEmpty) {
-        manualList.add(json[key]);
+        String manualText = json[key].toString();
+        // 1~2번째 글자가 '. '이면 삭제
+        if (manualText.length >= 2 && manualText.substring(1, 3) == '. ') {
+          manualText = manualText.substring(2); // 0~2번째 글자 삭제
+        }
+
+        manualList.add(manualText);
       }
     }
+
     return RecipeDTO(
       title: json['RCP_NM'] ?? '제목 없음',
       nutritionInfo:
