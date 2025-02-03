@@ -93,7 +93,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
+            fontSize: 20,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w700,
             height: 1.35,
@@ -110,7 +110,12 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Color(0xFF4C4C4C).withOpacity(0.9),
-                    behavior: SnackBarBehavior.floating, // 떠 있는 형태
+                    behavior: SnackBarBehavior.fixed, // 떠 있는 형태
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8)),
+                    ),
                     content: Row(
                       children: [
                         Expanded(
@@ -137,7 +142,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               }
             },
             child: Padding(
-              padding: const EdgeInsets.only(right: 14),
+              padding: const EdgeInsets.only(right: 20),
               child: Icon(
                 isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
                 color: isFavorite ? Colors.red : Colors.black,
@@ -434,21 +439,22 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        nutritionLabelUi('열량', '${widget.recipe.calorie}', 'kcal'),
-        nutritionLabelUi('탄수화물', '${widget.recipe.carbohydrate}', 'g'),
-        nutritionLabelUi('단백질', '${widget.recipe.protein}', 'g'),
-        nutritionLabelUi('지방', '${widget.recipe.fat}', 'g'),
-        nutritionLabelUi('나트륨', '${widget.recipe.sodium}', 'g'),
+        nutritionLabelUi('열량', '${widget.recipe.calorie}', 'kcal', 65),
+        nutritionLabelUi('탄수화물', '${widget.recipe.carbohydrate}', 'g', 60),
+        nutritionLabelUi('단백질', '${widget.recipe.protein}', 'g', 60),
+        nutritionLabelUi('지방', '${widget.recipe.fat}', 'g', 60),
+        nutritionLabelUi('나트륨', '${widget.recipe.sodium}', 'g', 60),
       ],
     );
   }
 
-  Column nutritionLabelUi(String title, String weight, String unit) {
+  Column nutritionLabelUi(
+      String title, String weight, String unit, double width) {
     return Column(
       children: [
         Container(
           height: 30,
-          width: 60,
+          width: width,
           decoration: ShapeDecoration(
             color: Color(0xFFFEF7F5),
             shape: RoundedRectangleBorder(
@@ -477,7 +483,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         ),
         Container(
           height: 30,
-          width: 60,
+          width: width,
           decoration: ShapeDecoration(
             color: Color(0xFFFEF7F5),
             shape: RoundedRectangleBorder(

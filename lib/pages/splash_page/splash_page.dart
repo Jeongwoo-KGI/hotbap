@@ -64,6 +64,7 @@ class _SplashPageState extends State<SplashPage> {
                           fontSize: 14,
                           fontFamily: 'Pretendard',
                           height: 1.1,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
@@ -86,6 +87,7 @@ class _SplashPageState extends State<SplashPage> {
                           fontSize: 14,
                           fontFamily: 'Pretendard',
                           height: 1.1,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       TextSpan(
@@ -95,6 +97,7 @@ class _SplashPageState extends State<SplashPage> {
                           fontSize: 14,
                           fontFamily: 'Pretendard',
                           height: 1.1,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                       TextSpan(
@@ -104,6 +107,7 @@ class _SplashPageState extends State<SplashPage> {
                           fontSize: 14,
                           fontFamily: 'Pretendard',
                           height: 1.1,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
