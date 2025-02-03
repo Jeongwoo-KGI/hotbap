@@ -27,4 +27,10 @@ class RecipeViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  // 레시피 목록 초기화 메서드
+  void clearRecipes() {
+    _recipes.clear();
+    notifyListeners();
+  }
 }

@@ -9,20 +9,25 @@ import 'widgets/recipe_card.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/pages/detail_page/detail_page.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
+  @override
+  _SearchPageState createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  String userQuery = '';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => RecipeViewModel(
         repository: ApiRecipeRepository(
-          geminiApi:
-              GeminiApi(dotenv.env['GEMINI_API_KEY']!), // .env에서 API 키 로드
-          serviceKey: dotenv.env['FOOD_SAFETY_API_KEY']!, // .env에서 서비스 키 로드
+          geminiApi: GeminiApi(dotenv.env['GEMINI_API_KEY']!),
+          serviceKey: dotenv.env['FOOD_SAFETY_API_KEY']!,
         ),
       ),
       child: GestureDetector(
         onTap: () {
-          // 화면을 터치했을 때 키보드 닫기
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
@@ -33,16 +38,31 @@ class SearchPage extends StatelessWidget {
                 // 검색 바
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: SearchWidget(),
+                  child: Builder(
+                    builder: (context) {
+                      return SearchWidget(
+                        onSearchSubmitted: (query) {
+                          setState(() {
+                            userQuery = query;
+                          });
+                        },
+                        onCancelSearch: () {
+                          setState(() {
+                            userQuery = '';
+                          });
+                          Provider.of<RecipeViewModel>(context, listen: false).clearRecipes();
+                        },
+                      );
+                    },
+                  ),
                 ),
                 // 검색 결과 타이틀
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
-                      '검색결과',
+                      userQuery.isEmpty ? '' : "'$userQuery' 검색결과",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -53,7 +73,7 @@ class SearchPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                // 검색 결과
+                // 검색 결과 또는 기본 메시지
                 Expanded(
                   child: Consumer<RecipeViewModel>(
                     builder: (context, viewModel, child) {
@@ -61,20 +81,27 @@ class SearchPage extends StatelessWidget {
                         return Center(child: CircularProgressIndicator());
                       }
 
+                      // 검색 결과가 없고 첫 화면 또는 검색어 입력 상태일 때
                       if (viewModel.recipes.isEmpty) {
-                        return Center(
-                          child: Text(
-                            '검색 결과가 없습니다.',
-                            style: TextStyle(
-                              color: Color(0xFF7F7F7F),
-                              fontSize: 14,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
+                        return Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 252.0),
+                            child: Text(
+                              '검색 결과가 없습니다\n원하시는 레시피를 검색해주세요',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         );
                       }
 
+                      // 검색 결과가 있을 때
                       return ListView.builder(
                         itemCount: viewModel.recipes.length,
                         itemBuilder: (context, index) {
@@ -84,8 +111,7 @@ class SearchPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailPage(recipe: recipe),
+                                  builder: (context) => DetailPage(recipe: recipe),
                                 ),
                               );
                             },
@@ -99,8 +125,7 @@ class SearchPage extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar:
-              BottomNavBar(initialIndex: 1), // 초기 인덱스를 설정하여 네비게이션 바 추가
+          bottomNavigationBar: BottomNavBar(initialIndex: 1),
         ),
       ),
     );
