@@ -7,7 +7,7 @@ abstract interface class UserDataSource {
   Future<void> addLike(Recipe recipe);
   Future<void> addFilter(String content);
   Future<void> updateUserData(String name); //add contents if required
-  Future<String> returnUserName(String id); //FixMe: fix me to UserDto
+  Future<UserDto?> returnUserName(String id); //FixMe: fix me to UserDto
 
 
 }

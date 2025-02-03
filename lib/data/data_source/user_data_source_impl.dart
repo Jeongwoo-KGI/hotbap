@@ -45,7 +45,7 @@ class UserDataSourceImpl implements UserDataSource{
   }
 
   @override
-  Future<String> returnUserName(String id) async {
+  Future<UserDto?> returnUserName(String id) async {
     try {
       final firestore = await FirebaseFirestore.instance
         .collection('user')
@@ -66,7 +66,7 @@ class UserDataSourceImpl implements UserDataSource{
 
       if (user == null) {
         throw Exception('empty function usage');
-      };
+      }
 
       //update user data
       await firestore.collection('user').doc(user.uid).update({

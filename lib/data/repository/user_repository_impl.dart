@@ -38,7 +38,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<String> returnUserName(String id) async {
+  Future<User?> returnUserName(String id) async {
     try {
       final result = await _userDataSource.returnUserName(id);
       if (result != null) {
@@ -46,6 +46,8 @@ class UserRepositoryImpl implements UserRepository {
       } else {
         throw Exception('no user found with id: $id');
       }
+    } catch (e) {
+      throw Exception('failed to fetch user $e');
     }
   }
 
