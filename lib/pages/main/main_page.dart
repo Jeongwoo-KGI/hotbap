@@ -28,7 +28,9 @@ class MainPage extends ConsumerWidget {
     //final authState = ref.watch(authStateProvider);
     final user = FirebaseAuth.instance.currentUser!.uid;
     final userData = ref.watch(mainPageViewModel);
-    final userName = userData!.userName;
+    //final userName = userData!.userName;
+    final userName = " ";
+    
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
