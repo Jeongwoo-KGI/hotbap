@@ -47,20 +47,21 @@ class SavedRecipesPage extends StatelessWidget {
             itemCount: favorites.length,
             itemBuilder: (context, index) {
               final favorite = favorites[index];
+              final favoriteData = favorite.data() as Map<String, dynamic>;
               final recipe = Recipe(
-                title: favorite['title'],
-                nutritionInfo: favorite['nutritionInfo'],
-                imageUrl: favorite['imageUrl'],
-                ingredients: favorite['ingredients'],
-                material: favorite['material'],
-                category: favorite['category'],
-                calorie: favorite['calorie'],
-                carbohydrate: favorite['carbohydrate'],
-                protein: favorite['protein'],
-                fat: favorite['fat'],
-                sodium: favorite['sodium'],
-                manuals: favorite['manuals'],
-                lowSodiumTip: favorite['lowSodiumTip'],
+                title: favoriteData['title'],
+                nutritionInfo: favoriteData['nutritionInfo'],
+                imageUrl: favoriteData['imageUrl'],
+                ingredients: favoriteData['ingredients'],
+                material: favoriteData.containsKey('material') ? favoriteData['material'] : '기본 재료',
+                category: favoriteData.containsKey('category') ? favoriteData['category'] : '',
+                calorie: favoriteData.containsKey('calorie') ? favoriteData['calorie'] : '',
+                carbohydrate: favoriteData.containsKey('carbohydrate') ? favoriteData['carbohydrate'] : '',
+                protein: favoriteData.containsKey('protein') ? favoriteData['protein'] : '',
+                fat: favoriteData.containsKey('fat') ? favoriteData['fat'] : '',
+                sodium: favoriteData.containsKey('sodium') ? favoriteData['sodium'] : '',
+                manuals: favoriteData.containsKey('manuals') ? List<String>.from(favoriteData['manuals']) : [],
+                lowSodiumTip: favoriteData.containsKey('lowSodiumTip') ? favoriteData['lowSodiumTip'] : '',
               );
 
               return ListTile(
