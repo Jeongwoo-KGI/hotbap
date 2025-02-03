@@ -3,13 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
-import 'package:hotbap/domain/repository/user_repository.dart';
 import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
-import 'package:hotbap/pages/profile/widgets/profile_page_widget.dart';
-import 'package:hotbap/providers.dart';
 import 'package:hotbap/theme.dart';
 
 /**
@@ -27,6 +24,7 @@ class MainPage extends ConsumerWidget {
     //check the user authentication state
     //final authState = ref.watch(authStateProvider);
     final user = FirebaseAuth.instance.currentUser!.uid;
+    print(user);
     final userData = ref.watch(mainPageViewModel);
     //final userName = userData!.userName;
     final userName = " ";

@@ -14,6 +14,7 @@ class MainPageViewmodel extends StateNotifier<User?> {
   void _init() {
     FirebaseAuth.FirebaseAuth.instance.authStateChanges().listen((FirebaseAuth.User? user){
       if (user != null){
+        print(user.uid);
         _loadUserData(user.uid);
       } else {
         _userSubscription?.cancel();
