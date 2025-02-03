@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
+import 'package:hotbap/domain/repository/user_repository.dart';
+import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
+import 'package:hotbap/pages/profile/widgets/profile_page_widget.dart';
+import 'package:hotbap/providers.dart';
 import 'package:hotbap/theme.dart';
 
 /**
@@ -14,18 +19,16 @@ import 'package:hotbap/theme.dart';
  * and page view of the recipies that are customized and tailored for daily usage
  */
 
-class MainPage extends StatelessWidget {
+class MainPage extends ConsumerWidget {
+  const MainPage({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    //ToDo: get user data through impl later
-    final user = FirebaseAuth.instance.currentUser;
-    try {
-      final query =
-          FirebaseFirestore.instance.collection('user').doc(user!.uid);
-    } catch (e) {
-      throw Exception('failed to get user data. $e');
-    }
-    final userName = '';
+  Widget build(BuildContext context, WidgetRef ref) {
+    //check the user authentication state
+    //final authState = ref.watch(authStateProvider);
+    final user = FirebaseAuth.instance.currentUser!.uid;
+    final userData = ref.watch(mainPageViewModel);
+    final userName = userData!.userName;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),

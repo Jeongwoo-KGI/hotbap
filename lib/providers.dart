@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/data/data_source/user_data_source_impl.dart';
 import 'package:hotbap/data/data_source/user_remote_data_source.dart';
 import 'package:hotbap/data/repository/favorite_repository_impl.dart';
 import 'package:hotbap/data/repository/user_repository_impl.dart';
@@ -21,9 +22,10 @@ final authStateProvider = StreamProvider<User?>((ref) {
 final loginViewModelProvider = Provider<LoginViewModel>((ref) {
   final saveUserUseCase = SaveUser(
     userRepository: UserRepositoryImpl(
-      remoteDataSource: UserRemoteDataSourceImpl(
+      UserRemoteDataSourceImpl( //FixMe: Remote Vs Local, FixMe2: Dependency Injection
         firebaseFirestore: FirebaseFirestore.instance,
       ),
+      UserDataSourceImpl(),
     ),
   );
   return LoginViewModel(saveUserUseCase: saveUserUseCase, ref: ref);
