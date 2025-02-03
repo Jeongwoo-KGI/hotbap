@@ -53,8 +53,9 @@ class ConditionsPage extends ConsumerWidget {
                   '핫밥의 서비스 약관이에요.\n필수 약관을 동의하셔야 이용할 수 있어요.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF656565),
+                    color: Color(0xFF666666),
                     fontSize: 12,
+                    fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w500,
                     height: 1.50,
                   ),
@@ -68,7 +69,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.toggleAllAgreements(value ?? false);
                 },
               ),
-              const SizedBox(height: 34),
+              const SizedBox(height: 40),
               // (필수) 서비스 이용약관
               _buildCustomCheckboxTile(
                 label: '(필수) 서비스 이용약관',
@@ -136,7 +137,7 @@ class ConditionsPage extends ConsumerWidget {
                   backgroundColor: const Color(0xFFE33811), // 활성화 상태 배경색
                   foregroundColor: Colors.white, // 활성화 상태 글씨 색
                   disabledBackgroundColor:
-                      const Color(0xFFE6E6E6), // 비활성화 상태 배경색
+                      const Color(0xFFCCCCCC), // 비활성화 상태 배경색
                   disabledForegroundColor: Colors.white, // 비활성화 상태 글씨 색
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -170,7 +171,7 @@ class ConditionsPage extends ConsumerWidget {
               margin: const EdgeInsets.only(right: 12),
               child: value
                   ? const Icon(Icons.check, color: Color(0xFFE33811), size: 18)
-                  : Icon(Icons.check, color: Colors.grey[200], size: 18)),
+                  : Icon(Icons.check, color: Color(0xFFCCCCCC), size: 18)),
           Expanded(
             child: RichText(
               text: TextSpan(
@@ -179,6 +180,7 @@ class ConditionsPage extends ConsumerWidget {
                     const TextSpan(
                       text: '(필수) ',
                       style: TextStyle(
+                        fontFamily: 'Pretendard',
                         color: Color(0xFFF05937),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -188,6 +190,7 @@ class ConditionsPage extends ConsumerWidget {
                   TextSpan(
                     text: label.replaceFirst('(필수)', ''),
                     style: const TextStyle(
+                      fontFamily: 'Pretendard',
                       color: Color(0xFF333333),
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -206,7 +209,7 @@ class ConditionsPage extends ConsumerWidget {
               child: Icon(
                 CupertinoIcons.chevron_forward,
                 size: 17,
-                color: Colors.grey[400],
+                color: Color(0xFFCCCCCC),
               ),
             ),
         ],
@@ -229,7 +232,7 @@ class ConditionsPage extends ConsumerWidget {
               height: 24,
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
-                color: value ? const Color(0xFFE33811) : Colors.grey[200],
+                color: value ? const Color(0xFFE33811) : Color(0xFFCCCCCC),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Icon(Icons.check, color: Colors.white, size: 18)),

@@ -54,6 +54,7 @@ class JoinSuccessPage extends ConsumerWidget {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w700,
                   height: 1.35,
                 ),
@@ -88,8 +89,11 @@ class JoinSuccessPage extends ConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 56),
                   textStyle: TextStyle(
+                    color: Colors.white,
                     fontSize: 16,
+                    fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
+                    height: 1.35,
                   ),
                   backgroundColor: Color(0xFFE33811),
                   foregroundColor: Colors.white,
