@@ -23,11 +23,9 @@ class MainPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //check the user authentication state
     //final authState = ref.watch(authStateProvider);
-    final user = FirebaseAuth.instance.currentUser!.uid;
-    print(user);
     final userData = ref.watch(mainPageViewModel);
+    //print(userData);
     //final userName = userData!.userName;
-    final userName = " ";
     
     return Scaffold(
       appBar: PreferredSize(
@@ -44,7 +42,7 @@ class MainPage extends ConsumerWidget {
             LogoAndFilter(),
             Padding(
               padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
-              child: SayHi(userName: userName),
+              child: SayHi(userName: userData?.userName ?? "empty"),
             ),
             //Recipe Results
             //RecipeResult(),
