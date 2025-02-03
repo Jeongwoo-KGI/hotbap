@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/main/main_page.dart';
@@ -6,12 +7,15 @@ import 'package:hotbap/domain/usecase/save_user.dart';
 
 class JoinSuccessPage extends ConsumerWidget {
   final String nickname;
+  User? user;
 
   JoinSuccessPage({required this.nickname});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uid = ref.watch(authUidProvider); // UID 가져오기
+    user = FirebaseAuth.instance.currentUser;
+
+    final uid = user!.uid; // UID 가져오기
 
     // SaveUser를 가져오기
     final saveUserUseCase = ref.watch(loginViewModelProvider).saveUserUseCase;
@@ -30,7 +34,14 @@ class JoinSuccessPage extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.white, // 단색 배경
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -47,29 +58,30 @@ class JoinSuccessPage extends ConsumerWidget {
                   height: 1.35,
                 ),
               ),
-              Spacer(),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 164.3,
-                  height: 198,
-                  child: Image.asset(
-                    'assets/images/hotbap.png', // 이미지 경로
-                    fit: BoxFit.fill, // 이미지 크기 조정 옵션
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 164.3,
+                    height: 198,
+                    child: Image.asset(
+                      'assets/images/hotbap.png', // 이미지 경로
+                      fit: BoxFit.fill, // 이미지 크기 조정 옵션
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: 69,
               ),
-              Spacer(),
               ElevatedButton(
                 onPressed: () async {
                   await saveUserToFirestore();
 
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => MainPage()),
+                    (route) => false, // 모든 기존 스택 제거
                   );
                 },
                 child: Text('완료'),

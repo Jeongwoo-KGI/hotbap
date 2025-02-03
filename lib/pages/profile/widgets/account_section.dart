@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class AccountSection extends StatefulWidget {
   final double screenWidth;
   final double screenHeight;
+  final TextEditingController nameController;
   final VoidCallback saveUserName;
 
-  AccountSection(this.screenWidth, this.screenHeight, this.saveUserName);
-
+  AccountSection(this.screenWidth, this.screenHeight,
+      {required this.nameController, required this.saveUserName});
   @override
   _AccountSectionState createState() => _AccountSectionState();
 }
 
 class _AccountSectionState extends State<AccountSection> {
   bool isEditing = false;
-  final TextEditingController _nameController = TextEditingController();
 
   void toggleEditing() {
     setState(() {
@@ -28,7 +28,7 @@ class _AccountSectionState extends State<AccountSection> {
       children: [
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             '내 계정',
             style: TextStyle(
@@ -43,14 +43,14 @@ class _AccountSectionState extends State<AccountSection> {
         SizedBox(height: 20),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               isEditing
                   ? Expanded(
                       child: TextField(
-                        controller: _nameController,
+                        controller: widget.nameController,
                         decoration: InputDecoration(hintText: '닉네임 입력'),
                       ),
                     )

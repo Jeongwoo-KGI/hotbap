@@ -11,8 +11,20 @@ class SavedRecipesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // 페이지 배경 색상 설정
       appBar: AppBar(
-        title: Text('찜리스트'),
+        backgroundColor: Colors.white,
+        title: Text(
+          '나의 찜',
+          textAlign: TextAlign.center, // 텍스트 가운데 정렬
+          style: TextStyle(
+            color: Color(0xFF333333),
+            fontSize: 20,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w600,
+            height: 1.35,
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -35,11 +47,21 @@ class SavedRecipesPage extends StatelessWidget {
             itemCount: favorites.length,
             itemBuilder: (context, index) {
               final favorite = favorites[index];
+              final favoriteData = favorite.data() as Map<String, dynamic>;
               final recipe = Recipe(
-                title: favorite['title'],
-                nutritionInfo: favorite['nutritionInfo'],
-                imageUrl: favorite['imageUrl'],
-                ingredients: favorite['ingredients'],
+                title: favoriteData['title'],
+                nutritionInfo: favoriteData['nutritionInfo'],
+                imageUrl: favoriteData['imageUrl'],
+                ingredients: favoriteData['ingredients'],
+                material: favoriteData.containsKey('material') ? favoriteData['material'] : '기본 재료',
+                category: favoriteData.containsKey('category') ? favoriteData['category'] : '',
+                calorie: favoriteData.containsKey('calorie') ? favoriteData['calorie'] : '',
+                carbohydrate: favoriteData.containsKey('carbohydrate') ? favoriteData['carbohydrate'] : '',
+                protein: favoriteData.containsKey('protein') ? favoriteData['protein'] : '',
+                fat: favoriteData.containsKey('fat') ? favoriteData['fat'] : '',
+                sodium: favoriteData.containsKey('sodium') ? favoriteData['sodium'] : '',
+                manuals: favoriteData.containsKey('manuals') ? List<String>.from(favoriteData['manuals']) : [],
+                lowSodiumTip: favoriteData.containsKey('lowSodiumTip') ? favoriteData['lowSodiumTip'] : '',
               );
 
               return ListTile(

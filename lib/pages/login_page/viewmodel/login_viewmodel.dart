@@ -25,8 +25,6 @@ class LoginViewModel {
           // Firestore에서 사용자 UID 문서 확인
           final userDoc =
               await firestore.collection('user').doc(user.uid).get();
-          // Firestore에 해당 UID 문서가 없을 경우, 리버팟 상태로 UID 저장
-          ref.read(authUidProvider.notifier).setUid(user.uid); // 리버팟 상태 업데이트
         } catch (e) {
           print("Firestore 권한 오류 또는 기타 문제 발생: $e");
         }

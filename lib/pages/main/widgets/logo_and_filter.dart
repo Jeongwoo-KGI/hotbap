@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hotbap/pages/filter/filter_page.dart';
 
 class LogoAndFilter extends StatelessWidget{
 
@@ -21,7 +22,14 @@ class LogoAndFilter extends StatelessWidget{
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
-                onPressed: (){}, //FIXME: send to profile fix page
+                onPressed: (){
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => 
+                        FilterPage()
+                      ));
+                }, 
                 //아이콘 변경 
                 icon: const Icon(Icons.filter, color: Colors.white,),
               ),

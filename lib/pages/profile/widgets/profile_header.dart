@@ -16,10 +16,10 @@ class ProfileHeader extends StatelessWidget {
         '마이페이지',
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: Colors.black,
+          color: Color(0xFF333333),
           fontSize: screenWidth * 0.05,
           fontFamily: 'Pretendard',
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           height: 1.35,
         ),
       ),

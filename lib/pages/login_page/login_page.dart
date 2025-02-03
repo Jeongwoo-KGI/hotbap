@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/domain/entity/recipe.dart';
-import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
-import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -14,22 +11,20 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
 
-    // authStateProvider의 상태에 따라 위젯을 빌드
+    // Firebase 인증 상태에 따라 위젯을 빌드
     return authState.when(
       data: (user) {
         if (user != null) {
-          print('로그인페이지16 ${user.uid}');
+          // 사용자 인증된 경우
           return FutureBuilder(
-            // Firestore에서 사용자의 UID 존재 여부 확인
-            future: _checkUserInFirestore(user.uid),
+            future: _checkUserInFirestore(user.uid, ref),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                // Firestore 작업이 진행 중일 때 로딩 표시
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('오류 발생: ${snapshot.error}'));
               } else if (snapshot.data == true) {
-                // Firestore에 UID가 존재하면 메인 페이지로 이동
+                // Firestore에 UID가 존재하면 MainPage로 이동
                 return MainPage();
               } else {
                 // Firestore에 UID가 없으면 ConditionsPage로 이동
@@ -38,21 +33,21 @@ class LoginPage extends ConsumerWidget {
             },
           );
         } else {
-          // 로그인 화면
+          // 사용자 인증 안 된 경우 로그인 화면 표시
           return LoginWidget();
         }
       },
-      // 인증 상태 확인 중 로딩 표시
       loading: () => Center(child: CircularProgressIndicator()),
       error: (err, _) => Center(child: Text('오류 발생: $err')),
     );
   }
 
-  // Firestore에서 사용자의 UID가 존재하는지 확인하는 메서드
-  Future<bool> _checkUserInFirestore(String uid) async {
+  // Firestore에서 UID 존재 여부 확인
+  Future<bool> _checkUserInFirestore(String uid, WidgetRef ref) async {
     final firestore = FirebaseFirestore.instance;
     final userDoc = await firestore.collection('user').doc(uid).get();
-    return userDoc.exists; // Firestore에 UID가 존재 여부 반환
+
+    return userDoc.exists;
   }
 }
 
@@ -64,6 +59,7 @@ class LoginWidget extends ConsumerWidget {
     final PageController _controller = PageController();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -97,13 +93,15 @@ class LoginWidget extends ConsumerWidget {
             ),
 
             // 하단 로그인 영역
-            Expanded(
-              flex: 4,
+            Container(
+              height: 271,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 85,
+                    ),
                     Text(
                       '3초 만에 빠른 로그인',
                       textAlign: TextAlign.center,
