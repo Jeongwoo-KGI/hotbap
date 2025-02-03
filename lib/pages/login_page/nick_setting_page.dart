@@ -141,8 +141,19 @@ class _NickSettingPageState extends State<NickSettingPage> {
                               });
                             }
                           : null, // 버튼 비활성화
-                      child: const Text('다음'),
+                      child: const Text(
+                        '다음',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w700,
+                          height: 1.35,
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
+                        disabledBackgroundColor:
+                            const Color(0xFFCCCCCC), // 비활성화 상태 배경색
                         minimumSize: const Size(double.infinity, 56),
                         textStyle: const TextStyle(
                           fontSize: 16,
