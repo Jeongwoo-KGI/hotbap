@@ -52,18 +52,26 @@ class RecipeDTO {
     return RecipeDTO(
       title: json['RCP_NM'] ?? '제목 없음',
       nutritionInfo:
-          '탄${json['INFO_CAR'] ?? 0}g 단${json['INFO_PRO'] ?? 0}g 지${json['INFO_FAT'] ?? 0}g',
+          '탄${(double.tryParse(json['INFO_CAR']?.toString() ?? '0') ?? 0).toStringAsFixed(0)}g '
+          '단${(double.tryParse(json['INFO_PRO']?.toString() ?? '0') ?? 0).toStringAsFixed(0)}g '
+          '지${(double.tryParse(json['INFO_FAT']?.toString() ?? '0') ?? 0).toStringAsFixed(0)}g',
+      calorie: (double.tryParse(json['INFO_ENG']?.toString() ?? '0') ?? 0)
+          .toStringAsFixed(0),
+      carbohydrate: (double.tryParse(json['INFO_CAR']?.toString() ?? '0') ?? 0)
+          .toStringAsFixed(0),
+      protein: (double.tryParse(json['INFO_PRO']?.toString() ?? '0') ?? 0)
+          .toStringAsFixed(0),
+      fat: (double.tryParse(json['INFO_FAT']?.toString() ?? '0') ?? 0)
+          .toStringAsFixed(0),
+      sodium: (double.tryParse(json['INFO_NA']?.toString() ?? '0') ?? 0)
+          .toStringAsFixed(0),
       imageUrl: json['ATT_FILE_NO_MAIN'] ?? '',
       ingredients: json['RCP_PARTS_DTLS'] ?? '정보 없음',
       material: json['RCP_PARTS_DTLS'] ?? '',
       category: json['RCP_PAT2'] ?? '',
-      calorie: json['INFO_ENG'] ?? '',
-      carbohydrate: json['INFO_CAR'] ?? '',
-      protein: json['INFO_PRO'] ?? '',
-      fat: json['INFO_FAT'] ?? '',
-      sodium: json['INFO_NA'] ?? '',
       manuals: manualList,
-      lowSodiumTip: json['RCP_NA_TIP'] ?? '',
+      lowSodiumTip:
+          (json['RCP_NA_TIP'] ?? '').replaceAll('\n', ' '), // '\n'을 ' '로 변환
     );
   }
 

@@ -42,7 +42,7 @@ class ApiRecipeRepository implements RecipeRepository {
 
   //디테일페이지에서 사용
   Future<List<Recipe>> getRecommendationRecipeDetailPage() async {
-    int num = Random().nextInt(10) + 1;
+    int num = Random().nextInt(1000) + 1;
     final url =
         Uri.parse('$_baseUrl/$_serviceKey/COOKRCP01/json/$num/${num + 5}');
     final response = await http.get(url);

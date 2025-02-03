@@ -33,6 +33,7 @@ class ConditionsPage extends ConsumerWidget {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w700,
                   height: 1.35,
                 ),
