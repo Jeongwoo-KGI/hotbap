@@ -16,18 +16,62 @@ import 'package:hotbap/theme.dart';
  * and page view of the recipies that are customized and tailored for daily usage
  */
 
-class MainPage extends ConsumerWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+
+  String userName = 'empty'; //initial value
+  List<String> savedRecipes = [];
+  User? user;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception('not logged in');
+    } else {
+      await Future.wait([_getSavedRecipes()]);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _getSavedRecipes() async {
+    QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
+    .collection('user')
+    .doc(user!.uid)
+    .collection('favorites')
+    .get();
+    setState(() {
+      savedRecipes = recipesSnapshot.docs.map(
+        (doc) => doc['title'] as String
+      ).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     //check the user authentication state
     //final authState = ref.watch(authStateProvider);
-    final userData = ref.watch(mainPageViewModel);
+    //final userData = ref.watch(mainPageViewModel);
     //print(userData);
-    //final userName = userData!.userName;
+    //final userName = userData!.user;
     
-    return Scaffold(
+    return isLoading 
+    ? Center(child: CircularProgressIndicator())
+    : Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(
@@ -42,7 +86,23 @@ class MainPage extends ConsumerWidget {
             LogoAndFilter(),
             Padding(
               padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
-              child: SayHi(userName: userData?.userName ?? "empty"),
+              child: StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                .collection('user')
+                .doc(user!.uid)
+                .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (!snapshot.hasData || !snapshot.data!.exists) {
+                    throw Exception('no data');
+                  }
+                  var userData = snapshot.data!.data() as Map<String, dynamic>;
+                  userName = userData['userName'] ?? "Empty";
+                  return SayHi(userName: userName);
+                }
+              ),
             ),
             //Recipe Results
             //RecipeResult(),
