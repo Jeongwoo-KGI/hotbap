@@ -37,12 +37,22 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: SearchWidget(
-                    onSearchSubmitted: (query) {
-                      setState(() {
-                        userQuery = query;
-                      });
-                    },
+                  child: Builder(
+                    builder: (context) {
+                      return SearchWidget(
+                        onSearchSubmitted: (query) {
+                          setState(() {
+                            userQuery = query;
+                          });
+                        },
+                        onCancelSearch: () {
+                          setState(() {
+                            userQuery = '';
+                          });
+                          Provider.of<RecipeViewModel>(context, listen: false).clearRecipes(); // 레시피 초기화
+                        },
+                      );
+                    }
                   ),
                 ),
                 Padding(
@@ -50,12 +60,12 @@ class _SearchPageState extends State<SearchPage> {
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
-                      "'$userQuery' 검색결과",
+                      userQuery.isEmpty ? '' : "'$userQuery' 검색결과",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
                         fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         height: 1.50,
                       ),
                     ),
@@ -63,16 +73,18 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 Expanded(
                   child: Consumer<RecipeViewModel>(
-                    builder: (context, viewModel, child) {
+
+                    builder: (context, viewModel, child) { 
+                      print(viewModel.recipes.length);
                       if (viewModel.isLoading) {
                         return Center(child: CircularProgressIndicator());
                       }
 
-                      if (viewModel.recipes.isEmpty) {
+                      if (viewModel.recipes.isEmpty && userQuery.isNotEmpty) {
                         return Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 146.0),
+                            padding: const EdgeInsets.only(top: 252.0),
                             child: Text(
                               '검색 결과가 없습니다\n다시 입력해주세요',
                               textAlign: TextAlign.center,
@@ -80,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),

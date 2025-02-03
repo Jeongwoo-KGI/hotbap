@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:provider/provider.dart';
+import 'package:hotbap/application/viewmodels/recipe_viewmodel.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -79,4 +81,8 @@ class RecipeCard extends StatelessWidget {
       ),
     );
   }
+}
+
+void clearRecipes(BuildContext context) {
+  Provider.of<RecipeViewModel>(context, listen: false).clearRecipes();
 }
