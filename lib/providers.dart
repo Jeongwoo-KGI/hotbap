@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/data/data_source/api_recipe_repository.dart';
-import 'package:hotbap/data/data_source/gemini_api.dart';
 import 'package:hotbap/data/data_source/user_remote_data_source.dart';
 import 'package:hotbap/data/repository/favorite_repository_impl.dart';
 import 'package:hotbap/data/repository/user_repository_impl.dart';
