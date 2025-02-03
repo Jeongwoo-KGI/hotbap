@@ -77,18 +77,16 @@ class _SearchWidgetState extends State<SearchWidget> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _controller.clear();
-                        _showClearButton = false;
-                        _isSearchComplete = false;
+                        _controller.clear(); // 텍스트만 지우기
+                        _showClearButton = false; // 텍스트가 없어지면 지우기 버튼 숨김
                       });
-                      widget.onCancelSearch();
                     },
                     child: Container(
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/icons/clear_icon.png'), 
+                          image: AssetImage('assets/icons/clear_icon.png'), // 경로 수정 필요
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -107,8 +105,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                   _showClearButton = false;
                   _isSearchComplete = false;
                 });
-                widget.onCancelSearch();
-                FocusScope.of(context).unfocus();
+                widget.onCancelSearch(); // 검색 결과 초기화
+                FocusScope.of(context).unfocus(); // 키보드 닫기
               },
               child: Text(
                 '취소',

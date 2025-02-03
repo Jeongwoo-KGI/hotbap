@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login', // 초기 화면을 로그인 페이지로 설정
       routes: {
         '/splash': (context) => SearchPage(), // 로그인 페이지 추가
-        '/login': (context) => LoginPage(), // 로그인 페이지 추가
+        '/login': (context) => SearchPage(), // 로그인 페이지 추가
         '/profile': (context) => ProfilePage(), // 프로필 페이지 추가
       },
     );

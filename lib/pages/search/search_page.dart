@@ -35,6 +35,7 @@ class _SearchPageState extends State<SearchPage> {
           body: SafeArea(
             child: Column(
               children: [
+                // 검색 바
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Builder(
@@ -49,12 +50,13 @@ class _SearchPageState extends State<SearchPage> {
                           setState(() {
                             userQuery = '';
                           });
-                          Provider.of<RecipeViewModel>(context, listen: false).clearRecipes(); // 레시피 초기화
+                          Provider.of<RecipeViewModel>(context, listen: false).clearRecipes();
                         },
                       );
-                    }
+                    },
                   ),
                 ),
+                // 검색 결과 타이틀
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: SizedBox(
@@ -71,34 +73,35 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
+                // 검색 결과 또는 기본 메시지
                 Expanded(
                   child: Consumer<RecipeViewModel>(
-
-                    builder: (context, viewModel, child) { 
-                      print(viewModel.recipes.length);
+                    builder: (context, viewModel, child) {
                       if (viewModel.isLoading) {
                         return Center(child: CircularProgressIndicator());
                       }
 
-                      if (viewModel.recipes.isEmpty && userQuery.isNotEmpty) {
+                      // 검색 결과가 없고 첫 화면 또는 검색어 입력 상태일 때
+                      if (viewModel.recipes.isEmpty) {
                         return Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 252.0),
                             child: Text(
-                              '검색 결과가 없습니다\n다시 입력해주세요',
+                              '검색 결과가 없습니다\n원하시는 레시피를 검색해주세요',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         );
                       }
 
+                      // 검색 결과가 있을 때
                       return ListView.builder(
                         itemCount: viewModel.recipes.length,
                         itemBuilder: (context, index) {
