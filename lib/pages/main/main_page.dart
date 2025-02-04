@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
 import 'package:hotbap/pages/main/main_page_viewmodel.dart';
+import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/recipe_result.dart';
@@ -123,6 +124,9 @@ class _MainPageState extends State<MainPage> {
                 //Recipe My Favorites
                 MyFavorites(),
                 //Recipe Curated1
+
+                //Recipe Jechul
+                JechulFoodRec(),
               ],
             );
           }

@@ -59,7 +59,7 @@ class _JechulFoodRecState extends State<JechulFoodRec> {
             scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,
             itemBuilder: (context, index){
-              final recipe = resultRecipes[index].data() as Map<String, dynamic>;
+              final recipe = resultRecipes[index] as Map<String, dynamic>;
               final input = Recipe.fromMap(recipe);
               return GestureDetector(
                 child: individualSmallRecipe(input),
