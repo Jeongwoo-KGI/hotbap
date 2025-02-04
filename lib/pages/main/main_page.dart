@@ -3,13 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
-import 'package:hotbap/domain/repository/user_repository.dart';
 import 'package:hotbap/pages/main/main_page_viewmodel.dart';
+import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
+import 'package:hotbap/pages/main/widgets/recipe_result.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
-import 'package:hotbap/pages/profile/widgets/profile_page_widget.dart';
-import 'package:hotbap/providers.dart';
 import 'package:hotbap/theme.dart';
 
 /**
@@ -19,19 +18,62 @@ import 'package:hotbap/theme.dart';
  * and page view of the recipies that are customized and tailored for daily usage
  */
 
-class MainPage extends ConsumerWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+
+  String userName = 'empty'; //initial value
+  List<String> savedRecipes = [];
+  User? user;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception('not logged in');
+    } else {
+      await Future.wait([_getSavedRecipes()]);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _getSavedRecipes() async {
+    QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
+    .collection('user')
+    .doc(user!.uid)
+    .collection('favorites')
+    .get();
+    setState(() {
+      savedRecipes = recipesSnapshot.docs.map(
+        (doc) => doc['title'] as String
+      ).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     //check the user authentication state
     //final authState = ref.watch(authStateProvider);
-    final user = FirebaseAuth.instance.currentUser!.uid;
-    final userData = ref.watch(mainPageViewModel);
-    //final userName = userData!.userName;
-    final userName = " ";
+    //final userData = ref.watch(mainPageViewModel);
+    //print(userData);
+    //final userName = userData!.user;
     
-    return Scaffold(
+    return isLoading 
+    ? Center(child: CircularProgressIndicator())
+    : Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(
@@ -39,36 +81,55 @@ class MainPage extends ConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //logo and filter button
-            LogoAndFilter(),
-            Padding(
-              padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
-              child: SayHi(userName: userName),
-            ),
-            //Recipe Results
-            //RecipeResult(),
-            Padding(
-              padding: EdgeInsets.only(left: 19),
-              child: Container(
-                height: 448,
-                width: 339,
-                decoration: ShapeDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage("https://picsum.photos/200/300"),
-                      fit: BoxFit.fill,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    )),
-              ),
-            ),
-            //Recipe My Favorites
-            MyFavorites(),
-            //Recipe Curated1
-          ],
+        child:StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+          .collection('user')
+          .doc(user!.uid)
+          .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              throw Exception('no data');
+            }
+            var userData = snapshot.data!.data() as Map<String, dynamic>;
+            userName = userData['userName'] ?? "Empty";
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //logo and filter button
+                LogoAndFilter(),
+                Padding(
+                  padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
+                  child: SayHi(userName: userName)
+                ),
+                //Recipe Results
+                //RecipeResult(),
+                Padding(
+                  padding: EdgeInsets.only(left: 19),
+                  child: Container(
+                    height: 448,
+                    width: 339,
+                    decoration: ShapeDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage("https://picsum.photos/200/300"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        )),
+                  ),
+                ),
+                //Recipe My Favorites
+                MyFavorites(),
+                //Recipe Curated1
+
+                //Recipe Jechul
+                JechulFoodRec(),
+              ],
+            );
+          }
         ),
       ),
       bottomNavigationBar:

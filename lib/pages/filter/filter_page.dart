@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/filter/widgets/filter_page_widget.dart';
+import 'package:hotbap/pages/filter_detail_result_page/filter_detail_results_page.dart';
 
 class FilterPage extends StatefulWidget {
   @override
@@ -56,6 +57,15 @@ class _FilterPageState extends State<FilterPage> {
     categoryController.dispose();
     ingredientController.dispose();
     super.dispose();
+  }
+
+  void goToDetailResultsPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FilterDetailResultsPage(selectedTags: []), // 빈 selectedTags 전달
+      ),
+    );
   }
 
   @override
@@ -173,25 +183,7 @@ class _FilterPageState extends State<FilterPage> {
                   SizedBox(width: 16),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("검색 결과"),
-                              content: Text("검색 결과가 여기 표시됩니다."),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('닫기'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                      onTap: goToDetailResultsPage, // 검색 버튼 클릭 시 페이지 이동 함수 호출
                       child: Container(
                         height: 56,
                         decoration: ShapeDecoration(
@@ -202,7 +194,7 @@ class _FilterPageState extends State<FilterPage> {
                         ),
                         child: Center(
                           child: Text(
-                            '검색결과',
+                            '검색결과 5건',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

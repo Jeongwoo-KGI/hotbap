@@ -21,6 +21,7 @@ class UserDataSourceImpl implements UserDataSource{
 
       return query.snapshots().map((snapshot) {
         if (snapshot.exists) {
+          print(snapshot.data());
           return UserDto.fromMap(snapshot.data()!);
         }
         return null;

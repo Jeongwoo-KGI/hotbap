@@ -1,14 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/firebase_options.dart';
+import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
-import 'package:hotbap/pages/search/search_page.dart';
-import 'package:hotbap/pages/main/main_page.dart';
-import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
 
 void main() async {
