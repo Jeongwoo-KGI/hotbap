@@ -74,6 +74,8 @@ flutter:
     - .env
     - assets/images/
     - assets/icons/clear_icon.png
+    - assets/icons/search_icon_white.png
+    - assets/icons/search_icon_grey.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
