@@ -58,9 +58,10 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
     List<String> currentallJechul = jechul[monthName]!;
     final random = new Random();
     //get current jechul ingredients up to 4
-    for (int i = 0; i<4; i++){
-      currentJechul.add(currentallJechul[random.nextInt((currentallJechul.length))]);
-    }
+    // for (int i = 0; i<4; i++){
+    //   currentJechul.add(currentallJechul[random.nextInt((currentallJechul.length))]);
+    // }
+    currentJechul = currentallJechul;
     //query 4 ingredients of jechul and get results
     final repository = ref.read(recipeRepositoryProvider);
     List<Recipe> recipes = [];
@@ -96,7 +97,9 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
           Container(
             height: 170,
             child: Text(
-              "제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
+              //if currentJechul != currentallJechul
+              //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
+              "제철재료 음식 없음: 이달의 제철 재료 ${currentJechul[Random().nextInt((currentJechul.length))]}",
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'Pretendard',
