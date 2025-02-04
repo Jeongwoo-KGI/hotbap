@@ -56,7 +56,7 @@ class Recipe {
     nutritionInfo: map['nutritionInfo'],
     imageUrl: map['imageUrl'],
     ingredients: map['ingredients'],
-    material: map.['material'],
+    material: map['material'],
     category: map['category'],
     calorie: map['calorie'],
     carbohydrate: map['carbohydrate'],
