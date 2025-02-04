@@ -7,6 +7,7 @@ Widget individualBigRecipe (Recipe recipe){
   String protein = recipe.protein;
   String input = recipe.title;
   String imageURL = recipe.imageUrl;
+  String explanationText = recipe.manuals[0];
   return Row(
     children: [
       SizedBox(width: 10),
@@ -22,13 +23,14 @@ Widget individualBigRecipe (Recipe recipe){
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //image
             Container(
-              width: 121,
-              height: 118,
+              width: 223,
+              height: 136,
+              clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: NetworkImage("$imageURL"),
@@ -37,11 +39,49 @@ Widget individualBigRecipe (Recipe recipe){
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
             ),
-            SizedBox(height: 6,),
+            SizedBox(height: 12,),
             //name
-            Text("$input", style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w600, color: Color(0xFF333333)),),
-            //ratio
-            Text("탄 ${carbs}g 단 ${protein}g 지 ${fat}g", style: TextStyle(fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, height: 1.50, color: Color(0xFF7F7F7F)),),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                "$input", 
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontFamily: 'Pretendard', 
+                  fontWeight: FontWeight.w600, 
+                  color: Color(0xFF333333),
+                ),
+              ),
+            ),
+            SizedBox(height: 5,),
+            //Nutrition ratio
+            Text(
+              "탄 ${carbs}g 단 ${protein}g 지 ${fat}g", 
+              style: TextStyle(
+                fontSize: 14, 
+                fontFamily: 'Pretendard', 
+                fontWeight: FontWeight.w400, 
+                height: 1.50, 
+                color: Color(0xFF999999),
+              ),
+            ),
+            SizedBox(height: 5,),
+            //Explanation
+            SizedBox(
+              width: 219,
+              child: Text(
+                "$explanationText",
+                style: TextStyle(
+                  color: Color(0xFFB39393),
+                  fontSize: 12,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 1.50,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            )
           ],
         ),
       ),
