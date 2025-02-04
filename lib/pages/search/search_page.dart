@@ -37,7 +37,7 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 // 검색 바
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Builder(
                     builder: (context) {
                       return SearchWidget(
@@ -58,7 +58,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 // 검색 결과 타이틀
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
@@ -86,7 +86,7 @@ class _SearchPageState extends State<SearchPage> {
                         return Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 252.0),
+                            padding: const EdgeInsets.only(top: 120.0),
                             child: Text(
                               '검색 결과가 없습니다\n원하시는 레시피를 검색해주세요',
                               textAlign: TextAlign.center,
@@ -94,7 +94,7 @@ class _SearchPageState extends State<SearchPage> {
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
