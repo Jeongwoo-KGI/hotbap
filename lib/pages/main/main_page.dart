@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
-import 'package:hotbap/pages/main/main_page_viewmodel.dart';
+//import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
+import 'package:hotbap/pages/main/widgets/mood_n_vibe.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/recipe_result.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
@@ -74,6 +75,7 @@ class _MainPageState extends State<MainPage> {
     return isLoading 
     ? Center(child: CircularProgressIndicator())
     : Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(
@@ -123,10 +125,11 @@ class _MainPageState extends State<MainPage> {
                 ),
                 //Recipe My Favorites
                 MyFavorites(),
-                //Recipe Curated1
-
+                //FixMe: 큐레이션과 제철음식 데이터 받아오는 중에 쿼리가 동시간에 여러개 들어가니 충돌 오륲
+                //Recipe Curated1: mood n vibe
+                MoodNVibe(),
                 //Recipe Jechul
-                JechulFoodRec(),
+                //JechulFoodRec(),
               ],
             );
           }
