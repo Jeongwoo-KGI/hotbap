@@ -21,7 +21,7 @@ Widget individualSmallRecipe (Recipe recipe){
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: NetworkImage("$imageURL"),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),

@@ -49,6 +49,7 @@ class _MyFavoritesState extends State<MyFavorites> {
             ),
             Container(
               height: 170,
+              padding: EdgeInsets.only(left: 20),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: recipeData.length,
