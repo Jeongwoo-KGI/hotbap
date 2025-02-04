@@ -26,7 +26,7 @@ Widget buildSectionWithInput(
       SizedBox(height: 10),
       Wrap(
         spacing: 10,
-        runSpacing: 9,
+        runSpacing: 9, // 줄 간격 추가
         children: options.map((option) {
           return TagBox(
             text: option,
@@ -53,7 +53,7 @@ Widget buildSectionWithoutInput(String title, List<String> options) {
       SizedBox(height: 10),
       Wrap(
         spacing: 10,
-        runSpacing: 9,
+        runSpacing: 9, // 줄 간격 추가
         children: options.map((option) {
           return TagBox(
             text: option,
