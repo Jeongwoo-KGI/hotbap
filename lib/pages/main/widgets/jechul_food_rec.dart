@@ -45,7 +45,7 @@ final recipeRepositoryProvider = Provider<ApiRecipeRepository> ((ref){
 
 class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
   String monthName = DateFormat("MMM").format(DateTime.now());
-  List<String> currentJechul = [];
+  String currentJechul = "";
   List<Recipe> resultRecipes = [];
   bool _isLoading = true;
 
@@ -62,13 +62,11 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
     // for (int i = 0; i<4; i++){
     //   currentJechul.add(currentallJechul[random.nextInt((currentallJechul.length))]);
     // }
-    currentJechul = currentallJechul;
+    currentJechul = currentallJechul.toString().replaceAll(" ","").replaceAll("[","").replaceAll("]", "");
     //query 4 ingredients of jechul and get results
     final repository = ref.read(recipeRepositoryProvider);
     List<Recipe> recipes = [];
-    for(int i = 0;i<currentJechul.length;i++){
-      recipes += await repository.getJechulRecipeWithoutGemini(currentJechul[i]);
-    }
+    recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
     setState(() {
       resultRecipes = recipes;
       _isLoading = false;

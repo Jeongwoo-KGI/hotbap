@@ -57,40 +57,34 @@ class _MainPageState extends ConsumerState<MainPage> {
 
   Future<void> dataRecipeGetAll() async {
     //for mood and vibe
-    List<String> query = ["파스타", "스테이크", "와인", "연인"];
-    List<String> substituteQuery = ['고기', '조기', '파인애플', '잡채'];
+    String query = "파스타,스테이크,와인,연인";
+    String substituteQuery = '고기,조기,파인애플,잡채';
     List<Recipe> recipes = [];
     //for AI rec
-    List<String> queryAI = ["${DateTime.now().day}", "${DateTime.now().hour}","${DateTime.now().month}","기분", "건강"];
-    List<String> substituteQueryAI = ['상추'];
+    String queryAI = "${DateTime.now().day},${DateTime.now().hour},${DateTime.now().month},기분,건강";
+    String substituteQueryAI = '상추';
     List<Recipe> recipesAI = [];
     //AI rec
     if (DateTime.now().hour<11) {
-      queryAI.add("아침");
+      queryAI += ",아침";
     } else if (DateTime.now().hour < 15) {
-      queryAI.add("점심");
+      queryAI += ",점심";
     } else if (DateTime.now().hour < 20) {
-      queryAI.add("저녁");
+      queryAI +=",저녁";
     } else {
-      queryAI.add("간식");
+      queryAI += ",간식";
     }
     final repository = ref.read(recipeRepositoryProvider);
-    for(int i = 0;i<queryAI.length;i++){
-      recipesAI += await repository.getRecipesBasedOnGemini(queryAI[i]);
-    }
+    //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..?
+    recipesAI += await repository.getRecipesBasedOnGemini(queryAI);
     if (recipesAI.length < 3) {
-      for(int i = 0; i<substituteQueryAI.length; i++) {
-        recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[i]);
-      } 
+      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI);
     }
     //mood and vibe 
-    for(int i = 0;i<query.length;i++){
-      recipes += await repository.getRecipesBasedOnGemini(query[i]);
-    }
+    recipes += await repository.getRecipesBasedOnGemini(query);
+    
     if (recipes.length < 3) {
-      for(int i = 0; i<substituteQuery.length; i++) {
-        recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
-      } 
+      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery);
     }
     //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance

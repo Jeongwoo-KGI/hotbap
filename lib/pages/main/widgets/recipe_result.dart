@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-/**
- * 
- */
+
+
 class RecipeResult extends StatelessWidget{
   List<Recipe> searchResult;
   RecipeResult({super.key, required this.searchResult});
@@ -56,10 +55,6 @@ class RecipeResult extends StatelessWidget{
               controller: controller,
               itemBuilder: (_, index) => pages[index % pages.length],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24, bottom: 12),
-            child: Text('Expanding Dots', style: TextStyle(color: Colors.black54)),
           ),
           SmoothPageIndicator(controller: controller, count: pages.length, effect: const ExpandingDotsEffect(dotHeight: 8, dotWidth: 8, spacing: 4)),
         ],
