@@ -58,4 +58,22 @@ class ApiRecipeRepository implements RecipeRepository {
     }
     return [];
   }
+
+  Future<List<Recipe>> getJechulRecipeWithoutGemini(String query) async {
+
+    final url =
+        Uri.parse('$_baseUrl/$_serviceKey/COOKRCP01/json/1/3/RCP_PARTS_DTLS=$query');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['COOKRCP01']['row'] != null) {
+        final recipeData = data['COOKRCP01']['row'] as List;
+        return recipeData
+            .map((json) => RecipeDTO.fromJson(json).toEntity())
+            .toList();
+      }
+    }
+    return [];
+  }
 }
