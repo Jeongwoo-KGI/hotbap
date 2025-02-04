@@ -89,7 +89,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           ),
         ),
         title: Text(
-          widget.recipe.title,
+          '레시피',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black,
@@ -172,24 +172,26 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 SizedBox(
                   height: 26,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: 69,
-                  height: 26,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF05937),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(26),
+                IntrinsicWidth(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    alignment: Alignment.center,
+                    height: 26,
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF05937),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(26),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    widget.recipe.category,
-                    style: TextStyle(
-                      color: Color(0xFFFEF7F5),
-                      fontSize: 12,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w600,
-                      height: 1.83,
+                    child: Text(
+                      widget.recipe.category,
+                      style: TextStyle(
+                        color: Color(0xFFFEF7F5),
+                        fontSize: 12,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w600,
+                        height: 1.83,
+                      ),
                     ),
                   ),
                 ),
@@ -209,7 +211,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 SizedBox(
                   width: 258,
                   child: Text(
-                    widget.recipe.lowSodiumTip,
+                    '1인분',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF999999),
@@ -297,7 +299,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               child: const Icon(Icons.arrow_upward),
               backgroundColor: Color(0xFFE33811),
               foregroundColor: Colors.white,
-              elevation: 4,
+              elevation: 4, //버튼 그림자
             )
           : null,
     );

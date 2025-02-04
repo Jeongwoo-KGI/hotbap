@@ -64,18 +64,89 @@ class SavedRecipesPage extends StatelessWidget {
                 lowSodiumTip: favoriteData.containsKey('lowSodiumTip') ? favoriteData['lowSodiumTip'] : '',
               );
 
-              return ListTile(
-                leading: Image.network(recipe.imageUrl),
-                title: Text(recipe.title),
-                subtitle: Text(recipe.nutritionInfo),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailPage(recipe: recipe),
-                    ),
-                  );
-                },
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Container(
+                  width: 334,
+                  height: 100,
+                  padding: const EdgeInsets.all(0),
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 84,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFD9D9D9),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            recipe.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16), // 이미지와 텍스트 간의 간격
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 150, // 이름 길이 제한
+                            child: Text(
+                              recipe.title,
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          SizedBox(height: 8), // 텍스트 간의 간격
+                          Container(
+                            width: 150,
+                            child: Text(
+                              '탄${recipe.carbohydrate}g 단${recipe.protein}g 지${recipe.fat}g',
+                              style: TextStyle(
+                                color: Color(0xFF7F7F7F),
+                                fontSize: 12,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(), // 하트 아이콘과 텍스트 사이에 공간 추가
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: Icon(Icons.favorite),
+                          color: Colors.red,
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(userId)
+                                .collection('favorites')
+                                .doc(favorite.id)
+                                .delete();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               );
             },
           );

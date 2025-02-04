@@ -1,16 +1,143 @@
-# hotbap
+<p  align="center">
 
-A new Flutter project. "HotBap"
+<img  src="assets/images/hotbap.png"  alt="App Logo"  width="200">
 
-## Getting Started
+</p>
 
-This project is a starting point for a Flutter application.
+## HotBap (핫밥) 🍚🔥 <br>
 
-A few resources to get you started if this is your first Flutter project:
+AI가 추천하는 건강한 레시피 앱
+<br>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 소개
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+핫밥은 Gemini AI와 식약처 API를 연동하여 사용자에게 맞춤형 레시피를 추천하는 앱입니다.
+AI가 유저의 요구사항을 분석하고, 건강하고 맛있는 레시피를 자동으로 찾아 제공합니다.
+<br>
+
+### 특징
+
+✅ AI 추천 레시피: Gemini AI가 사용자의 기분과 계절, 날씨를 고려하여 최적의 레시피를 추천합니다.
+✅ 공식 데이터 기반: 식약처 API에서 제공하는 신뢰할 수 있는 레시피 정보를 활용합니다.
+✅ 편리한 레시피 검색: 원하는 재료나 요리를 입력하면 관련 레시피를 찾아볼 수 있습니다.
+✅ 찜(즐겨찾기) 기능: 마음에 드는 레시피를 저장하고 언제든지 다시 볼 수 있습니다.
+<br>
+
+## 팀원 구성
+
+**박채은**
+
+- 마이 페이지, 찜한 리스트 페이지, 로그아웃, 회원 탈퇴 기능, 필터페이지 UI
+
+**김고은**
+
+- 검색 페이지, Gemini API를 이용한 검색 기능, 식약처 API 연결
+
+**박정우**
+
+- 홈 페이지, 필터 페이지, Gemini API를 이용한 추천 기능
+
+**윤지윤**
+
+- 프로젝트 기획, 피그마를 이용한 UI, UX 디자인
+
+**고성훈**
+
+- 로그인 페이지, 회원가입 페이지, 상세페이지, 찜 기능
+
+<br>
+
+### 프로젝트 일정
+
+**25/01/16 ~ 25/02/06**
+
+<br>
+
+## 📌 **주요 기능**
+
+✅ 애플 로그인 지원: Apple ID로 간편하게 로그인하여 보안성과 편의성을 동시에 제공합니다.
+
+✅ Firebase 연동: Firebase Authentication을 이용한 사용자 로그인 및 인증을 지원하며, Firestore를 활용하여 사용자 데이터(uid, 닉네임, 찜 레시피)를 안전하게 저장합니다.
+
+✅ AI 추천 레시피: Gemini AI가 사용자의 기분과 계절, 날씨를 고려하여 최적의 레시피를 추천합니다.
+
+✅ 공식 데이터 기반: 식약처 API에서 제공하는 신뢰할 수 있는 레시피 정보를 활용합니다.
+
+✅ 편리한 레시피 검색: 원하는 재료나 요리를 입력하면 관련 레시피를 찾아볼 수 있습니다.
+
+✅ 찜(즐겨찾기) 기능: 마음에 드는 레시피를 저장하고 언제든지 다시 볼 수 있습니다.
+
+<br>
+
+### 3. **기능별 페이지 구성**
+
+#### 스플래시 페이지 (`splash_page`)
+
+- 스플래시를 이용하여 로고를 표시합니다.
+
+#### 로그인 페이지 (`login_page`)
+
+- 애플 계정으로 로그인 기능을 지원합니다.
+
+#### 약관 페이지 (`conditions_page`)
+
+- 이용약관 및 개인정보 처리방침을 고시합니다.
+
+#### 닉네임 설정 페이지 (`nick_setting_page`)
+
+- 회원가입 시 초기 닉네임을 설정합니다.
+
+#### 가입 완료 페이지 (`join_sucess_page`)
+
+- 가입이 완료되며 해당 고객 정보(uid, 닉네임)가 Firebase에 저장됩니다.
+
+#### 홈 페이지 (`main_page`)
+
+- ai 추천 레시피, 내가 저장한 레시피, 제철 음식 추천 등을 한번에 볼 수 있습니다.
+
+#### 필터 페이지 (`filter_page`)
+
+- 재료, 날씨, 계절 등의 키워드로 Gemini AI가 적절한 레시피를 필터링하여 결과를 보여줍니다.
+
+#### 검색 페이지 (`search_page`)
+
+- 유저가 직접 입력한 키워드로 Gemini AI가 추천한 레시피를 보여줍니다.
+
+#### 상세 페이지(`detail_page`)
+
+- 선택한 레시피의 이미지, 영양성분, 재료, 조리 방법 등이 표시되며 찜 기능을 통해 저장이 가능합니다.
+
+#### 마이 페이지(`profile_page`)
+
+- 닉네임 수정, 나의 찜 리스트 확인, 로그아웃, 회원 탈퇴 기능을 제공합니다.
+
+---
+
+## 🛠️ **기술 스택**
+
+- **Framework**: Flutter
+- **Language**: Dart
+- **State Management**: Riverpod
+- **Apple_sign_in**: 애플 계정으로 회원 가입 및 로그인
+- **Firebase_Database**: Firestore를 활용하여 사용자 데이터 및 즐겨찾기 레시피 저장
+- **Firebase_authentication**: Google, Apple 등 소셜 로그인 및 사용자 인증 관리
+- **Gemini API**: Google의 AI 모델을 활용하여 사용자에게 맞춤형 레시피 추천
+- **식품의약품안전처 API**: 공공 데이터를 활용하여 신뢰할 수 있는 공식 레시피 제공
+
+---
+
+## TroubleShooting
+
+####
+
+---
+
+## 🏂 **관련 URL**
+
+### 1. **시연 영상**
+
+-
+
+### 2. **트러블슈팅**
+
+-
