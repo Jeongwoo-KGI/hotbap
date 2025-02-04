@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
+import 'package:hotbap/domain/entity/recipe.dart';
 //import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
@@ -19,19 +21,20 @@ import 'package:hotbap/theme.dart';
  * and page view of the recipies that are customized and tailored for daily usage
  */
 
-class MainPage extends StatefulWidget {
+class MainPage extends ConsumerStatefulWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-
-  String userName = 'empty'; //initial value
+class _MainPageState extends ConsumerState<MainPage> {
+  //initial values
+  String userName = 'empty'; 
   List<String> savedRecipes = [];
   User? user;
   bool isLoading = true;
+  List<Recipe> resultRecipesMNV = [];
 
   @override
   void initState() {
@@ -44,7 +47,7 @@ class _MainPageState extends State<MainPage> {
     if (user == null) {
       throw Exception('not logged in');
     } else {
-      await Future.wait([_getSavedRecipes()]);
+      await Future.wait([_getSavedRecipes(), moodvibeRecipe()]);
     }
     setState(() {
       isLoading = false;
@@ -61,6 +64,24 @@ class _MainPageState extends State<MainPage> {
       savedRecipes = recipesSnapshot.docs.map(
         (doc) => doc['title'] as String
       ).toList();
+    });
+  }
+
+  Future<void> moodvibeRecipe() async {
+    List<String> query = ["파스타", "스테이크", "와인", "연인"];
+    List<String> substituteQuery = ['고기', '조기', '파인애플', '잡채'];
+    List<Recipe> recipes = [];
+    final repository = ref.read(recipeRepositoryProvider);
+    for(int i = 0;i<query.length;i++){
+      recipes += await repository.getRecipesBasedOnGemini(query[i]);
+    }
+    if (recipes.length < 3) {
+      for(int i = 0; i<substituteQuery.length; i++) {
+        recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
+      } 
+    }
+    setState(() {
+      resultRecipesMNV = recipes;
     });
   }
 
@@ -127,9 +148,9 @@ class _MainPageState extends State<MainPage> {
                 MyFavorites(),
                 //FixMe: 큐레이션과 제철음식 데이터 받아오는 중에 쿼리가 동시간에 여러개 들어가니 충돌 오륲
                 //Recipe Curated1: mood n vibe
-                MoodNVibe(),
+                MoodNVibe(resultRecipes: resultRecipesMNV),
                 //Recipe Jechul
-                //JechulFoodRec(),
+                JechulFoodRec(),
               ],
             );
           }
