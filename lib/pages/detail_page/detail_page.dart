@@ -53,9 +53,18 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     });
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose(); // 컨트롤러 정리
+    super.dispose();
+  }
+
   Future<void> fetchRecommendationRecipes() async {
     final repository = ref.read(recipeRepositoryProvider);
     final recipes = await repository.getRecommendationRecipeDetailPage();
+
+    if (!mounted) return; // 위젯이 dispose되었으면 setState() 호출 안 함
+
     setState(() {
       _recommendedRecipes = recipes;
       _isLoading = false;
