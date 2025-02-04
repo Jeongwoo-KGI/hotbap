@@ -58,7 +58,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 // 검색 결과 타이틀
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
