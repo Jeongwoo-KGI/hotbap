@@ -21,6 +21,10 @@ class _TagBoxState extends State<TagBox> {
     isSelected = widget.initiallySelected;
   }
 
+  bool isSelectedTag() {
+    return isSelected;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
