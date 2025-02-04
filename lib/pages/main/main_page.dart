@@ -74,6 +74,7 @@ class _MainPageState extends State<MainPage> {
     return isLoading 
     ? Center(child: CircularProgressIndicator())
     : Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(

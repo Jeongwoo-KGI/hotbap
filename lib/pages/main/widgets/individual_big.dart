@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 
-Widget individualSmallRecipe (Recipe recipe){ 
+Widget individualBigRecipe (Recipe recipe){ 
   String carbs = recipe.carbohydrate;
   String fat = recipe.fat;
   String protein = recipe.protein;
@@ -9,9 +9,20 @@ Widget individualSmallRecipe (Recipe recipe){
   String imageURL = recipe.imageUrl;
   return Row(
     children: [
-      SizedBox(width: 3),
+      SizedBox(width: 10),
       Container(
+        width: 247,
+        height: 256,
+        padding: const EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 12),
+        decoration: ShapeDecoration(
+          color: Color(0xFFF6F6F6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //image
@@ -21,7 +32,7 @@ Widget individualSmallRecipe (Recipe recipe){
               decoration: ShapeDecoration(
                 image: DecorationImage(
                   image: NetworkImage("$imageURL"),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
