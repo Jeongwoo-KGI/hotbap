@@ -67,7 +67,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
     final repository = ref.read(recipeRepositoryProvider);
     List<Recipe> recipes = [];
     for(int i = 0;i<currentJechul.length;i++){
-      recipes += await repository.getRecipesBasedOnGemini(currentJechul[i]);
+      recipes += await repository.getJechulRecipeWithoutGemini(currentJechul[i]);
     }
     setState(() {
       resultRecipes = recipes;
@@ -134,8 +134,8 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
             scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,
             itemBuilder: (context, index){
-              final recipe = resultRecipes[index] as Map<String, dynamic>;
-              final input = Recipe.fromMap(recipe);
+              final recipe = resultRecipes[index];
+              final input = recipe;
               return GestureDetector(
                 child: individualSmallRecipe(input),
                 onTap: (){
