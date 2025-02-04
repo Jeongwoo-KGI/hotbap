@@ -1,3 +1,5 @@
+import 'package:hotbap/data/dto/recipe_dto.dart';
+
 class Recipe {
   final String title;
   final String nutritionInfo;
@@ -28,4 +30,22 @@ class Recipe {
     required this.manuals,
     required this.lowSodiumTip,
   });
+
+  factory Recipe.fromDto(RecipeDTO dto) {
+    return Recipe(
+    title: dto.title,
+    nutritionInfo: dto.nutritionInfo,
+    imageUrl: dto.imageUrl,
+    ingredients: dto.ingredients,
+    material: dto.material,
+    category: dto.category,
+    calorie: dto.calorie,
+    carbohydrate: dto.carbohydrate,
+    protein: dto.protein,
+    fat: dto.fat,
+    sodium: dto.sodium,
+    manuals: dto.manuals,
+    lowSodiumTip: dto.lowSodiumTip,
+    );
+  }
 }
