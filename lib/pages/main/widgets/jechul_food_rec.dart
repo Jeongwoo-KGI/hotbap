@@ -47,6 +47,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
   String monthName = DateFormat("MMM").format(DateTime.now());
   String currentJechul = "";
   List<Recipe> resultRecipes = [];
+  List<String> currentallJechul = [];
   bool _isLoading = true;
 
   void initState() {
@@ -56,7 +57,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
 
   Future<void> jechulRecipes() async {
     //fecth the jechul ingredients of this month
-    List<String> currentallJechul = jechul[monthName]!;
+    currentallJechul = jechul[monthName]!;
     final random = new Random();
     //get current jechul ingredients up to 4
     // for (int i = 0; i<4; i++){
@@ -98,7 +99,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
             child: Text(
               //if currentJechul != currentallJechul
               //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
-              "제철재료 음식 없음: 이달의 제철 재료 ${currentJechul[Random().nextInt((currentJechul.length))]}",
+              "제철재료 음식 없음: 이달의 제철 재료 ${currentallJechul[Random().nextInt((currentJechul.length))]}",
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'Pretendard',
