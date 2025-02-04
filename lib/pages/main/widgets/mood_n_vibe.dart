@@ -21,13 +21,13 @@ class _MoodNVibeState extends ConsumerState<MoodNVibe> {
 
   Future<void> moodvibeRecipe() async {
     List<String> query = ["파스타", "스테이크", "와인", "연인"];
-    List<String> substituteQuery = ['고기', '조기', '파인애플'];
+    List<String> substituteQuery = ['고기', '조기', '파인애플', '잡채'];
     List<Recipe> recipes = [];
     final repository = ref.read(recipeRepositoryProvider);
     for(int i = 0;i<query.length;i++){
       recipes += await repository.getRecipesBasedOnGemini(query[i]);
     }
-    if (recipes.length == 0) {
+    if (recipes.length < 3) {
       for(int i = 0; i<substituteQuery.length; i++) {
         recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
       } 
@@ -62,6 +62,7 @@ class _MoodNVibeState extends ConsumerState<MoodNVibe> {
         Container(
           height: 256,
           child: ListView.builder(
+            scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,
             itemBuilder: (context, index){
               final recipe = resultRecipes[index];
