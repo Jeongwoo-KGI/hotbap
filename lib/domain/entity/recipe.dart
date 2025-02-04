@@ -48,4 +48,22 @@ class Recipe {
     lowSodiumTip: dto.lowSodiumTip,
     );
   }
+
+  factory Recipe.fromMap(Map<String, dynamic> map) {
+    return Recipe(
+    title: map['title'],
+    nutritionInfo: map['nutritionInfo'],
+    imageUrl: map['imageUrl'],
+    ingredients: map['ingredients'],
+    material: map['material'],
+    category: map['category'],
+    calorie: map['calorie'],
+    carbohydrate: map['carbohydrate'],
+    protein: map['protein'],
+    fat: map['fat'],
+    sodium: map['sodium'],
+    manuals: map['manuals'],
+    lowSodiumTip: map['lowSodiumTip'],
+    );
+  }
 }
