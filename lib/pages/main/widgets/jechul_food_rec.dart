@@ -1,6 +1,12 @@
 //제철음식 @ 한반도
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/data/data_source/api_recipe_repository.dart';
+import 'package:hotbap/data/data_source/gemini_api.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:hotbap/pages/main/widgets/individual_small.dart';
@@ -24,20 +30,85 @@ Map<String, List<String>> jechul = {
   'Dec': ['삼치', '빙어', '명태', '돌돔', '도미', '까나리', '귤', '잣', '피조개', '브로콜리'],
 };
 
-class JechulFoodRec extends StatefulWidget{
+class JechulFoodRec extends ConsumerStatefulWidget{
   @override
-  State<JechulFoodRec> createState() => _JechulFoodRecState();
+  _JechulFoodRecState createState() => _JechulFoodRecState();
 }
 
-class _JechulFoodRecState extends State<JechulFoodRec> {
+final recipeRepositoryProvider = Provider<ApiRecipeRepository> ((ref){
+  return ApiRecipeRepository(
+    geminiApi: GeminiApi(dotenv.env['GEMINI_API_KEY']!),
+    serviceKey: dotenv.env['FOOD_SAFETY_API_KEY']!,
+  );
+});
+
+class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
   String monthName = DateFormat("MMM").format(DateTime.now());
+  List<String> currentJechul = [];
+  List<Recipe> resultRecipes = [];
+  bool _isLoading = true;
+
+  void initState() {
+    super.initState();
+    jechulRecipes();
+  }
+
+  Future<void> jechulRecipes() async {
+    //fecth the jechul ingredients of this month
+    List<String> currentallJechul = jechul[monthName]!;
+    final random = new Random();
+    //get current jechul ingredients up to 4
+    for (int i = 0; i<4; i++){
+      currentJechul.add(currentallJechul[random.nextInt((currentallJechul.length))]);
+    }
+    //query 4 ingredients of jechul and get results
+    final repository = ref.read(recipeRepositoryProvider);
+    List<Recipe> recipes = [];
+    for(int i = 0;i<currentJechul.length;i++){
+      recipes += await repository.getRecipesBasedOnGemini(currentJechul[i]);
+    }
+    setState(() {
+      resultRecipes = recipes;
+      _isLoading = false;
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
-    List<String> currentJechul = jechul[monthName]!;
-    //ToDo: connect the API and fetch the requests
-    List<Recipe> resultRecipes = [];
-
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+    if (resultRecipes.isEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top:40, left: 20, bottom: 13),
+            child: Text(
+              "제철음식 추천",
+              style: TextStyle(              
+                fontSize: 16,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF333333),),
+            ),
+          ),
+          Container(
+            height: 170,
+            child: Text(
+              "제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w300,
+                color: Color(0xFF333333),
+              ),
+            ),
+          ),
+          
+        ],
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -76,7 +147,5 @@ class _JechulFoodRecState extends State<JechulFoodRec> {
         ),
       ],
     );
-
-
   }
 }
