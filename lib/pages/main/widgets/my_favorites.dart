@@ -82,6 +82,7 @@ Widget individualSmallRecipe (Recipe recipe){
   String imageURL = recipe.imageUrl;
   return Row(
     children: [
+      SizedBox(width: 3),
       Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +107,7 @@ Widget individualSmallRecipe (Recipe recipe){
           ],
         ),
       ),
-      SizedBox(width: 7,),
+      SizedBox(width: 4,),
     ],
   );
 }
