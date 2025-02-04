@@ -35,26 +35,64 @@ class _MainPageState extends ConsumerState<MainPage> {
   User? user;
   bool isLoading = true;
   List<Recipe> resultRecipesMNV = [];
+  List<Recipe> resultRecipesAI = [];
 
   @override
   void initState() {
     super.initState();
     _initializeData();
   }
-
+  //FixMe: separate these state controller to viewModel
   Future<void> _initializeData() async {
     user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception('not logged in');
     } else {
-      await Future.wait([_getSavedRecipes(), moodvibeRecipe()]);
+      dataRecipeGetAll();
     }
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<void> _getSavedRecipes() async {
+  Future<void> dataRecipeGetAll() async {
+    //for mood and vibe
+    List<String> query = ["파스타", "스테이크", "와인", "연인"];
+    List<String> substituteQuery = ['고기', '조기', '파인애플', '잡채'];
+    List<Recipe> recipes = [];
+    //for AI rec
+    List<String> queryAI = ["${DateTime.now().day}", "${DateTime.now().hour}","${DateTime.now().month}","기분", "건강"];
+    List<String> substituteQueryAI = ['상추'];
+    List<Recipe> recipesAI = [];
+    //AI rec
+    if (DateTime.now().hour<11) {
+      queryAI.add("아침");
+    } else if (DateTime.now().hour < 15) {
+      queryAI.add("점심");
+    } else if (DateTime.now().hour < 20) {
+      queryAI.add("저녁");
+    } else {
+      queryAI.add("간식");
+    }
+    final repository = ref.read(recipeRepositoryProvider);
+    for(int i = 0;i<queryAI.length;i++){
+      recipesAI += await repository.getRecipesBasedOnGemini(queryAI[i]);
+    }
+    if (recipesAI.length < 3) {
+      for(int i = 0; i<substituteQueryAI.length; i++) {
+        recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[i]);
+      } 
+    }
+    //mood and vibe 
+    for(int i = 0;i<query.length;i++){
+      recipes += await repository.getRecipesBasedOnGemini(query[i]);
+    }
+    if (recipes.length < 3) {
+      for(int i = 0; i<substituteQuery.length; i++) {
+        recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
+      } 
+    }
+    //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
     .collection('user')
     .doc(user!.uid)
@@ -64,24 +102,8 @@ class _MainPageState extends ConsumerState<MainPage> {
       savedRecipes = recipesSnapshot.docs.map(
         (doc) => doc['title'] as String
       ).toList();
-    });
-  }
-
-  Future<void> moodvibeRecipe() async {
-    List<String> query = ["파스타", "스테이크", "와인", "연인"];
-    List<String> substituteQuery = ['고기', '조기', '파인애플', '잡채'];
-    List<Recipe> recipes = [];
-    final repository = ref.read(recipeRepositoryProvider);
-    for(int i = 0;i<query.length;i++){
-      recipes += await repository.getRecipesBasedOnGemini(query[i]);
-    }
-    if (recipes.length < 3) {
-      for(int i = 0; i<substituteQuery.length; i++) {
-        recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
-      } 
-    }
-    setState(() {
       resultRecipesMNV = recipes;
+      resultRecipesAI = recipesAI;
     });
   }
 
@@ -92,7 +114,6 @@ class _MainPageState extends ConsumerState<MainPage> {
     //final userData = ref.watch(mainPageViewModel);
     //print(userData);
     //final userName = userData!.user;
-    
     return isLoading 
     ? Center(child: CircularProgressIndicator())
     : Scaffold(
@@ -128,25 +149,24 @@ class _MainPageState extends ConsumerState<MainPage> {
                   child: SayHi(userName: userName)
                 ),
                 //Recipe Results
-                //RecipeResult(),
-                Padding(
-                  padding: EdgeInsets.only(left: 19),
-                  child: Container(
-                    height: 448,
-                    width: 339,
-                    decoration: ShapeDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage("https://picsum.photos/200/300"),
-                          fit: BoxFit.fill,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        )),
-                  ),
-                ),
+                RecipeResult(searchResult: resultRecipesAI),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 19),
+                //   child: Container(
+                //     height: 448,
+                //     width: 339,
+                //     decoration: ShapeDecoration(
+                //         image: DecorationImage(
+                //           image: NetworkImage("https://picsum.photos/200/300"),
+                //           fit: BoxFit.fill,
+                //         ),
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(40),
+                //         )),
+                //   ),
+                // ),
                 //Recipe My Favorites
                 MyFavorites(),
-                //FixMe: 큐레이션과 제철음식 데이터 받아오는 중에 쿼리가 동시간에 여러개 들어가니 충돌 오륲
                 //Recipe Curated1: mood n vibe
                 MoodNVibe(resultRecipes: resultRecipesMNV),
                 //Recipe Jechul

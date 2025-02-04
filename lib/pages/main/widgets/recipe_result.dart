@@ -4,15 +4,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 /**
  * 
  */
-class RecipeResult extends StatefulWidget{
-  List<Recipe>? searchResult;
-  RecipeResult({super.key, this.searchResult});
+class RecipeResult extends StatelessWidget{
+  List<Recipe> searchResult;
+  RecipeResult({super.key, required this.searchResult});
 
-  @override
-  State<RecipeResult> createState() => _RecipeResultState();
-}
-
-class _RecipeResultState extends State<RecipeResult> {
   final controller = PageController(viewportFraction:0.8, keepPage: true);
 
   @override
@@ -33,8 +28,7 @@ class _RecipeResultState extends State<RecipeResult> {
         ),
       ),
     );
-    if (widget.searchResult == null) {
-      print("null Result Error");
+    if (searchResult == null) {
       throw Exception();
     }
     return SingleChildScrollView(
@@ -71,6 +65,6 @@ class _RecipeResultState extends State<RecipeResult> {
         ],
       ),
       
-    ); //ToDo: add the API result here
+    ); 
   }
 }
