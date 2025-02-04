@@ -30,6 +30,7 @@ Map<String, List<String>> jechul = {
   'Dec': ['삼치', '빙어', '명태', '돌돔', '도미', '까나리', '귤', '잣', '피조개', '브로콜리'],
 };
 
+//FixMe: 재료를 하나 입력하는것으로 결과가 안나오는데..? 제미나이 거치지 않고 결과를 내는 방식으로 바꿀것
 class JechulFoodRec extends ConsumerStatefulWidget{
   @override
   _JechulFoodRecState createState() => _JechulFoodRecState();
