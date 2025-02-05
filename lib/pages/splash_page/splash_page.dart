@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -42,13 +43,10 @@ class _SplashPageState extends State<SplashPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Container(
+                child: SvgPicture.asset(
+                  'assets/images/logo_splash.svg', // SVG 이미지 경로
                   width: 164.3,
                   height: 198,
-                  child: Image.asset(
-                    'assets/images/splash_logo.png', // 이미지 경로
-                    fit: BoxFit.fill, // 이미지 크기 조정 옵션
-                  ),
                 ),
               ),
               SizedBox(height: 39),

@@ -73,6 +73,8 @@ flutter:
   assets:
     - .env
     - assets/images/
+    - assets/icons/
+    - assets/icons/svg/
     - assets/icons/clear_icon.png
     - assets/icons/search_icon_white.png
     - assets/icons/search_icon_grey.png

@@ -143,9 +143,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 height: 1.35,
                               ),
                             )),
-                            Icon(
-                              CupertinoIcons.heart_fill,
-                              weight: 16,
+                            ImageIcon(
+                              AssetImage('assets/icons/selected_heart.png'),
                               color: Color(0xFFF70F36),
                             ),
                           ],
@@ -159,8 +158,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: Icon(
-                isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+              child: ImageIcon(
+                isFavorite
+                    ? AssetImage('assets/icons/selected_heart.png')
+                    : AssetImage('assets/icons/default_heart.png'),
                 color: isFavorite ? Colors.red : Color(0xFF333333),
               ),
             ),

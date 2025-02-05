@@ -22,7 +22,7 @@ void main() async {
   );
 
   // 앱 실행 시 Firebase 인증 초기화//배포할 때 삭제할것
-  await FirebaseAuth.instance.signOut();
+  // await FirebaseAuth.instance.signOut();
 
   // ProviderScope로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
   runApp(const ProviderScope(child: MyApp()));
