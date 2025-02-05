@@ -29,6 +29,7 @@ class RecipeDTO {
     required this.sodium,
     required this.manuals,
     required this.lowSodiumTip,
+    
   });
 
   factory RecipeDTO.fromJson(Map<String, dynamic> json) {

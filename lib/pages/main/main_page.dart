@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/data/dto/user_dto.dart';
+import 'package:hotbap/domain/entity/recipe.dart';
 //import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
@@ -19,39 +21,74 @@ import 'package:hotbap/theme.dart';
  * and page view of the recipies that are customized and tailored for daily usage
  */
 
-class MainPage extends StatefulWidget {
+class MainPage extends ConsumerStatefulWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-
-  String userName = 'empty'; //initial value
+class _MainPageState extends ConsumerState<MainPage> {
+  //initial values
+  String userName = 'empty'; 
   List<String> savedRecipes = [];
   User? user;
   bool isLoading = true;
+  List<Recipe> resultRecipesMNV = [];
+  List<Recipe> resultRecipesAI = [];
 
   @override
   void initState() {
     super.initState();
     _initializeData();
   }
-
+  //FixMe: separate these state controller to viewModel
   Future<void> _initializeData() async {
     user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception('not logged in');
     } else {
-      await Future.wait([_getSavedRecipes()]);
+      dataRecipeGetAll();
     }
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<void> _getSavedRecipes() async {
+  Future<void> dataRecipeGetAll() async {
+    //for mood and vibe
+    List<String> query = ["파스타","스테이크","와인","연인"];
+    List<String> substituteQuery = ['고기','조기','파인애플','잡채'];
+    List<Recipe> recipes = [];
+    //for AI rec
+    List<String> queryAI = ["${DateTime.now().day}","${DateTime.now().hour}","${DateTime.now().month}","기분","건강"];
+    String substituteQueryAI = '상추';
+    List<Recipe> recipesAI = [];
+    //AI rec
+    if (DateTime.now().hour<11) {
+      queryAI.add("아침");
+    } else if (DateTime.now().hour < 15) {
+      queryAI.add("점심");
+    } else if (DateTime.now().hour < 20) {
+      queryAI.add("저녁");
+    } else {
+      queryAI.add("간식");
+    }
+    final repository = ref.read(recipeRepositoryProvider);
+    //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..? //안되니 일단 리스트로 revert
+    //해당 사항에서 무조건 결과 나오는걸로 임의값 하나씩 적용해서 결과만 뽑기
+    //Todo: fix logic here
+    recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
+    if (recipesAI.length < 3) {
+      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[0]);
+    }
+    //mood and vibe 
+    recipes += await repository.getRecipesBasedOnGemini(query[0]);
+    
+    if (recipes.length < 3) {
+      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[3]);
+    }
+    //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
     .collection('user')
     .doc(user!.uid)
@@ -61,6 +98,8 @@ class _MainPageState extends State<MainPage> {
       savedRecipes = recipesSnapshot.docs.map(
         (doc) => doc['title'] as String
       ).toList();
+      resultRecipesMNV = recipes;
+      resultRecipesAI = recipesAI;
     });
   }
 
@@ -71,7 +110,6 @@ class _MainPageState extends State<MainPage> {
     //final userData = ref.watch(mainPageViewModel);
     //print(userData);
     //final userName = userData!.user;
-    
     return isLoading 
     ? Center(child: CircularProgressIndicator())
     : Scaffold(
@@ -107,29 +145,28 @@ class _MainPageState extends State<MainPage> {
                   child: SayHi(userName: userName)
                 ),
                 //Recipe Results
-                //RecipeResult(),
-                Padding(
-                  padding: EdgeInsets.only(left: 19),
-                  child: Container(
-                    height: 448,
-                    width: 339,
-                    decoration: ShapeDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage("https://picsum.photos/200/300"),
-                          fit: BoxFit.fill,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        )),
-                  ),
-                ),
+                RecipeResult(searchResult: resultRecipesAI),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 19),
+                //   child: Container(
+                //     height: 448,
+                //     width: 339,
+                //     decoration: ShapeDecoration(
+                //         image: DecorationImage(
+                //           image: NetworkImage("https://picsum.photos/200/300"),
+                //           fit: BoxFit.fill,
+                //         ),
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(40),
+                //         )),
+                //   ),
+                // ),
                 //Recipe My Favorites
                 MyFavorites(),
-                //FixMe: 큐레이션과 제철음식 데이터 받아오는 중에 쿼리가 동시간에 여러개 들어가니 충돌 오륲
                 //Recipe Curated1: mood n vibe
-                MoodNVibe(),
+                MoodNVibe(resultRecipes: resultRecipesMNV),
                 //Recipe Jechul
-                //JechulFoodRec(),
+                JechulFoodRec(),
               ],
             );
           }

@@ -82,8 +82,7 @@ class _FilterPageState extends State<FilterPage> {
           },
         ),
         title: Text(
-          '상세필터',
-          textAlign: TextAlign.center,
+          '텍스트', // 타이틀 텍스트 변경
           style: TextStyle(
             color: Color(0xFF333333),
             fontSize: 20,
@@ -92,6 +91,7 @@ class _FilterPageState extends State<FilterPage> {
             height: 1.35,
           ),
         ),
+        centerTitle: true, // 가운데 정렬 설정
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: Color(0xFF333333)),
@@ -153,6 +153,7 @@ class _FilterPageState extends State<FilterPage> {
                       },
                       child: Container(
                         height: 56,
+                        width: 110,
                         decoration: ShapeDecoration(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -180,12 +181,13 @@ class _FilterPageState extends State<FilterPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 8),
                   Expanded(
                     child: GestureDetector(
                       onTap: goToDetailResultsPage, // 검색 버튼 클릭 시 페이지 이동 함수 호출
                       child: Container(
                         height: 56,
+                        width: 218,
                         decoration: ShapeDecoration(
                           color: Color(0xFFE33811),
                           shape: RoundedRectangleBorder(
@@ -194,7 +196,7 @@ class _FilterPageState extends State<FilterPage> {
                         ),
                         child: Center(
                           child: Text(
-                            '검색결과 5건',
+                            '필터결과 보기',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
