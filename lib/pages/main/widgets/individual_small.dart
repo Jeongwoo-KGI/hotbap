@@ -7,6 +7,10 @@ Widget individualSmallRecipe (Recipe recipe){
   String protein = recipe.protein;
   String input = recipe.title;
   String imageURL = recipe.imageUrl;
+
+  if (input.length > 7){
+    input = input.substring(0,6) + "...";
+  }
   return Row(
     children: [
       //SizedBox(width: 3),
@@ -28,7 +32,17 @@ Widget individualSmallRecipe (Recipe recipe){
             ),
             SizedBox(height: 8,),
             //name
-            Text("$input", style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w600, color: Color(0xFF333333)),),
+            Text(
+              "$input", 
+              style: TextStyle(
+                fontSize: 14, 
+                fontFamily: 'Pretendard', 
+                fontWeight: FontWeight.w600, 
+                color: Color(0xFF333333)
+              ),
+              maxLines: 1,
+              //overflow: TextOverflow.ellipsis,
+            ),
             //ratio
             Text("탄 ${carbs}g 단 ${protein}g 지 ${fat}g", style: TextStyle(fontSize: 10, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, height: 1.50, color: Color(0xFF7F7F7F)),),
           ],

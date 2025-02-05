@@ -23,11 +23,11 @@ class RecipeResult extends StatelessWidget{
         children: <Widget> [
           Container(
             height: 455,
-            width: 333,
-            //padding: EdgeInsets.only(top: 22, bottom: 34, left: 21, right: 21),
+            width: double.infinity,
+            padding: EdgeInsets.only(left: 21, right: 21),
             child: PageView.builder(
               scrollDirection: Axis.horizontal,
-              reverse: true,
+              reverse: false,
               controller: controller,
               itemCount: pages.length,
               itemBuilder: (context, index){
@@ -43,7 +43,7 @@ class RecipeResult extends StatelessWidget{
                         );
                       },
                       child: Container(
-                        width: 333,
+                        width: 350,
                         height: 455,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
@@ -58,57 +58,48 @@ class RecipeResult extends StatelessWidget{
                             children: [
                               Container(height: 23,),
                               SizedBox(height: 272,),
-                              Container(
-                                height: 76,
+                              SizedBox(
+                                height: 79,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                      decoration: ShapeDecoration(
+                                        color: Color(0xFFE33811),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(47)),
+                                      ),
+                                      child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFE33811),
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(47)),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'AI추천 레시피',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w800,
-                                                    height: 1.5,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4,),
                                           Text(
-                                            "[${pages[index].title}]", //레시피 이름
+                                            'AI추천 레시피',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 20,
+                                              fontSize: 12,
                                               fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w800,
                                               height: 1.5,
                                             ),
                                           ),
                                         ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4,),
+                                    Text(
+                                      "[${pages[index].title}]", //레시피 이름
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.5,
                                       ),
                                     ),
                                     const SizedBox(height: 2,),

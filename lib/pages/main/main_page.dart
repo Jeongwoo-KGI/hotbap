@@ -35,6 +35,7 @@ class _MainPageState extends ConsumerState<MainPage> {
   bool isLoading = true;
   List<Recipe> resultRecipesMNV = [];
   List<Recipe> resultRecipesAI = [];
+  List<Recipe> resultJechul = [];
 
   @override
   void initState() {
@@ -57,38 +58,45 @@ class _MainPageState extends ConsumerState<MainPage> {
   Future<void> dataRecipeGetAll() async {
     isLoading = true;
     //for mood and vibe
-    List<String> query = ["파스타","스테이크","와인","연인"];
-    List<String> substituteQuery = ['돼지고기','조기','파인애플','잡채'];
+    // List<String> query = ["파스타","스테이크","와인","연인"];
+    List<String> substituteQuery = ['조기','파인애플','잡채', '잣', '자몽', '한라봉', '복숭아', '당근', '두부'];
     List<Recipe> recipes = [];
     //for AI reccomendation
-    List<String> queryAI = ["${DateTime.now().month}"];
-    List<String> substituteQueryAI = ['상추', '아몬드', '사과'];
-    List<Recipe> recipesAI = [];
-    //AI rec
-    final currentHour = DateTime.now().hour;
-    if (currentHour<11) {
-      queryAI.add("아침");
-    } else if (currentHour < 15) {
-      queryAI.add("점심");
-    } else if (currentHour < 20) {
-      queryAI.add("저녁");
-    } else {
-      queryAI.add("간식");
-    }
+    // List<String> queryAI = ["${DateTime.now().month}"];
+    // //List<String> substituteQueryAI = ['상추', '아몬드', '사과'];
+    //List<Recipe> recipesAI = [];
+    // //AI rec
+    // final currentHour = DateTime.now().hour;
+    // if (currentHour<11) {
+    //   queryAI.add("아침");
+    // } else if (currentHour < 15) {
+    //   queryAI.add("점심");
+    // } else if (currentHour < 20) {
+    //   queryAI.add("저녁");
+    // } else {
+    //   queryAI.add("간식");
+    // }
     final repository = ref.read(recipeRepositoryProvider);
+
     //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..? //안되니 일단 리스트로 revert
     //해당 사항에서 무조건 결과 나오는걸로 임의값 하나씩 적용해서 결과만 뽑기
     //Todo: fix logic here
     int i = 0;
-    //recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
-    while(recipesAI.isEmpty && i < substituteQueryAI.length) {
-      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[i]);
-      i++;
+    //잠수함패치
+    while (recipes.length < 11 && i<substituteQuery.length){//random -> indx increment 
+      i ++;
+      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
     }
+
+    //recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
+    // while(recipesAI.isEmpty && i < substituteQueryAI.length) {
+    //   recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[i]);
+    //   i++;
+    // }
 
     //mood and vibe 
     //int j = 1;
-    recipes += await repository.getJechulRecipeWithoutGemini(query[0]);  
+    // recipes += await repository.getJechulRecipeWithoutGemini(query[0]);  
     // while (recipes.length < 3 && j<query.length ) {
     //   recipes += await repository.getJechulRecipeWithoutGemini(query[j]);
     //   j++;
@@ -101,12 +109,16 @@ class _MainPageState extends ConsumerState<MainPage> {
     .get();
     
     //save the data that has been fetched
-    savedRecipes = recipesSnapshot.docs.map(
+    setState(() {
+      savedRecipes = recipesSnapshot.docs.map( 
       (doc) => doc['title'] as String
     ).toList();
-    resultRecipesMNV = recipes;
-    resultRecipesAI = recipesAI;
+    resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
+    resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
+    resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
     isLoading = false;
+  });
+
   }
 
   @override
@@ -174,7 +186,7 @@ class _MainPageState extends ConsumerState<MainPage> {
                 //Recipe Curated1: mood n vibe
                 MoodNVibe(resultRecipes: resultRecipesMNV),
                 //Recipe Jechul
-                JechulFoodRec(),
+                JechulFoodRec(resultRecipes: resultJechul,),
               ],
             );
           }
