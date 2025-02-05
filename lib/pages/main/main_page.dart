@@ -27,7 +27,6 @@ class MainPage extends ConsumerStatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
-
 class _MainPageState extends ConsumerState<MainPage> {
   //initial values
   String userName = 'empty'; 
@@ -59,11 +58,11 @@ class _MainPageState extends ConsumerState<MainPage> {
     isLoading = true;
     //for mood and vibe
     List<String> query = ["파스타","스테이크","와인","연인"];
-    List<String> substituteQuery = ['고기','조기','파인애플','잡채'];
+    List<String> substituteQuery = ['돼지고기','조기','파인애플','잡채'];
     List<Recipe> recipes = [];
     //for AI reccomendation
     List<String> queryAI = ["${DateTime.now().month}"];
-    String substituteQueryAI = '상추';
+    List<String> substituteQueryAI = ['상추', '아몬드', '사과'];
     List<Recipe> recipesAI = [];
     //AI rec
     final currentHour = DateTime.now().hour;
@@ -80,15 +79,20 @@ class _MainPageState extends ConsumerState<MainPage> {
     //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..? //안되니 일단 리스트로 revert
     //해당 사항에서 무조건 결과 나오는걸로 임의값 하나씩 적용해서 결과만 뽑기
     //Todo: fix logic here
-    recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
-    if (recipesAI.isEmpty) {
-      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[0]);
+    int i = 0;
+    //recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
+    while(recipesAI.isEmpty && i < substituteQueryAI.length) {
+      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[i]);
+      i++;
     }
+
     //mood and vibe 
+    //int j = 1;
     recipes += await repository.getJechulRecipeWithoutGemini(query[0]);  
-    if (recipes.isEmpty) {
-      recipes += await repository.getJechulRecipeWithoutGemini(query[2]);
-    }
+    // while (recipes.length < 3 && j<query.length ) {
+    //   recipes += await repository.getJechulRecipeWithoutGemini(query[j]);
+    //   j++;
+    // }
     //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
     .collection('user')
