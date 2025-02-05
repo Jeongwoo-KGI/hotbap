@@ -43,8 +43,8 @@ class RecipeResult extends StatelessWidget{
                         );
                       },
                       child: Container(
-                        // width: 333,
-                        // height: 455,
+                        width: 333,
+                        height: 455,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
                             image: NetworkImage(pages[index].imageUrl),

@@ -61,8 +61,8 @@ class _MainPageState extends ConsumerState<MainPage> {
     List<String> query = ["파스타","스테이크","와인","연인"];
     List<String> substituteQuery = ['고기','조기','파인애플','잡채'];
     List<Recipe> recipes = [];
-    //for AI rec
-    List<String> queryAI = ["${DateTime.now().month}","기분","건강"];
+    //for AI reccomendation
+    List<String> queryAI = ["${DateTime.now().month}"];
     String substituteQueryAI = '상추';
     List<Recipe> recipesAI = [];
     //AI rec
@@ -85,10 +85,9 @@ class _MainPageState extends ConsumerState<MainPage> {
       recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[0]);
     }
     //mood and vibe 
-    recipes += await repository.getRecipesBasedOnGemini(query[0]);
-    
+    recipes += await repository.getJechulRecipeWithoutGemini(query[0]);  
     if (recipes.isEmpty) {
-      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[3]);
+      recipes += await repository.getJechulRecipeWithoutGemini(query[2]);
     }
     //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
