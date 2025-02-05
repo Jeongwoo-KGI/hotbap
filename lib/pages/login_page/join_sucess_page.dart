@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:hotbap/domain/usecase/save_user.dart';
@@ -62,13 +63,10 @@ class JoinSuccessPage extends ConsumerWidget {
               Expanded(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SvgPicture.asset(
+                    'assets/images/logo_sucess.svg', // SVG 이미지 경로
                     width: 164.3,
                     height: 198,
-                    child: Image.asset(
-                      'assets/images/hotbap.png', // 이미지 경로
-                      fit: BoxFit.fill, // 이미지 크기 조정 옵션
-                    ),
                   ),
                 ),
               ),
