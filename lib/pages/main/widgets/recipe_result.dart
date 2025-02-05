@@ -8,7 +8,7 @@ class RecipeResult extends StatelessWidget{
   List<Recipe> searchResult;
   RecipeResult({super.key, required this.searchResult});
 
-  final controller = PageController(viewportFraction:0.8, keepPage: true);
+  final controller = PageController(viewportFraction:1.0, keepPage: true);
 
   @override
   Widget build(BuildContext context) {
