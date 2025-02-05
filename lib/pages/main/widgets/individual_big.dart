@@ -16,7 +16,7 @@ Widget individualBigRecipe (Recipe recipe){
         height: 260,
         padding: const EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 12),
         decoration: ShapeDecoration(
-          color: Color(0xFFF6F6F6),
+          color: Color(0xFFF7F7F7),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
@@ -72,7 +72,7 @@ Widget individualBigRecipe (Recipe recipe){
               child: Text(
                 "$explanationText",
                 style: TextStyle(
-                  color: Color(0xFFB39393),
+                  color: Color(0xFFB3B3B3),
                   fontSize: 12,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w400,
