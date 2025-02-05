@@ -22,7 +22,7 @@ class RecipeResult extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget> [
           Container(
-            height: 458,
+            height: 455,
             width: 333,
             padding: EdgeInsets.only(top: 22, bottom: 34, left: 28),
             child: PageView.builder(
@@ -43,8 +43,8 @@ class RecipeResult extends StatelessWidget{
                         );
                       },
                       child: Container(
-                        width: 333,
-                        height: 455,
+                        // width: 333,
+                        // height: 455,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
                             image: NetworkImage(pages[index].imageUrl),
@@ -54,7 +54,7 @@ class RecipeResult extends StatelessWidget{
                           ),
                         child: Column(
                           children: [
-                            Container(height: 26,),
+                            Container(height: 23,),
                             SizedBox(height: 272,),
                             Container(
                               height: 76,
@@ -124,7 +124,7 @@ class RecipeResult extends StatelessWidget{
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 4,),
+                            const SizedBox(height: 1,),
                             // SizedBox(
                             //   width: 288,
                             //   child: Text(
