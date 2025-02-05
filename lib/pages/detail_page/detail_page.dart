@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/data/data_source/api_recipe_repository.dart';
 import 'package:hotbap/data/data_source/gemini_api.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
@@ -96,6 +97,19 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           decoration: BoxDecoration(
             color: Colors.white, // 단색 배경
           ),
+        ),
+        leading: IconButton(
+          icon: SizedBox(
+            child: SvgPicture.asset(
+              'assets/icons/svg/arrow_m_left.svg',
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(Color(0xFF333333), BlendMode.srcIn),
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context); // 뒤로 가는 동작
+          },
         ),
         title: Text(
           '레시피',

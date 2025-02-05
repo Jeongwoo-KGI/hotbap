@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/login_page/nick_setting_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -165,13 +166,19 @@ class ConditionsPage extends ConsumerWidget {
       },
       child: Row(
         children: [
-          Container(
-              width: 24,
-              height: 24,
-              margin: const EdgeInsets.only(right: 12),
-              child: value
-                  ? const Icon(Icons.check, color: Color(0xFFE33811), size: 18)
-                  : Icon(Icons.check, color: Color(0xFFCCCCCC), size: 18)),
+          SizedBox(
+            child: SvgPicture.asset(
+              value
+                  ? 'assets/icons/svg/check.svg'
+                  : 'assets/icons/svg/check_default.svg',
+              width: 20,
+              height: 20,
+              colorFilter: value
+                  ? ColorFilter.mode(Color(0xFFF05937), BlendMode.srcIn)
+                  : ColorFilter.mode(Color(0xFFCCCCCC), BlendMode.srcIn),
+            ),
+          ),
+          SizedBox(width: 8),
           Expanded(
             child: RichText(
               text: TextSpan(
@@ -206,10 +213,14 @@ class ConditionsPage extends ConsumerWidget {
               onTap: () async {
                 await launchUrlString(link);
               },
-              child: Icon(
-                CupertinoIcons.chevron_forward,
-                size: 17,
-                color: Color(0xFFCCCCCC),
+              child: SizedBox(
+                child: SvgPicture.asset(
+                  'assets/icons/svg/arrow_s_right.svg',
+                  width: 24,
+                  height: 24,
+                  colorFilter:
+                      ColorFilter.mode(Color(0xFF999999), BlendMode.srcIn),
+                ),
               ),
             ),
         ],
@@ -227,15 +238,19 @@ class ConditionsPage extends ConsumerWidget {
       },
       child: Row(
         children: [
-          Container(
+          SizedBox(
+            child: SvgPicture.asset(
+              value
+                  ? 'assets/icons/svg/chechmark_selected.svg'
+                  : 'assets/icons/svg/chechmark_default.svg',
               width: 24,
               height: 24,
-              margin: const EdgeInsets.only(right: 12),
-              decoration: BoxDecoration(
-                color: value ? const Color(0xFFE33811) : Color(0xFFCCCCCC),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(Icons.check, color: Colors.white, size: 18)),
+              colorFilter: value
+                  ? ColorFilter.mode(Color(0xFFF05937), BlendMode.srcIn)
+                  : ColorFilter.mode(Color(0xFFCCCCCC), BlendMode.srcIn),
+            ),
+          ),
+          SizedBox(width: 8),
           const Expanded(
             child: Text(
               '모두 동의하기',
