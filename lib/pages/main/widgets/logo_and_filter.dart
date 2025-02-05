@@ -31,7 +31,7 @@ class LogoAndFilter extends StatelessWidget{
                       ));
                 }, 
                 //아이콘 변경 
-                icon: const Icon(Icons.filter, color: Colors.white,),
+                icon: Image.asset('assets/icons/filter.png'),
               ),
             ),
           ), 
