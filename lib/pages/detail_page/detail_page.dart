@@ -101,7 +101,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           '레시피',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.black,
+            color: Color(0xFF333333),
             fontSize: 20,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w700,
@@ -154,7 +154,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               padding: const EdgeInsets.only(right: 20),
               child: Icon(
                 isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                color: isFavorite ? Colors.red : Colors.black,
+                color: isFavorite ? Colors.red : Color(0xFF333333),
               ),
             ),
           ),

@@ -52,7 +52,7 @@ class JoinSuccessPage extends ConsumerWidget {
               Text(
                 'HOT밥에\n오신 걸 환영해요!',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Color(0xFF333333),
                   fontSize: 24,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w700,
