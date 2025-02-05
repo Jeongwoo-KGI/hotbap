@@ -33,8 +33,10 @@ class LogoAndFilter extends StatelessWidget{
                 }, 
                 //아이콘 변경 
                 icon: SvgPicture.asset("assets/icons/Interface essential/Filter.svg", height: 44, width: 44),
+              ),
             ),
-          ), 
+          ),
+
         ],
       ),
     );
