@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/login_page/join_sucess_page.dart';
 import 'package:hotbap/pages/login_page/viewmodel/nick_setting_view_model.dart';
 
@@ -36,6 +37,20 @@ class _NickSettingPageState extends State<NickSettingPage> {
             decoration: BoxDecoration(
               color: Colors.white, // 단색 배경
             ),
+          ),
+          leading: IconButton(
+            icon: SizedBox(
+              child: SvgPicture.asset(
+                'assets/icons/svg/arrow_m_left.svg',
+                width: 24,
+                height: 24,
+                colorFilter:
+                    ColorFilter.mode(Color(0xFF333333), BlendMode.srcIn),
+              ),
+            ),
+            onPressed: () {
+              Navigator.pop(context); // 뒤로 가는 동작
+            },
           ),
         ),
         body: SafeArea(
