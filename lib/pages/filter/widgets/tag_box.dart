@@ -14,6 +14,21 @@ class TagBox extends StatefulWidget {
 
 class _TagBoxState extends State<TagBox> {
   bool isSelected = false;
+  List<String> selectedFilters = [];
+
+  void wordSelect(String filter) {
+    //버튼이 선택 되었을때 리스트에 추가
+    if (isSelected) {
+      selectedFilters.add(filter);
+    }
+  }
+
+  void wordUnselect(String filter) {
+    //버튼이 선택 취소 되었을때 
+    if (isSelected==false) {
+      selectedFilters.removeWhere((item) => item == filter);
+    }
+  }
 
   @override
   void initState() {
@@ -31,6 +46,8 @@ class _TagBoxState extends State<TagBox> {
       onTap: () {
         setState(() {
           isSelected = !isSelected;
+          wordSelect(widget.text);
+          wordUnselect(widget.text);
         });
       },
       child: Container(
