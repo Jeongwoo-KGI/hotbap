@@ -14,15 +14,15 @@ class RecipeResult extends StatelessWidget{
   Widget build(BuildContext context) {
     //initial state
     final pages = searchResult;
-    if (searchResult == null) {
-      throw Exception();
-    }
+    // if (searchResult == null) {
+    //   throw Exception();
+    // }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget> [
           Container(
-            height: 455,
+            height: 452,
             width: double.infinity,
             padding: EdgeInsets.only(left: 21, right: 21),
             child: PageView.builder(
@@ -44,7 +44,7 @@ class RecipeResult extends StatelessWidget{
                       },
                       child: Container(
                         width: 350,
-                        height: 455,
+                        height: 452,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
                             image: NetworkImage(pages[index].imageUrl),
@@ -53,11 +53,10 @@ class RecipeResult extends StatelessWidget{
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                           ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 28, top: 22, bottom: 34),
+                          padding: EdgeInsets.only(left: 28, top: 22, bottom: 34, right: 180),
                           child: Column(
                             children: [
-                              Container(height: 23,),
-                              SizedBox(height: 272,),
+                              SizedBox(height: 295,),
                               SizedBox(
                                 height: 79,
                                 child: Column(
@@ -71,29 +70,22 @@ class RecipeResult extends StatelessWidget{
                                         color: Color(0xFFE33811),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(47)),
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'AI추천 레시피',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w800,
-                                              height: 1.5,
-                                            ),
-                                          ),
-                                        ],
+                                      child: Text(
+                                        'AI추천 레시피',
+                                        //textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w800,
+                                          height: 1.5,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 4,),
                                     Text(
                                       "[${pages[index].title}]", //레시피 이름
-                                      textAlign: TextAlign.center,
+                                      //textAlign: TextAlign.start,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
@@ -101,12 +93,14 @@ class RecipeResult extends StatelessWidget{
                                         fontWeight: FontWeight.w700,
                                         height: 1.5,
                                       ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     const SizedBox(height: 2,),
                                     Text(
                                       //비율
                                       '탄${pages[index].carbohydrate}g, 단${pages[index].protein}, 지${pages[index].fat}',
-                                      textAlign: TextAlign.center,
+                                      //textAlign: TextAlign.start,
                                       style: TextStyle(
                                         color: Color(0xFFE6E6E6),
                                         fontFamily: 'Pretendard',
@@ -142,6 +136,7 @@ class RecipeResult extends StatelessWidget{
 
             ),
           ),
+          SizedBox(height: 12,),
           SmoothPageIndicator(
             controller: controller, 
             count: pages.length, 
