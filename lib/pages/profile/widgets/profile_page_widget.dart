@@ -197,11 +197,11 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                   nameController: _nameController,
                   saveUserName: _saveUserName,
                 ),
-                SizedBox(height: 16), // 간격 추가
+                SizedBox(height: 8), // 간격 추가
                 Divider(color: Color(0xFFE6E6E6)),
                 SizedBox(height: 16), // 간격 추가
                 SupportSection(screenWidth, screenHeight),
-                SizedBox(height: 16), // 간격 추가
+                SizedBox(height: 8), // 간격 추가
                 Divider(color: Color(0xFFE6E6E6)),
                 SizedBox(height: 16), // 간격 추가
                 AccountManagement(

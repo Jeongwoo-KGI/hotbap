@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // url_launcher 패키지 추가
+import 'package:flutter_svg/flutter_svg.dart'; // flutter_svg 패키지 추가
 
 class SupportSection extends StatelessWidget {
   final double screenWidth;
@@ -36,12 +37,15 @@ class SupportSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          width: 375,
+          height: 40,
+          padding: const EdgeInsets.only(left: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 '이용약관',
@@ -50,14 +54,14 @@ class SupportSection extends StatelessWidget {
                   fontSize: 14,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
-                  height: 1.35,
                 ),
               ),
+              SizedBox(width: 255),
               SizedBox(
-                width: 9.5,
-                height: 17.48,
+                width: 24,
+                height: 24,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
+                  icon: SvgPicture.asset('assets/icons/svg/arrow_m_right.svg'),
                   onPressed: _launchURL, // 버튼을 눌렀을 때 URL을 열도록 설정
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
@@ -66,12 +70,15 @@ class SupportSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 20), // 간격 추가
+        SizedBox(height: 0),
         Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          width: 375,
+          height: 40,
+          padding: const EdgeInsets.only(left: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'FAQ',
@@ -80,16 +87,16 @@ class SupportSection extends StatelessWidget {
                   fontSize: 14,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
-                  height: 1.35,
                 ),
               ),
+              SizedBox(width: 275),
               SizedBox(
-                width: 9.5, // 아이콘 너비 설정
-                height: 17.48, // 아이콘 높이 설정
+                width: 24,
+                height: 24,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios, color: Color(0xFF333333)),
+                  icon: SvgPicture.asset('assets/icons/svg/arrow_m_right.svg'),
                   onPressed: () {},
-                  padding: EdgeInsets.zero, // 패딩 제거
+                  padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
                 ),
               ),

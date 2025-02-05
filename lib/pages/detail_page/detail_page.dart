@@ -157,9 +157,14 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 height: 1.35,
                               ),
                             )),
-                            ImageIcon(
-                              AssetImage('assets/icons/selected_heart.png'),
-                              color: Color(0xFFF70F36),
+                            SizedBox(
+                              child: SvgPicture.asset(
+                                'assets/icons/svg/heart_selected.svg',
+                                width: 24,
+                                height: 24,
+                                colorFilter: ColorFilter.mode(
+                                    Color(0xFFE33811), BlendMode.srcIn),
+                              ),
                             ),
                           ],
                         ),
@@ -172,11 +177,17 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: ImageIcon(
-                isFavorite
-                    ? AssetImage('assets/icons/selected_heart.png')
-                    : AssetImage('assets/icons/default_heart.png'),
-                color: isFavorite ? Colors.red : Color(0xFF333333),
+              child: SizedBox(
+                child: SvgPicture.asset(
+                  isFavorite
+                      ? 'assets/icons/svg/heart_selected.svg'
+                      : 'assets/icons/svg/heart_default.svg',
+                  width: 24,
+                  height: 24,
+                  colorFilter: isFavorite
+                      ? ColorFilter.mode(Color(0xFFE33811), BlendMode.srcIn)
+                      : ColorFilter.mode(Color(0xFF333333), BlendMode.srcIn),
+                ),
               ),
             ),
           ),
@@ -319,18 +330,29 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         ),
       ),
       floatingActionButton: _isScrolled
-          ? FloatingActionButton(
-              onPressed: () {
-                _scrollController.animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                );
-              },
-              child: const Icon(Icons.arrow_upward),
-              backgroundColor: Color(0xFFE33811),
-              foregroundColor: Colors.white,
-              elevation: 4, //버튼 그림자
+          ? SizedBox(
+              width: 56,
+              height: 56,
+              child: FloatingActionButton(
+                onPressed: () {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: SizedBox(
+                  child: SvgPicture.asset(
+                    'assets/icons/svg/Arrow-up.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter:
+                        ColorFilter.mode(Color(0xFFFFFFFF), BlendMode.srcIn),
+                  ),
+                ),
+                backgroundColor: Color(0xFFE33811),
+                elevation: 4, //버튼 그림자
+              ),
             )
           : null,
     );
