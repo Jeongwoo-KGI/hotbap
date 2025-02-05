@@ -100,6 +100,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
           ),
           Container(
             height: 170,
+            padding: EdgeInsets.only(left: 20),
             child: Text(
               //if currentJechul != currentallJechul
               //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",

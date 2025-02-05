@@ -22,6 +22,7 @@ class LogoAndFilter extends StatelessWidget{
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
+                //color: Color(0xFF1A1717),
                 onPressed: (){
                   Navigator.pushReplacement(
                     context,
@@ -31,10 +32,11 @@ class LogoAndFilter extends StatelessWidget{
                       ));
                 }, 
                 //아이콘 변경 
-                icon: const Icon(Icons.filter, color: Colors.white,),
+                icon: SvgPicture.asset("assets/icons/Interface essential/Filter.svg", height: 44, width: 44),
               ),
             ),
-          ), 
+          ),
+
         ],
       ),
     );

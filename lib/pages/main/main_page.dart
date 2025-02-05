@@ -56,20 +56,22 @@ class _MainPageState extends ConsumerState<MainPage> {
   }
 
   Future<void> dataRecipeGetAll() async {
+    isLoading = true;
     //for mood and vibe
     List<String> query = ["파스타","스테이크","와인","연인"];
     List<String> substituteQuery = ['고기','조기','파인애플','잡채'];
     List<Recipe> recipes = [];
-    //for AI rec
-    List<String> queryAI = ["${DateTime.now().day}","${DateTime.now().hour}","${DateTime.now().month}","기분","건강"];
+    //for AI reccomendation
+    List<String> queryAI = ["${DateTime.now().month}"];
     String substituteQueryAI = '상추';
     List<Recipe> recipesAI = [];
     //AI rec
-    if (DateTime.now().hour<11) {
+    final currentHour = DateTime.now().hour;
+    if (currentHour<11) {
       queryAI.add("아침");
-    } else if (DateTime.now().hour < 15) {
+    } else if (currentHour < 15) {
       queryAI.add("점심");
-    } else if (DateTime.now().hour < 20) {
+    } else if (currentHour < 20) {
       queryAI.add("저녁");
     } else {
       queryAI.add("간식");
@@ -79,14 +81,13 @@ class _MainPageState extends ConsumerState<MainPage> {
     //해당 사항에서 무조건 결과 나오는걸로 임의값 하나씩 적용해서 결과만 뽑기
     //Todo: fix logic here
     recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
-    if (recipesAI.length < 3) {
+    if (recipesAI.isEmpty) {
       recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[0]);
     }
     //mood and vibe 
-    recipes += await repository.getRecipesBasedOnGemini(query[0]);
-    
-    if (recipes.length < 3) {
-      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[3]);
+    recipes += await repository.getJechulRecipeWithoutGemini(query[0]);  
+    if (recipes.isEmpty) {
+      recipes += await repository.getJechulRecipeWithoutGemini(query[2]);
     }
     //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
@@ -94,13 +95,14 @@ class _MainPageState extends ConsumerState<MainPage> {
     .doc(user!.uid)
     .collection('favorites')
     .get();
-    setState(() {
-      savedRecipes = recipesSnapshot.docs.map(
-        (doc) => doc['title'] as String
-      ).toList();
-      resultRecipesMNV = recipes;
-      resultRecipesAI = recipesAI;
-    });
+    
+    //save the data that has been fetched
+    savedRecipes = recipesSnapshot.docs.map(
+      (doc) => doc['title'] as String
+    ).toList();
+    resultRecipesMNV = recipes;
+    resultRecipesAI = recipesAI;
+    isLoading = false;
   }
 
   @override
@@ -111,7 +113,9 @@ class _MainPageState extends ConsumerState<MainPage> {
     //print(userData);
     //final userName = userData!.user;
     return isLoading 
-    ? Center(child: CircularProgressIndicator())
+    ? Center(child: CircularProgressIndicator(
+      color: Color(0xFFE33811),
+    ))
     : Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
