@@ -13,7 +13,7 @@ class MoodNVibe extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 20, left: 20, bottom: 12),
+          padding: EdgeInsets.only(top: 20, left: 20),
           child: Text(
             "집에서 분위기 있게",
             style: TextStyle(
@@ -24,8 +24,10 @@ class MoodNVibe extends StatelessWidget{
             ),
           ),
         ),
+        SizedBox(height: 12,),
         Container(
-          height: 264,
+          height: 260,
+          padding: EdgeInsets.only(left: 20),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,
