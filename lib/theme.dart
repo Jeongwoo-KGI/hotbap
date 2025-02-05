@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
@@ -7,21 +8,66 @@ final ThemeData appTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.white,
     selectedItemColor: Color(0xFFD6512C),
-    unselectedItemColor: Colors.grey,
+    unselectedItemColor: Color(0xFF989898),
   ),
 );
 
-const List<BottomNavigationBarItem> bottomNavItems = [
+List<BottomNavigationBarItem> bottomNavItems = [
   BottomNavigationBarItem(
-    icon: Icon(Icons.home),
+    icon: SizedBox(
+      child: SvgPicture.asset(
+        'assets/icons/svg/Home_Default.svg',
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(Color(0xFF989898), BlendMode.srcIn),
+      ),
+    ),
+    activeIcon: SizedBox(
+      child: SvgPicture.asset(
+        'assets/icons/svg/Home_filled.svg',
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(Color(0xFFD6512C), BlendMode.srcIn),
+      ),
+    ),
     label: '홈',
   ),
   BottomNavigationBarItem(
-    icon: Icon(Icons.search),
+    icon: SizedBox(
+      child: SvgPicture.asset(
+        'assets/icons/svg/Magnifier_Default.svg',
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(Color(0xFF989898), BlendMode.srcIn),
+      ),
+    ),
+    activeIcon: SizedBox(
+      child: SvgPicture.asset(
+        'assets/icons/svg/Magnifier_filled.svg',
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(Color(0xFFD6512C), BlendMode.srcIn),
+      ),
+    ),
     label: '검색',
   ),
   BottomNavigationBarItem(
-    icon: Icon(Icons.person),
+    icon: SizedBox(
+      child: SvgPicture.asset(
+        'assets/icons/svg/Person_Default.svg',
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(Color(0xFF989898), BlendMode.srcIn),
+      ),
+    ),
+    activeIcon: SizedBox(
+      child: SvgPicture.asset(
+        'assets/icons/svg/Person_filled.svg',
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(Color(0xFFD6512C), BlendMode.srcIn),
+      ),
+    ),
     label: '마이',
   ),
 ];

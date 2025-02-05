@@ -9,6 +9,7 @@ import 'package:hotbap/pages/splash_page/splash_page.dart';
 import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
+import 'package:hotbap/pages/filter/filter_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +23,7 @@ void main() async {
   );
 
   // 앱 실행 시 Firebase 인증 초기화//배포할 때 삭제할것
-  await FirebaseAuth.instance.signOut();
+  // await FirebaseAuth.instance.signOut();
 
   // ProviderScope로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
   runApp(const ProviderScope(child: MyApp()));
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: appTheme, // 테마 파일 적용
       initialRoute: '/splash', // 초기 화면을 로그인 페이지로 설정
       routes: {
-        '/splash': (context) => SplashPage(), // 로그인 페이지 추가
+        '/splash': (context) => FilterPage(), // 로그인 페이지 추가
         '/login': (context) => SearchPage(), // 로그인 페이지 추가
         '/profile': (context) => ProfilePage(), // 프로필 페이지 추가
       },
