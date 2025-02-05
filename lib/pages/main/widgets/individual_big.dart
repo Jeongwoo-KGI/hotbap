@@ -13,7 +13,7 @@ Widget individualBigRecipe (Recipe recipe){
       SizedBox(width: 10),
       Container(
         width: 247,
-        height: 256,
+        height: 260,
         padding: const EdgeInsets.only(top: 10, left: 12, right: 12, bottom: 12),
         decoration: ShapeDecoration(
           color: Color(0xFFF6F6F6),

@@ -58,16 +58,20 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
   Future<void> jechulRecipes() async {
     //fecth the jechul ingredients of this month
     currentallJechul = jechul[monthName]!;
-    final random = new Random();
-    //get current jechul ingredients up to 4
-    // for (int i = 0; i<4; i++){
-    //   currentJechul.add(currentallJechul[random.nextInt((currentallJechul.length))]);
-    // }
-    currentJechul = currentallJechul.toString().replaceAll(" ","").replaceAll("[","").replaceAll("]", "");
-    //query 4 ingredients of jechul and get results
-    final repository = ref.read(recipeRepositoryProvider);
+    //final random = new Random();
     List<Recipe> recipes = [];
-    recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
+    final repository = ref.read(recipeRepositoryProvider);
+    //get current jechul ingredients up to 4
+    int ind = 0;
+    while (recipes.length < 1 && ind<currentallJechul.length){
+      currentJechul = currentallJechul[ind]; //random -> indx increment 
+      ind ++;
+      recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
+    }
+    //심플하게 만들어봄 
+    //currentJechul = currentallJechul.toString().replaceAll(" ","").replaceAll("[","").replaceAll("]", "");
+    //이렇게 쿼리하면 안되네...
+    //query 4 ingredients of jechul and get results
     setState(() {
       resultRecipes = recipes;
       _isLoading = false;
@@ -99,7 +103,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
             child: Text(
               //if currentJechul != currentallJechul
               //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
-              "제철재료 음식 없음: 이달의 제철 재료 ${currentallJechul[Random().nextInt((currentJechul.length))]}",
+              "제철재료 음식 없음: 이달의 제철 재료 ${currentallJechul[Random().nextInt((currentallJechul.length))]}",
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'Pretendard',

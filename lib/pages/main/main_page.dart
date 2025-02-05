@@ -57,34 +57,36 @@ class _MainPageState extends ConsumerState<MainPage> {
 
   Future<void> dataRecipeGetAll() async {
     //for mood and vibe
-    String query = "파스타,스테이크,와인,연인";
-    String substituteQuery = '고기,조기,파인애플,잡채';
+    List<String> query = ["파스타","스테이크","와인","연인"];
+    List<String> substituteQuery = ['고기','조기','파인애플','잡채'];
     List<Recipe> recipes = [];
     //for AI rec
-    String queryAI = "${DateTime.now().day},${DateTime.now().hour},${DateTime.now().month},기분,건강";
+    List<String> queryAI = ["${DateTime.now().day}","${DateTime.now().hour}","${DateTime.now().month}","기분","건강"];
     String substituteQueryAI = '상추';
     List<Recipe> recipesAI = [];
     //AI rec
     if (DateTime.now().hour<11) {
-      queryAI += ",아침";
+      queryAI.add("아침");
     } else if (DateTime.now().hour < 15) {
-      queryAI += ",점심";
+      queryAI.add("점심");
     } else if (DateTime.now().hour < 20) {
-      queryAI +=",저녁";
+      queryAI.add("저녁");
     } else {
-      queryAI += ",간식";
+      queryAI.add("간식");
     }
     final repository = ref.read(recipeRepositoryProvider);
-    //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..?
-    recipesAI += await repository.getRecipesBasedOnGemini(queryAI);
+    //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..? //안되니 일단 리스트로 revert
+    //해당 사항에서 무조건 결과 나오는걸로 임의값 하나씩 적용해서 결과만 뽑기
+    //Todo: fix logic here
+    recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
     if (recipesAI.length < 3) {
-      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI);
+      recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[0]);
     }
     //mood and vibe 
-    recipes += await repository.getRecipesBasedOnGemini(query);
+    recipes += await repository.getRecipesBasedOnGemini(query[0]);
     
     if (recipes.length < 3) {
-      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery);
+      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[3]);
     }
     //Saved Recipe
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance

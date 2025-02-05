@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
@@ -11,49 +12,140 @@ class RecipeResult extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final pages = List.generate(
-      6, 
-      (index) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          color: Colors.grey.shade300,
-        ),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        child: Container(
-          height: 280,
-          child: Center(
-            child: Text("page $index", style: TextStyle(color: Colors.indigo)),
-          ),
-        ),
-      ),
-    );
+    //initial state
+    final pages = searchResult;
     if (searchResult == null) {
       throw Exception();
     }
     return SingleChildScrollView(
-
-      //ToDo: find the way to make dots on the btm 
-      //ToDo: make a list of cards from the input
-      // child: Container(
-        // height: 448,
-        // width: 339,
-        // decoration: ShapeDecoration(
-        //   image: DecorationImage(
-        //     image: NetworkImage(), 
-        //     fit: BoxFit.fill,
-        //   ),
-        //   shape: RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.circular(40),
-        //   )
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget> [
-          SizedBox(height: 16),
-          SizedBox(
-            height: 240,
+          Container(
+            height: 452,
+            width: 333,
+            padding: EdgeInsets.only(top: 22, bottom: 34, left: 28),
             child: PageView.builder(
+              scrollDirection: Axis.horizontal,
+              reverse: true,
               controller: controller,
-              itemBuilder: (_, index) => pages[index % pages.length],
+              itemCount: pages.length,
+              itemBuilder: (context, index){
+                return Stack(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(recipe: pages[index]),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 333,
+                        height: 452,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(pages[index].imageUrl),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                          ),
+                        child: Column(
+                          children: [
+                            Container(height: 26,),
+                            SizedBox(height: 272,),
+                            Container(
+                              height: 76,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                          decoration: ShapeDecoration(
+                                            color: Color(0xFFE33811),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(47)),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'AI추천 레시피',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w800,
+                                                  height: 1.5,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Text(
+                                          "[${pages[index].title}]", //레시피 이름
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w700,
+                                            height: 1.5,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2,),
+                                  Text(
+                                    //비율
+                                    '탄${pages[index].carbohydrate}g, 단${pages[index].protein}, 지${pages[index].fat}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFFE6E6E6),
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 4,),
+                            // SizedBox(
+                            //   width: 288,
+                            //   child: Text(
+                            //     '#${pages[index].calorie}', //FixMe: Hash_Tag 로 바꾸기
+                            //     style: TextStyle(
+                            //       color: Color(0xFFE6E6E6),
+                            //       fontSize: 12,
+                            //       fontFamily: 'Pretendard',
+                            //       fontWeight: FontWeight.w400,
+                            //       height: 1.5,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],                                     
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+
             ),
           ),
           SmoothPageIndicator(controller: controller, count: pages.length, effect: const ExpandingDotsEffect(dotHeight: 8, dotWidth: 8, spacing: 4)),
