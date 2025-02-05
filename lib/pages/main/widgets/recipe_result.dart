@@ -154,7 +154,7 @@ class RecipeResult extends StatelessWidget{
             effect: const ExpandingDotsEffect(
               dotHeight: 8, 
               dotWidth: 8, 
-              dotColor: Color(000000),
+              dotColor: Color(0xFF000000),
               activeDotColor: Color(0xFFE33811),
               spacing: 4
             ),
