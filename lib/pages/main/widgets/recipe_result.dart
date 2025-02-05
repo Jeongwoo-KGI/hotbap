@@ -22,7 +22,7 @@ class RecipeResult extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget> [
           Container(
-            height: 452,
+            height: 458,
             width: 333,
             padding: EdgeInsets.only(top: 22, bottom: 34, left: 28),
             child: PageView.builder(
@@ -44,7 +44,7 @@ class RecipeResult extends StatelessWidget{
                       },
                       child: Container(
                         width: 333,
-                        height: 452,
+                        height: 455,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
                             image: NetworkImage(pages[index].imageUrl),
@@ -148,7 +148,17 @@ class RecipeResult extends StatelessWidget{
 
             ),
           ),
-          SmoothPageIndicator(controller: controller, count: pages.length, effect: const ExpandingDotsEffect(dotHeight: 8, dotWidth: 8, spacing: 4)),
+          SmoothPageIndicator(
+            controller: controller, 
+            count: pages.length, 
+            effect: const ExpandingDotsEffect(
+              dotHeight: 8, 
+              dotWidth: 8, 
+              dotColor: Color(000000),
+              activeDotColor: Color(0xFFE33811),
+              spacing: 4
+            ),
+          ),
         ],
       ),
       

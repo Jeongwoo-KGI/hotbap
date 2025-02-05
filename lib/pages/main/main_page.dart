@@ -111,7 +111,9 @@ class _MainPageState extends ConsumerState<MainPage> {
     //print(userData);
     //final userName = userData!.user;
     return isLoading 
-    ? Center(child: CircularProgressIndicator())
+    ? Center(child: CircularProgressIndicator(
+      color: Color(0xFFE33811),
+    ))
     : Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
