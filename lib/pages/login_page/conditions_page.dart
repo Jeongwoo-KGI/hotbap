@@ -27,18 +27,18 @@ class ConditionsPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               const Text(
                 '이용약관',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Color(0xFF333333),
                   fontSize: 24,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w700,
                   height: 1.35,
                 ),
               ),
-              const SizedBox(height: 23),
+              const SizedBox(height: 20),
               Container(
                 height: 80,
                 width: double.infinity,
@@ -53,7 +53,7 @@ class ConditionsPage extends ConsumerWidget {
                   '핫밥의 서비스 약관이에요.\n필수 약관을 동의하셔야 이용할 수 있어요.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF666666),
+                    color: Color(0xFF656565),
                     fontSize: 12,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w500,
@@ -69,7 +69,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.toggleAllAgreements(value ?? false);
                 },
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 33),
               // (필수) 서비스 이용약관
               _buildCustomCheckboxTile(
                 label: '(필수) 서비스 이용약관',
@@ -80,7 +80,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.toggleServiceAgreement(value ?? false);
                 },
               ),
-              const SizedBox(height: 31),
+              const SizedBox(height: 28),
               // (필수) 개인정보처리방침
               _buildCustomCheckboxTile(
                 label: '(필수) 개인정보 처리방침',
@@ -91,7 +91,7 @@ class ConditionsPage extends ConsumerWidget {
                   conditionsNotifier.togglePrivacyAgreement(value ?? false);
                 },
               ),
-              const SizedBox(height: 29.5),
+              const SizedBox(height: 27),
               // (필수) 14세 이상 확인
               _buildCustomCheckboxTile(
                 label: '(필수) 14세 이상이에요',

@@ -9,7 +9,7 @@ Widget individualSmallRecipe (Recipe recipe){
   String imageURL = recipe.imageUrl;
   return Row(
     children: [
-      SizedBox(width: 3),
+      //SizedBox(width: 3),
       Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +26,7 @@ Widget individualSmallRecipe (Recipe recipe){
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
             ),
-            SizedBox(height: 6,),
+            SizedBox(height: 8,),
             //name
             Text("$input", style: TextStyle(fontSize: 14, fontFamily: 'Pretendard', fontWeight: FontWeight.w600, color: Color(0xFF333333)),),
             //ratio
@@ -34,7 +34,7 @@ Widget individualSmallRecipe (Recipe recipe){
           ],
         ),
       ),
-      SizedBox(width: 4,),
+      SizedBox(width: 7,),
     ],
   );
 }

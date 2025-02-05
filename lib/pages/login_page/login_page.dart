@@ -64,43 +64,41 @@ class LoginWidget extends ConsumerWidget {
         child: Column(
           children: [
             // 상단 영역
+            SizedBox(height: 20),
             SmoothPageIndicator(
               controller: _controller, // PageView의 컨트롤러
               count: 3, // 페이지 개수
               effect: WormEffect(
-                dotHeight: 12,
-                dotWidth: 12,
+                dotHeight: 6,
+                dotWidth: 6,
                 activeDotColor: Color(0xFFE33811),
+                dotColor: Color(0xFFCCCCCC), // 비활성화된 도트 색상
               ), // 원하는 효과 지정
             ),
             SizedBox(height: 16),
-
-            Expanded(
-              flex: 6,
-              child: Container(
-                width: double.infinity,
-                color: Colors.grey,
-                alignment: Alignment.center,
-                child: PageView(
-                  controller: _controller,
-                  children: [
-                    Container(color: Colors.red),
-                    Container(color: Colors.green),
-                    Container(color: Colors.blue),
-                  ],
-                ),
+            Container(
+              height: 481,
+              width: double.infinity,
+              color: Colors.grey,
+              alignment: Alignment.center,
+              child: PageView(
+                controller: _controller,
+                children: [
+                  Container(color: Colors.red),
+                  Container(color: Colors.green),
+                  Container(color: Colors.blue),
+                ],
               ),
             ),
 
             // 하단 로그인 영역
-            Container(
-              height: 271,
+            Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 85,
+                      height: 52,
                     ),
                     Text(
                       '3초 만에 빠른 로그인',

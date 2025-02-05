@@ -45,8 +45,9 @@ final recipeRepositoryProvider = Provider<ApiRecipeRepository> ((ref){
 
 class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
   String monthName = DateFormat("MMM").format(DateTime.now());
-  List<String> currentJechul = [];
+  String currentJechul = "";
   List<Recipe> resultRecipes = [];
+  List<String> currentallJechul = [];
   bool _isLoading = true;
 
   void initState() {
@@ -56,19 +57,21 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
 
   Future<void> jechulRecipes() async {
     //fecth the jechul ingredients of this month
-    List<String> currentallJechul = jechul[monthName]!;
-    final random = new Random();
-    //get current jechul ingredients up to 4
-    // for (int i = 0; i<4; i++){
-    //   currentJechul.add(currentallJechul[random.nextInt((currentallJechul.length))]);
-    // }
-    currentJechul = currentallJechul;
-    //query 4 ingredients of jechul and get results
-    final repository = ref.read(recipeRepositoryProvider);
+    currentallJechul = jechul[monthName]!;
+    //final random = new Random();
     List<Recipe> recipes = [];
-    for(int i = 0;i<currentJechul.length;i++){
-      recipes += await repository.getJechulRecipeWithoutGemini(currentJechul[i]);
+    final repository = ref.read(recipeRepositoryProvider);
+    //get current jechul ingredients up to 4
+    int ind = 0;
+    while (recipes.length < 3 && ind<currentallJechul.length){
+      currentJechul = currentallJechul[ind]; //random -> indx increment 
+      ind ++;
+      recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
     }
+    //심플하게 만들어봄 
+    //currentJechul = currentallJechul.toString().replaceAll(" ","").replaceAll("[","").replaceAll("]", "");
+    //이렇게 쿼리하면 안되네...
+    //query 4 ingredients of jechul and get results
     setState(() {
       resultRecipes = recipes;
       _isLoading = false;
@@ -100,7 +103,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
             child: Text(
               //if currentJechul != currentallJechul
               //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
-              "제철재료 음식 없음: 이달의 제철 재료 ${currentJechul[Random().nextInt((currentJechul.length))]}",
+              "제철재료 음식 없음: 이달의 제철 재료 ${currentallJechul[Random().nextInt((currentallJechul.length))]}",
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'Pretendard',
@@ -130,6 +133,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
         ),
         Container(
           height: 170,
+          padding: EdgeInsets.only(left: 20),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,
