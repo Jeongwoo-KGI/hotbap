@@ -63,7 +63,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
     final repository = ref.read(recipeRepositoryProvider);
     //get current jechul ingredients up to 4
     int ind = 0;
-    while (recipes.length < 1 && ind<currentallJechul.length){
+    while (recipes.length < 3 && ind<currentallJechul.length){
       currentJechul = currentallJechul[ind]; //random -> indx increment 
       ind ++;
       recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
@@ -133,6 +133,7 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
         ),
         Container(
           height: 170,
+          padding: EdgeInsets.only(left: 20),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,

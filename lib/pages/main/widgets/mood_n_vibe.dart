@@ -25,7 +25,7 @@ class MoodNVibe extends StatelessWidget{
           ),
         ),
         Container(
-          height: 260,
+          height: 264,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: resultRecipes.length,

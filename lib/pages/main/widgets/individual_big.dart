@@ -85,7 +85,7 @@ Widget individualBigRecipe (Recipe recipe){
           ],
         ),
       ),
-      //SizedBox(width: 4,),
+      SizedBox(width: 4,),
     ],
   );
 }
