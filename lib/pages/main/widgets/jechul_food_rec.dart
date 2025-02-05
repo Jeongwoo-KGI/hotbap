@@ -32,6 +32,9 @@ Map<String, List<String>> jechul = {
 
 //FixMe: 재료를 하나 입력하는것으로 결과가 안나오는데..? 제미나이 거치지 않고 결과를 내는 방식으로 바꿀것
 class JechulFoodRec extends ConsumerStatefulWidget{
+  //잠수함 
+  List<Recipe> resultRecipes;
+  JechulFoodRec({required this.resultRecipes});
   @override
   _JechulFoodRecState createState() => _JechulFoodRecState();
 }
@@ -44,10 +47,10 @@ final recipeRepositoryProvider = Provider<ApiRecipeRepository> ((ref){
 });
 
 class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
-  String monthName = DateFormat("MMM").format(DateTime.now());
-  String currentJechul = "";
-  List<Recipe> resultRecipes = [];
-  List<String> currentallJechul = [];
+  // String monthName = DateFormat("MMM").format(DateTime.now());
+  // String currentJechul = "";
+  // List<Recipe> resultRecipes = [];
+  // List<String> currentallJechul = [];
   bool _isLoading = true;
 
   void initState() {
@@ -56,24 +59,24 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
   }
 
   Future<void> jechulRecipes() async {
-    //fecth the jechul ingredients of this month
-    currentallJechul = jechul[monthName]!;
-    //final random = new Random();
-    List<Recipe> recipes = [];
-    final repository = ref.read(recipeRepositoryProvider);
-    //get current jechul ingredients up to 4
-    int ind = 0;
-    while (recipes.length < 3 && ind<currentallJechul.length){
-      currentJechul = currentallJechul[ind]; //random -> indx increment 
-      ind ++;
-      recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
-    }
+    // //fecth the jechul ingredients of this month
+    // currentallJechul = jechul[monthName]!;
+    // //final random = new Random();
+    // List<Recipe> recipes = [];
+    // final repository = ref.read(recipeRepositoryProvider);
+    // //get current jechul ingredients up to 4
+    // int ind = 0;
+    // while (recipes.length < 3 && ind<currentallJechul.length){
+    //   currentJechul = currentallJechul[ind]; //random -> indx increment 
+    //   ind ++;
+    //   recipes += await repository.getJechulRecipeWithoutGemini(currentJechul);
+    // }
     //심플하게 만들어봄 
     //currentJechul = currentallJechul.toString().replaceAll(" ","").replaceAll("[","").replaceAll("]", "");
     //이렇게 쿼리하면 안되네...
     //query 4 ingredients of jechul and get results
     setState(() {
-      resultRecipes = recipes;
+      //resultRecipes = recipes;
       _isLoading = false;
     });
   }
@@ -83,40 +86,40 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
     }
-    if (resultRecipes.isEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top:40, left: 20, bottom: 13),
-            child: Text(
-              "제철음식 추천",
-              style: TextStyle(              
-                fontSize: 16,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF333333),),
-            ),
-          ),
-          Container(
-            height: 170,
-            padding: EdgeInsets.only(left: 20),
-            child: Text(
-              //if currentJechul != currentallJechul
-              //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
-              "제철재료 음식 없음: 이달의 제철 재료 ${currentallJechul[Random().nextInt((currentallJechul.length))]}",
-              style: TextStyle(
-                fontSize: 12,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w300,
-                color: Color(0xFF333333),
-              ),
-            ),
-          ),
+    // if (widget.resultRecipes.isEmpty) {
+    //   return Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Padding(
+    //         padding: EdgeInsets.only(top:40, left: 20, bottom: 13),
+    //         child: Text(
+    //           "제철음식 추천",
+    //           style: TextStyle(              
+    //             fontSize: 16,
+    //             fontFamily: 'Pretendard',
+    //             fontWeight: FontWeight.w700,
+    //             color: Color(0xFF333333),),
+    //         ),
+    //       ),
+    //       Container(
+    //         height: 170,
+    //         padding: EdgeInsets.only(left: 20),
+    //         child: Text(
+    //           //if currentJechul != currentallJechul
+    //           //"제철재료 음식 없음: 이달의 제철 재료 $currentJechul",
+    //           "제철재료 음식 없음: 이달의 제철 재료 ${currentallJechul[Random().nextInt((currentallJechul.length))]}",
+    //           style: TextStyle(
+    //             fontSize: 12,
+    //             fontFamily: 'Pretendard',
+    //             fontWeight: FontWeight.w300,
+    //             color: Color(0xFF333333),
+    //           ),
+    //         ),
+    //       ),
           
-        ],
-      );
-    }
+    //     ],
+    //   );
+    // }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -137,9 +140,9 @@ class _JechulFoodRecState extends ConsumerState<JechulFoodRec> {
           padding: EdgeInsets.only(left: 20),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: resultRecipes.length,
+            itemCount: widget.resultRecipes.length,
             itemBuilder: (context, index){
-              final recipe = resultRecipes[index];
+              final recipe = widget.resultRecipes[index];
               final input = recipe;
               return GestureDetector(
                 child: individualSmallRecipe(input),
