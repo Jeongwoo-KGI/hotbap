@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AccountSection extends StatefulWidget {
   final double screenWidth;
@@ -40,12 +41,15 @@ class _AccountSectionState extends State<AccountSection> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 8),
         Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          width: 375,
+          height: 40,
+          padding: const EdgeInsets.only(left: 10), // 왼쪽에만 20 여백 추가
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               isEditing
                   ? Expanded(
@@ -61,16 +65,17 @@ class _AccountSectionState extends State<AccountSection> {
                         fontSize: 14,
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w600,
-                        height: 1.35,
                       ),
                     ),
+              SizedBox(width: 240), // 텍스트와 아이콘 사이 간격을 253으로 설정
               SizedBox(
-                width: 9.5,
-                height: 17.48,
+                width: 24,
+                height: 24,
                 child: IconButton(
-                  icon: Icon(
-                    isEditing ? Icons.check : Icons.arrow_forward_ios,
-                    color: Color(0xFF333333),
+                  icon: SvgPicture.asset(
+                    isEditing
+                        ? 'assets/icons/svg/check.svg'
+                        : 'assets/icons/svg/arrow_m_right.svg', // 수정된 아이콘 경로
                   ),
                   onPressed: () {
                     if (isEditing) {
