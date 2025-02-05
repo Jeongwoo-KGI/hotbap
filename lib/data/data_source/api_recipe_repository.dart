@@ -65,7 +65,7 @@ class ApiRecipeRepository implements RecipeRepository {
         Uri.parse('$_baseUrl/$_serviceKey/COOKRCP01/json/1/3/RCP_PARTS_DTLS=$query');
     final response = await http.get(url);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200) { //ToDo: 동시접속문제 해결
       final data = json.decode(response.body);
       if (data['COOKRCP01']['row'] != null) {
         final recipeData = data['COOKRCP01']['row'] as List;
