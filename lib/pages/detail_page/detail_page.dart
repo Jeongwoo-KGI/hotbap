@@ -101,10 +101,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           '레시피',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.black,
+            color: Color(0xFF333333),
             fontSize: 20,
             fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w500,
             height: 1.35,
           ),
         ),
@@ -125,23 +125,30 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                           topLeft: Radius.circular(8),
                           topRight: Radius.circular(8)),
                     ),
-                    content: Row(
+                    content: Column(
                       children: [
-                        Expanded(
-                            child: Text(
-                          '나의 찜에서 \n저장한 레시피를 확인하실 수 있습니다',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w500,
-                            height: 1.35,
-                          ),
-                        )),
-                        Icon(
-                          CupertinoIcons.heart_fill,
-                          weight: 16,
-                          color: Color(0xFFF70F36),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: Text(
+                              '나의 찜에서 \n저장한 레시피를 확인하실 수 있습니다',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                                height: 1.35,
+                              ),
+                            )),
+                            Icon(
+                              CupertinoIcons.heart_fill,
+                              weight: 16,
+                              color: Color(0xFFF70F36),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -154,7 +161,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               padding: const EdgeInsets.only(right: 20),
               child: Icon(
                 isFavorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                color: isFavorite ? Colors.red : Colors.black,
+                color: isFavorite ? Colors.red : Color(0xFF333333),
               ),
             ),
           ),
@@ -369,7 +376,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Color(0xFF333333),
-                        fontSize: 14,
+                        fontSize: 16,
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w600,
                       ),
@@ -384,7 +391,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Color(0xFF7F7F7F),
-                        fontSize: 10,
+                        fontSize: 12,
                         fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w400,
                         height: 1.50,
