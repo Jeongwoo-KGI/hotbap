@@ -10,7 +10,7 @@ Widget individualBigRecipe (Recipe recipe){
   String explanationText = recipe.manuals[0];
   return Row(
     children: [
-      SizedBox(width: 10),
+      //SizedBox(width: 10),
       Container(
         width: 247,
         height: 260,
@@ -85,7 +85,7 @@ Widget individualBigRecipe (Recipe recipe){
           ],
         ),
       ),
-      SizedBox(width: 4,),
+      SizedBox(width: 14,),
     ],
   );
 }
