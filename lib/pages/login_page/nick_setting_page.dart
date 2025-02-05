@@ -48,7 +48,7 @@ class _NickSettingPageState extends State<NickSettingPage> {
                 const Text(
                   '어떤 이름으로\n불러드릴까요?',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xFF333333),
                     fontSize: 24,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w700,
