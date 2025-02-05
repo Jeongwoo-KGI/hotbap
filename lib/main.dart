@@ -9,6 +9,7 @@ import 'package:hotbap/pages/splash_page/splash_page.dart';
 import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
+import 'package:hotbap/pages/filter/filter_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: appTheme, // 테마 파일 적용
       initialRoute: '/splash', // 초기 화면을 로그인 페이지로 설정
       routes: {
-        '/splash': (context) => SplashPage(), // 로그인 페이지 추가
+        '/splash': (context) => FilterPage(), // 로그인 페이지 추가
         '/login': (context) => SearchPage(), // 로그인 페이지 추가
         '/profile': (context) => ProfilePage(), // 프로필 페이지 추가
       },

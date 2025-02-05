@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/data/dto/recipe_dto.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hotbap/data/data_source/gemini_api.dart';
+import 'package:hotbap/pages/search/widgets/recipe_card.dart'; // RecipeCard를 import
 
 class FilterDetailResultsPage extends StatefulWidget {
   final List<String> selectedTags;
@@ -20,34 +23,45 @@ class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
   @override
   void initState() {
     super.initState();
-    fetchRecipes();
+    fetchRecipesBasedOnFilters();
   }
 
-  Future<void> fetchRecipes() async {
-    // 예시 API 엔드포인트
-    final String apiUrl = 'https://example.com/api/recipes';
+  Future<void> fetchRecipesBasedOnFilters() async {
+    try {
+      final geminiApi = GeminiApi(dotenv.env['GEMINI_API_KEY']!);
+      final String filterQuery = widget.selectedTags.join(', ');
+      final List<String> recommendedRecipeNames =
+          await geminiApi.getRecommendedRecipeNames(filterQuery);
 
-    // API 요청에 필요한 파라미터 설정
-    final response = await http.get(Uri.parse(apiUrl), headers: {
-      'Content-Type': 'application/json',
-      // 필요하다면 추가 헤더를 설정하세요.
-    });
+      List<Recipe> fetchedRecipes = [];
+      for (String recipeName in recommendedRecipeNames) {
+        final String apiUrl =
+            'https://openapi.foodsafetykorea.go.kr/api/${dotenv.env['FOOD_SAFETY_API_KEY']!}/COOKRCP01/json/1/5/RCP_NM=$recipeName';
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+        final response = await http.get(Uri.parse(apiUrl));
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
+          if (data['COOKRCP01']['row'] != null) {
+            final List<dynamic> recipeData = data['COOKRCP01']['row'];
+            fetchedRecipes.addAll(recipeData.map((json) {
+              final recipeDTO = RecipeDTO.fromJson(json);
+              return recipeDTO.toEntity();
+            }).toList());
+          }
+        } else {
+          print('Failed to fetch recipe for $recipeName');
+        }
+      }
+
       setState(() {
-        recipes = data.map((recipeJson) {
-          final recipeDTO = RecipeDTO.fromJson(recipeJson);
-          return recipeDTO.toEntity();
-        }).toList();
+        recipes = fetchedRecipes;
         isLoading = false;
       });
-    } else {
-      // 에러 처리
+    } catch (e) {
       setState(() {
         isLoading = false;
       });
-      print('Failed to load recipes');
+      print('Error fetching recipes: $e');
     }
   }
 
@@ -82,26 +96,25 @@ class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
         color: Colors.white,
         child: isLoading
             ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: recipes.length,
-                itemBuilder: (context, index) {
-                  final recipe = recipes[index];
-                  return ListTile(
-                    leading: Image.network(recipe.imageUrl),
-                    title: Text(recipe.title),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(recipe.ingredients),
-                        SizedBox(height: 4),
-                        Text(
-                          '탄수화물: ${recipe.carbohydrate}, 단백질: ${recipe.protein}, 지방: ${recipe.fat}, 나트륨: ${recipe.sodium}',
-                        ),
-                      ],
+            : recipes.isEmpty
+                ? Center(
+                    child: Text(
+                      '검색 결과가 없습니다.',
+                      style: TextStyle(
+                        color: Color(0xFF7F7F7F),
+                        fontSize: 16,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  );
-                },
-              ),
+                  )
+                : ListView.builder(
+                    itemCount: recipes.length,
+                    itemBuilder: (context, index) {
+                      final recipe = recipes[index];
+                      return RecipeCard(recipe: recipe); // RecipeCard 사용
+                    },
+                  ),
       ),
     );
   }

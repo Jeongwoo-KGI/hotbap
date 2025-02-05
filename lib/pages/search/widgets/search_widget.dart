@@ -64,7 +64,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                           color: Color(0xFFB3B3B3),
                           fontSize: 14,
                           fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                         ),
                         isCollapsed: true,
                         contentPadding: EdgeInsets.symmetric(vertical: 10),
