@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/pages/filter/filter_selected_list.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/filter/widgets/filter_page_widget.dart';
 import 'package:hotbap/pages/filter_detail_result_page/filter_detail_results_page.dart';
@@ -60,10 +61,11 @@ class _FilterPageState extends State<FilterPage> {
   }
 
   void goToDetailResultsPage() {
+    print(filterSelectedList);
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilterDetailResultsPage(selectedTags: []), // 빈 selectedTags 전달
+        builder: (context) => FilterDetailResultsPage(selectedTags: filterSelectedList), 
       ),
     );
   }
