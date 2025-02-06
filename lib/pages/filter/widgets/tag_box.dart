@@ -15,19 +15,21 @@ class TagBox extends StatefulWidget {
 
 class _TagBoxState extends State<TagBox> {
   bool isSelected = false;
-  List<String> selectedFilters = [];
+  //List<String> selectedFilters = [];
 
   void wordSelect(String filter) {
     //버튼이 선택 되었을때 리스트에 추가
     if (isSelected) {
-      selectedFilters.add(filter);
+      //selectedFilters.add(filter);
+      filterSelectedList.add(filter);
     }
   }
 
   void wordUnselect(String filter) {
     //버튼이 선택 취소 되었을때 
     if (isSelected==false) {
-      selectedFilters.removeWhere((item) => item == filter);
+      //selectedFilters.removeWhere((item) => item == filter);
+      filterSelectedList.removeWhere((item) => item == filter);
     }
   }
 
@@ -49,7 +51,7 @@ class _TagBoxState extends State<TagBox> {
           isSelected = !isSelected;
           wordSelect(widget.text);
           wordUnselect(widget.text);
-          filterSelectedList = selectedFilters;
+          //print(filterSelectedList);
         });
       },
       child: Container(
