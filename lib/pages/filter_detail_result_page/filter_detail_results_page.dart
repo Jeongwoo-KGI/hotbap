@@ -5,7 +5,8 @@ import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/data/dto/recipe_dto.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/data/data_source/gemini_api.dart';
-import 'package:hotbap/pages/search/widgets/recipe_card.dart'; // RecipeCard를 import
+import 'package:hotbap/pages/search/widgets/recipe_card.dart';
+import 'package:hotbap/pages/detail_page/detail_page.dart'; 
 
 class FilterDetailResultsPage extends StatefulWidget {
   final List<String> selectedTags;
@@ -112,10 +113,21 @@ class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
                     itemCount: recipes.length,
                     itemBuilder: (context, index) {
                       final recipe = recipes[index];
-                      return RecipeCard(recipe: recipe); // RecipeCard 사용
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(recipe: recipe), // DetailPage로 이동
+                            ),
+                          );
+                        },
+                        child: RecipeCard(recipe: recipe),
+                      );
                     },
                   ),
       ),
     );
   }
 }
+
