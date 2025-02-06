@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/pages/filter/filter_selected_list.dart';
 
 class TagBox extends StatefulWidget {
   final String text;
@@ -48,6 +49,7 @@ class _TagBoxState extends State<TagBox> {
           isSelected = !isSelected;
           wordSelect(widget.text);
           wordUnselect(widget.text);
+          filterSelectedList = selectedFilters;
         });
       },
       child: Container(
