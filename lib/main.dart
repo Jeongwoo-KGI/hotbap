@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hot Bap',
+      debugShowCheckedModeBanner: false,
       theme: appTheme, // 테마 파일 적용
       initialRoute: '/splash', // 초기 화면을 로그인 페이지로 설정
       routes: {

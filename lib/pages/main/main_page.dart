@@ -55,6 +55,10 @@ class _MainPageState extends ConsumerState<MainPage> {
     });
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> dataRecipeGetAll() async {
     isLoading = true;
     //for mood and vibe
