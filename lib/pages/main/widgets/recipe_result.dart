@@ -52,69 +52,83 @@ class RecipeResult extends StatelessWidget{
                             fit: BoxFit.fill,
                           ),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                          ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 28, top: 35, bottom: 34, right: 170),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 295,),
-                              SizedBox(
-                                height: 79,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFFE33811),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(47)),
-                                      ),
-                                      child: Text(
-                                        'AI추천 레시피',
-                                        //textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w800,
-                                          height: 1.5,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4,),
-                                    Text(
-                                      "[${pages[index].title}]", //레시피 이름
-                                      //textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.5,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 2,),
-                                    Text(
-                                      //비율
-                                      '탄${pages[index].carbohydrate}g, 단${pages[index].protein}, 지${pages[index].fat}',
-                                      //textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        color: Color(0xFFE6E6E6),
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],                                     
-                          ),
                         ),
+                      ),
+                    ),
+                    Container(
+                      width: 350,
+                      height: 452,
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                        gradient: LinearGradient(
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0),
+                          colors: <Color> [
+                            Colors.black.withOpacity(0),
+                            Colors.black.withOpacity(0.6),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    //words and letters
+                    Padding(
+                      padding: EdgeInsets.only(left: 28, top: 35, bottom: 34, right: 170),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 295,),
+                          SizedBox(
+                            height: 79,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFE33811),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(47)),
+                                  ),
+                                  child: Text(
+                                    'AI추천 레시피',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w800,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 4,),
+                                Text(
+                                  "[${pages[index].title}]", //레시피 이름
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.5,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 2,),
+                                Text(
+                                  //비율
+                                  '탄${pages[index].carbohydrate}g, 단${pages[index].protein}, 지${pages[index].fat}',
+                                  style: TextStyle(
+                                    color: Color(0xFFE6E6E6),
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],                                     
                       ),
                     ),
                   ],
