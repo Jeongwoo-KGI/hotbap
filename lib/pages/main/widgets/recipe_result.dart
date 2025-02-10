@@ -55,18 +55,21 @@ class RecipeResult extends StatelessWidget{
                         ),
                       ),
                     ),
-                    Container(
-                      width: 350,
-                      height: 452,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                        gradient: LinearGradient(
-                          begin: Alignment(0.0, -1.0),
-                          end: Alignment(0.0, 1.0),
-                          colors: <Color> [
-                            Colors.black.withOpacity(0),
-                            Colors.black.withOpacity(0.6),
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 300),
+                      child: Container(
+                        width: 350,
+                        height: 152,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.0, -1.0),
+                            end: Alignment(0.0, 1.0),
+                            colors: <Color> [
+                              Colors.black.withOpacity(0),
+                              Colors.black.withOpacity(0.6),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -103,7 +106,7 @@ class RecipeResult extends StatelessWidget{
                                 ),
                                 const SizedBox(height: 4,),
                                 Text(
-                                  "[${pages[index].title}]", //레시피 이름
+                                  "${pages[index].title}", //레시피 이름
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -117,9 +120,10 @@ class RecipeResult extends StatelessWidget{
                                 const SizedBox(height: 2,),
                                 Text(
                                   //비율
-                                  '탄${pages[index].carbohydrate}g, 단${pages[index].protein}, 지${pages[index].fat}',
+                                  '탄${pages[index].carbohydrate}g 단${pages[index].protein}g 지${pages[index].fat}g',
                                   style: TextStyle(
                                     color: Color(0xFFE6E6E6),
+                                    fontSize: 14,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w400,
                                     height: 1.5,
