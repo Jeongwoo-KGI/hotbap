@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowMaterialGrid: false, //디버그띠 없애기
       title: 'Hot Bap',
       debugShowCheckedModeBanner: false,
       theme: appTheme, // 테마 파일 적용
