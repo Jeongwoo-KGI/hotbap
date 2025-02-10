@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
+import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
