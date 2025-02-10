@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/data/dto/user_dto.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/pages/main/guest_page.dart';
 //import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
@@ -29,9 +29,9 @@ class MainPage extends ConsumerStatefulWidget {
 }
 class _MainPageState extends ConsumerState<MainPage> {
   //initial values
-  String userName = 'empty'; 
+  String userName = ''; 
   List<String> savedRecipes = [];
-  User? user;
+  User? user = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
   List<Recipe> resultRecipesMNV = [];
   List<Recipe> resultRecipesAI = [];
@@ -44,95 +44,74 @@ class _MainPageState extends ConsumerState<MainPage> {
   }
   //FixMe: separate these state controller to viewModel
   Future<void> _initializeData() async {
-    user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      throw Exception('not logged in');
-    } else {
-      dataRecipeGetAll();
-    }
+    dataRecipeGetAll(user);
     setState(() {
       isLoading = false;
     });
   }
 
-  Future<void> dataRecipeGetAll() async {
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> dataRecipeGetAll(User? user) async {
     isLoading = true;
     //for mood and vibe
     // List<String> query = ["파스타","스테이크","와인","연인"];
     List<String> substituteQuery = ['조기','파인애플','잡채', '잣', '자몽', '한라봉', '복숭아', '당근', '두부'];
     List<Recipe> recipes = [];
-    //for AI reccomendation
-    // List<String> queryAI = ["${DateTime.now().month}"];
-    // //List<String> substituteQueryAI = ['상추', '아몬드', '사과'];
-    //List<Recipe> recipesAI = [];
-    // //AI rec
-    // final currentHour = DateTime.now().hour;
-    // if (currentHour<11) {
-    //   queryAI.add("아침");
-    // } else if (currentHour < 15) {
-    //   queryAI.add("점심");
-    // } else if (currentHour < 20) {
-    //   queryAI.add("저녁");
-    // } else {
-    //   queryAI.add("간식");
-    // }
+
     final repository = ref.read(recipeRepositoryProvider);
 
-    //List 값 하나씩 돌리지 말고 한번에 String으로 처리가 되는가..? //안되니 일단 리스트로 revert
-    //해당 사항에서 무조건 결과 나오는걸로 임의값 하나씩 적용해서 결과만 뽑기
-    //Todo: fix logic here
     int i = 0;
     //잠수함패치
     while (recipes.length < 11 && i<substituteQuery.length){//random -> indx increment 
       i ++;
       recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
     }
-
-    //recipesAI += await repository.getRecipesBasedOnGemini(queryAI[1]);
-    // while(recipesAI.isEmpty && i < substituteQueryAI.length) {
-    //   recipesAI += await repository.getJechulRecipeWithoutGemini(substituteQueryAI[i]);
-    //   i++;
-    // }
-
-    //mood and vibe 
-    //int j = 1;
-    // recipes += await repository.getJechulRecipeWithoutGemini(query[0]);  
-    // while (recipes.length < 3 && j<query.length ) {
-    //   recipes += await repository.getJechulRecipeWithoutGemini(query[j]);
-    //   j++;
-    // }
-    //Saved Recipe
-    QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
-    .collection('user')
-    .doc(user!.uid)
-    .collection('favorites')
-    .get();
     
+    //Saved Recipe
+    QuerySnapshot? recipesSnapshot;
+    user!=null ? recipesSnapshot = await getUserData(user!.uid): recipesSnapshot = null;
+
     //save the data that has been fetched
-    setState(() {
-      savedRecipes = recipesSnapshot.docs.map( 
-      (doc) => doc['title'] as String
-    ).toList();
-    resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
-    resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
-    resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
-    isLoading = false;
-  });
+    setState(
+    () {
+      if (user != null && recipesSnapshot != null) {
+        savedRecipes = recipesSnapshot.docs.map( 
+        (doc) => doc['title'] as String
+        ).toList();
+      }
+      resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
+      resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
+      resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
+      isLoading = false;
+    });
+  }
+
+  Future<QuerySnapshot> getUserData(String uid) async {
+
+    QuerySnapshot savedRecipesSnapshot = await FirebaseFirestore.instance
+    .collection('user')
+    .doc(uid)
+    .collection('favorites')
+    .get(); 
+    
+    return savedRecipesSnapshot;
 
   }
 
   @override
   Widget build(BuildContext context) {
-    //check the user authentication state
-    //final authState = ref.watch(authStateProvider);
-    //final userData = ref.watch(mainPageViewModel);
-    //print(userData);
-    //final userName = userData!.user;
-    return isLoading 
-    ? Center(child: CircularProgressIndicator(
+    
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator(
       color: Color(0xFFE33811),
-    ))
-    : Scaffold(
+    ));
+    } else if (user == null){
+      return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV: resultRecipesMNV, resultJechul: resultJechul,);
+    } else {
+      return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
@@ -151,7 +130,7 @@ class _MainPageState extends ConsumerState<MainPage> {
               return CircularProgressIndicator();
             }
             if (!snapshot.hasData || !snapshot.data!.exists) {
-              throw Exception('no data');
+              return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV:resultRecipesMNV, resultJechul:resultJechul);
             }
             var userData = snapshot.data!.data() as Map<String, dynamic>;
             userName = userData['userName'] ?? "Empty";
@@ -166,21 +145,6 @@ class _MainPageState extends ConsumerState<MainPage> {
                 ),
                 //Recipe Results
                 RecipeResult(searchResult: resultRecipesAI),
-                // Padding(
-                //   padding: EdgeInsets.only(left: 19),
-                //   child: Container(
-                //     height: 448,
-                //     width: 339,
-                //     decoration: ShapeDecoration(
-                //         image: DecorationImage(
-                //           image: NetworkImage("https://picsum.photos/200/300"),
-                //           fit: BoxFit.fill,
-                //         ),
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(40),
-                //         )),
-                //   ),
-                // ),
                 //Recipe My Favorites
                 MyFavorites(),
                 //Recipe Curated1: mood n vibe
@@ -195,28 +159,6 @@ class _MainPageState extends ConsumerState<MainPage> {
       bottomNavigationBar:
           BottomNavBar(initialIndex: 0), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
-  }
-}
-
-Stream<UserDto?> fetchUser() {
-  try {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) {
-      throw Exception('user unknown signin method');
     }
-
-    final firestore = FirebaseFirestore.instance;
-    final collectionRef = firestore.collection('user');
-    final query = collectionRef.doc(user.uid);
-
-    return query.snapshots().map((snapshot) {
-      if (snapshot.exists) {
-        return UserDto.fromMap(snapshot.data()!);
-      }
-      throw Exception();
-    });
-  } catch (e) {
-    throw Exception('no user found with uid. Error: $e');
   }
 }

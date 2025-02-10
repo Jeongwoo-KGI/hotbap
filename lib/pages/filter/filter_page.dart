@@ -84,7 +84,7 @@ class _FilterPageState extends State<FilterPage> {
           },
         ),
         title: Text(
-          '텍스트', // 타이틀 텍스트 변경
+          '상세 필터', // 타이틀 텍스트 변경
           style: TextStyle(
             color: Color(0xFF333333),
             fontSize: 20,
