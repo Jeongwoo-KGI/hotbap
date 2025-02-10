@@ -145,11 +145,13 @@ class RecipeResult extends StatelessWidget{
             controller: controller, 
             count: pages.length, 
             effect: const ExpandingDotsEffect(
-              dotHeight: 8, 
-              dotWidth: 8, 
+              dotHeight: 6, 
+              dotWidth: 6, 
+              expansionFactor: 28/6,
               dotColor: Color(0xFF000000),
               activeDotColor: Color(0xFFE33811),
-              spacing: 4
+              spacing: 4,
+
             ),
           ),
         ],
