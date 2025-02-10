@@ -14,9 +14,9 @@ class RecipeResult extends StatelessWidget{
   Widget build(BuildContext context) {
     //initial state
     final pages = searchResult;
-    // if (searchResult == null) {
-    //   throw Exception();
-    // }
+    if (searchResult == null) {
+      return CircularProgressIndicator();
+    }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
