@@ -61,7 +61,7 @@ class SupportSection extends StatelessWidget {
                 width: 24,
                 height: 24,
                 child: IconButton(
-                  icon: SvgPicture.asset('assets/icons/svg/arrow_m_right.svg'),
+                  icon: SvgPicture.asset('assets/icons/svg/arrow_s_right.svg'),
                   onPressed: _launchURL, // 버튼을 눌렀을 때 URL을 열도록 설정
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
@@ -94,7 +94,7 @@ class SupportSection extends StatelessWidget {
                 width: 24,
                 height: 24,
                 child: IconButton(
-                  icon: SvgPicture.asset('assets/icons/svg/arrow_m_right.svg'),
+                  icon: SvgPicture.asset('assets/icons/svg/arrow_s_right.svg'),
                   onPressed: () {},
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),

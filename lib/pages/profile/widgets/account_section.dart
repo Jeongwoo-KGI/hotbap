@@ -85,7 +85,7 @@ class _AccountSectionState extends State<AccountSection> {
                     icon: SvgPicture.asset(
                       isEditing
                           ? 'assets/icons/svg/check.svg'
-                          : 'assets/icons/svg/arrow_m_right.svg', // 수정된 아이콘 경로
+                          : 'assets/icons/svg/arrow_s_right.svg', // 수정된 아이콘 경로
                     ),
                     onPressed: () {
                       if (widget.userGuest) {
