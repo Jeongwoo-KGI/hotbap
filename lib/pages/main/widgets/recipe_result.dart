@@ -14,10 +14,11 @@ class RecipeResult extends StatelessWidget{
   Widget build(BuildContext context) {
     //initial state
     final pages = searchResult;
-    if (searchResult == null) {
+    if (searchResult == null){
       return CircularProgressIndicator();
-    }
-    return SingleChildScrollView(
+    } 
+    else{
+      return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget> [
@@ -53,7 +54,7 @@ class RecipeResult extends StatelessWidget{
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                           ),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 28, top: 22, bottom: 34, right: 180),
+                          padding: EdgeInsets.only(left: 28, top: 35, bottom: 34, right: 170),
                           child: Column(
                             children: [
                               SizedBox(height: 295,),
@@ -111,20 +112,6 @@ class RecipeResult extends StatelessWidget{
                                   ],
                                 ),
                               ),
-                              //const SizedBox(height: 4,),
-                              // SizedBox(
-                              //   width: 288,
-                              //   child: Text(
-                              //     '#${pages[index].calorie}', //FixMe: Hash_Tag 로 바꾸기
-                              //     style: TextStyle(
-                              //       color: Color(0xFFE6E6E6),
-                              //       fontSize: 12,
-                              //       fontFamily: 'Pretendard',
-                              //       fontWeight: FontWeight.w400,
-                              //       height: 1.5,
-                              //     ),
-                              //   ),
-                              // ),
                             ],                                     
                           ),
                         ),
@@ -133,7 +120,6 @@ class RecipeResult extends StatelessWidget{
                   ],
                 );
               },
-
             ),
           ),
           SizedBox(height: 12,),
@@ -152,5 +138,5 @@ class RecipeResult extends StatelessWidget{
       ),
       
     ); 
-  }
+  };}
 }

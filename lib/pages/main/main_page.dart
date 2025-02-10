@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-//import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/guest_page.dart';
-//import 'package:hotbap/pages/main/main_page_viewmodel.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/mood_n_vibe.dart';
@@ -72,7 +70,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     
     //Saved Recipe
     QuerySnapshot? recipesSnapshot;
-    user!=null ? recipesSnapshot = await getUserData(user!.uid): recipesSnapshot = null;
+    user!=null ? recipesSnapshot = await getUserData(user.uid): recipesSnapshot = null;
 
     //save the data that has been fetched
     setState(
@@ -105,9 +103,11 @@ class _MainPageState extends ConsumerState<MainPage> {
   Widget build(BuildContext context) {
     
     if (isLoading) {
-      return Center(child: CircularProgressIndicator(
-      color: Color(0xFFE33811),
-    ));
+      return Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFFE33811),
+        ) 
+      );
     } else if (user == null){
       return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV: resultRecipesMNV, resultJechul: resultJechul,);
     } else {
