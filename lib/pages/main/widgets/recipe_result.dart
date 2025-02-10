@@ -55,28 +55,31 @@ class RecipeResult extends StatelessWidget{
                         ),
                       ),
                     ),
-                    Container(
-                      width: 350,
-                      height: 452,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                        gradient: LinearGradient(
-                          begin: Alignment(0.0, -1.0),
-                          end: Alignment(0.0, 1.0),
-                          colors: <Color> [
-                            Colors.black.withOpacity(0),
-                            Colors.black.withOpacity(0.6),
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 300),
+                      child: Container(
+                        width: 350,
+                        height: 152,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.0, -1.0),
+                            end: Alignment(0.0, 1.0),
+                            colors: <Color> [
+                              Colors.black.withOpacity(0),
+                              Colors.black.withOpacity(0.6),
+                            ],
+                          ),
                         ),
                       ),
                     ),
 
                     //words and letters
                     Padding(
-                      padding: EdgeInsets.only(left: 28, top: 35, bottom: 34, right: 170),
+                      padding: EdgeInsets.only(left: 28, top: 35, bottom: 28, right: 170),
                       child: Column(
                         children: [
-                          SizedBox(height: 295,),
+                          SizedBox(height: 310,),
                           SizedBox(
                             height: 79,
                             child: Column(
@@ -103,7 +106,7 @@ class RecipeResult extends StatelessWidget{
                                 ),
                                 const SizedBox(height: 4,),
                                 Text(
-                                  "[${pages[index].title}]", //레시피 이름
+                                  "${pages[index].title}", //레시피 이름
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -117,9 +120,10 @@ class RecipeResult extends StatelessWidget{
                                 const SizedBox(height: 2,),
                                 Text(
                                   //비율
-                                  '탄${pages[index].carbohydrate}g, 단${pages[index].protein}, 지${pages[index].fat}',
+                                  '탄${pages[index].carbohydrate}g 단${pages[index].protein}g 지${pages[index].fat}g',
                                   style: TextStyle(
                                     color: Color(0xFFE6E6E6),
+                                    fontSize: 14,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w400,
                                     height: 1.5,
@@ -141,11 +145,13 @@ class RecipeResult extends StatelessWidget{
             controller: controller, 
             count: pages.length, 
             effect: const ExpandingDotsEffect(
-              dotHeight: 8, 
-              dotWidth: 8, 
+              dotHeight: 6, 
+              dotWidth: 6, 
+              expansionFactor: 28/6,
               dotColor: Color(0xFF000000),
               activeDotColor: Color(0xFFE33811),
-              spacing: 4
+              spacing: 4,
+
             ),
           ),
         ],
