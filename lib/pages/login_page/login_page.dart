@@ -275,9 +275,7 @@ class LoginWidget extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 52,
-                    ),
+                    Spacer(),
                     Text(
                       '3초 만에 빠른 로그인',
                       textAlign: TextAlign.center,
@@ -287,7 +285,7 @@ class LoginWidget extends ConsumerWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
                     // Apple 로그인 버튼
                     GestureDetector(
                       onTap: () async {
@@ -306,7 +304,6 @@ class LoginWidget extends ConsumerWidget {
                         width: double.infinity,
                         height: 56,
                         alignment: Alignment.center,
-                        margin: const EdgeInsets.only(bottom: 20),
                         decoration: ShapeDecoration(
                           color: Color(0xFF333333),
                           shape: RoundedRectangleBorder(
@@ -329,6 +326,31 @@ class LoginWidget extends ConsumerWidget {
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        '건너뛰기',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF656565),
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 26,
                     )
                   ],
                 ),
