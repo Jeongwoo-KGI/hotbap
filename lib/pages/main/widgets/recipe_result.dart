@@ -76,10 +76,10 @@ class RecipeResult extends StatelessWidget{
 
                     //words and letters
                     Padding(
-                      padding: EdgeInsets.only(left: 28, top: 35, bottom: 34, right: 170),
+                      padding: EdgeInsets.only(left: 28, top: 35, bottom: 28, right: 170),
                       child: Column(
                         children: [
-                          SizedBox(height: 295,),
+                          SizedBox(height: 310,),
                           SizedBox(
                             height: 79,
                             child: Column(
