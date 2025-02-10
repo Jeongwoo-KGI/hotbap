@@ -7,12 +7,12 @@ import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/recipe_result.dart';
 import 'package:hotbap/theme.dart';
 
-class GuestPage extends StatelessWidget{
+class GuestPageMain extends StatelessWidget{
   List<Recipe> resultRecipesAI;
   List<Recipe> resultRecipesMNV;
   List<Recipe> resultJechul;
 
-  GuestPage({super.key, required this.resultRecipesAI, required this.resultRecipesMNV, required this.resultJechul});
+  GuestPageMain({super.key, required this.resultRecipesAI, required this.resultRecipesMNV, required this.resultJechul});
   
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/data/dto/user_dto.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/guest_page.dart';
 //import 'package:hotbap/pages/main/main_page_viewmodel.dart';
