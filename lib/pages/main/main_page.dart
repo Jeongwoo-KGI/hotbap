@@ -69,17 +69,18 @@ class _MainPageState extends ConsumerState<MainPage> {
       i ++;
       recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
     }
-
-    //Saved Recipe
-    QuerySnapshot recipesSnapshot = await getUserData(user!.uid);
     
+    //Saved Recipe
+    QuerySnapshot? recipesSnapshot;
+    user!=null ? recipesSnapshot = await getUserData(user!.uid): recipesSnapshot = null;
+
     //save the data that has been fetched
     setState(
     () {
-      if (user != null) {
-      savedRecipes = recipesSnapshot.docs.map( 
-      (doc) => doc['title'] as String
-      ).toList();
+      if (user != null && recipesSnapshot != null) {
+        savedRecipes = recipesSnapshot.docs.map( 
+        (doc) => doc['title'] as String
+        ).toList();
       }
       resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
       resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
