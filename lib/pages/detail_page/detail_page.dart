@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hotbap/data/data_source/api_recipe_repository.dart';
 import 'package:hotbap/data/data_source/gemini_api.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/pages/login_page/login_page.dart';
 import 'package:hotbap/providers.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
@@ -85,9 +86,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final uid = user?.uid ?? "";
-    final isFavorite =
-        ref.watch(favoriteProvider(RecipeUid(widget.recipe, uid)));
+    final uid = user?.uid; // uid가 null이면 Firestore 접근 X
+
+    // 즐겨찾기 기능에서 예외 처리
+    final isFavorite = uid != null
+        ? ref.watch(favoriteProvider(RecipeUid(widget.recipe, uid)))
+        : false; // 게스트는 기본적으로 false 처리
+
     final processedMaterial = processMaterialText(widget.recipe.material);
 
     return Scaffold(
@@ -125,6 +130,62 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         actions: [
           GestureDetector(
             onTap: () {
+              if (uid == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Color(0xFF4C4C4C).withOpacity(0.9),
+                    behavior: SnackBarBehavior.fixed, // 떠 있는 형태
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8)),
+                    ),
+                    content: Column(
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: Text(
+                              '로그인이 필요합니다.',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                            )),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                child: SvgPicture.asset(
+                                  'assets/icons/svg/arrow_m_right.svg',
+                                  width: 24,
+                                  height: 24,
+                                  colorFilter: ColorFilter.mode(
+                                      Colors.white, BlendMode.srcIn),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                return;
+              }
               ref
                   .read(
                       favoriteProvider(RecipeUid(widget.recipe, uid)).notifier)

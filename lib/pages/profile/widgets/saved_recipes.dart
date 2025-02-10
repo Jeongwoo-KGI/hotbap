@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/pages/profile/widgets/guest_dialog.dart';
 
 class SavedRecipes extends StatelessWidget {
   final double screenWidth;
   final List<String> savedRecipes;
   final VoidCallback navigateToSavedRecipes; // 찜리스트로 이동하는 함수
 
-  SavedRecipes(this.screenWidth, this.savedRecipes, this.navigateToSavedRecipes);
+  SavedRecipes(
+      this.screenWidth, this.savedRecipes, this.navigateToSavedRecipes);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +16,17 @@ class SavedRecipes extends StatelessWidget {
       children: [
         Center(
           child: GestureDetector(
-            onTap: navigateToSavedRecipes,
+            onTap: () {
+              if (savedRecipes.isEmpty) {
+                showNoSavedRecipesDialog(context);
+              } else {
+                navigateToSavedRecipes();
+              }
+            },
             child: Container(
               width: 330, // 너비 설정
               height: 60, // 높이 설정
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical:15),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
               margin: const EdgeInsets.symmetric(vertical: 5), // 상하 여백 추가
               decoration: ShapeDecoration(
                 color: Color(0xFFFCE3DD),
@@ -43,7 +51,7 @@ class SavedRecipes extends StatelessWidget {
                   ),
                   SizedBox(width: 235), // 여백 추가
                   Text(
-                    '${savedRecipes.length}', // 저장한 레시피 개수 표시
+                    '${savedRecipes.isEmpty ? 0 : savedRecipes.length}', // 게스트 모드는 0, 회원 모드는 실제 개수
                     style: TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 14,

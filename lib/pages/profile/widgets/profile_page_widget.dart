@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hotbap/pages/profile/widgets/guest_dialog.dart';
 import 'package:hotbap/pages/profile/widgets/profile_user_name.dart';
 import 'package:hotbap/pages/profile/widgets/saved_recipes.dart';
 import 'package:hotbap/pages/profile/widgets/account_section.dart';
@@ -29,17 +30,28 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   Future<void> _initializeData() async {
     user = FirebaseAuth.instance.currentUser;
+
     if (user == null) {
-      Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
-    } else {
-      await Future.wait([_getUserData(), _getSavedRecipes()]);
+      setState(() {
+        isLoading = false;
+        userName = '게스트'; // 기본 닉네임 설정
+        savedRecipes = []; // 게스트는 저장된 레시피 없음
+      });
+      return;
     }
+    // if (user == null) {
+    //   Navigator.pushReplacementNamed(context, '/login'); // 로그인 페이지로 이동
+    // } else {
+    await Future.wait([_getUserData(), _getSavedRecipes()]);
+    // }
     setState(() {
       isLoading = false; // 로딩이 완료되었음을 표시
     });
   }
 
   Future<void> _getUserData() async {
+    if (user == null) return; // user가 null이면 실행하지 않음
+
     DocumentSnapshot userDoc = await FirebaseFirestore.instance
         .collection('user')
         .doc(user!.uid)
@@ -51,6 +63,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   }
 
   Future<void> _getSavedRecipes() async {
+    if (user == null) return; // user가 null이면 실행하지 않음
+
     QuerySnapshot recipesSnapshot = await FirebaseFirestore.instance
         .collection('user')
         .doc(user!.uid)
@@ -141,16 +155,20 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
 
-    return isLoading
-        ? Center(child: CircularProgressIndicator())
-        : Container(
-            padding: const EdgeInsets.symmetric(vertical: 6),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: screenHeight * 0.02),
-                StreamBuilder<DocumentSnapshot>(
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: screenHeight * 0.02),
+          //닉네임표시
+          user == null
+              ? ProfileUserName(screenWidth, '로그인을 해주세요')
+              : StreamBuilder<DocumentSnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('user')
                       .doc(user!.uid)
@@ -169,45 +187,54 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                     return ProfileUserName(screenWidth, userName);
                   },
                 ),
-                SizedBox(height: screenHeight * 0.02),
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('user')
-                      .doc(user!.uid)
-                      .collection('favorites')
-                      .snapshots(), // 'users' 대신 'user'로 수정
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    }
-                    if (!snapshot.hasData) {
-                      return Text('저장된 레시피가 없습니다.');
-                    }
-                    savedRecipes = snapshot.data!.docs
-                        .map((doc) => doc['title'] as String)
-                        .toList();
-                    return SavedRecipes(
-                        screenWidth, savedRecipes, _navigateToSavedRecipes);
-                  },
-                ),
-                SizedBox(height: 16),
-                AccountSection(
-                  screenWidth,
-                  screenHeight,
-                  nameController: _nameController,
-                  saveUserName: _saveUserName,
-                ),
-                SizedBox(height: 8), // 간격 추가
-                Divider(color: Color(0xFFE6E6E6)),
-                SizedBox(height: 16), // 간격 추가
-                SupportSection(screenWidth, screenHeight),
-                SizedBox(height: 8), // 간격 추가
-                Divider(color: Color(0xFFE6E6E6)),
-                SizedBox(height: 16), // 간격 추가
-                AccountManagement(
-                    screenWidth, screenHeight, _logout, _deleteAccount),
-              ],
+          SizedBox(height: screenHeight * 0.02),
+          //저장된 레시피 표시
+          StreamBuilder<QuerySnapshot>(
+            stream: user == null
+                ? null
+                : FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(user!.uid)
+                    .collection('favorites')
+                    .snapshots(), // 'users' 대신 'user'로 수정
+            builder: (context, snapshot) {
+              if (user == null) {
+                savedRecipes = []; // 게스트 모드일 때 빈 리스트
+              } else if (snapshot.hasData) {
+                savedRecipes = snapshot.data!.docs
+                    .map((doc) => doc['title'] as String)
+                    .toList();
+              } else {
+                if (!snapshot.hasData) {
+                  return Text('저장된 레시피가 없습니다.');
+                }
+              }
+              return SavedRecipes(
+                  screenWidth, savedRecipes, _navigateToSavedRecipes);
+            },
+          ),
+          SizedBox(height: 16),
+          if (user != null)
+            AccountSection(
+              screenWidth,
+              screenHeight,
+              nameController: _nameController,
+              saveUserName: _saveUserName,
+              userGuest: user == null,
             ),
-          );
+
+          SizedBox(height: 8), // 간격 추가
+          if (user != null) Divider(color: Color(0xFFE6E6E6)),
+          SizedBox(height: 16), // 간격 추가
+          SupportSection(screenWidth, screenHeight),
+          SizedBox(height: 8), // 간격 추가
+          Divider(color: Color(0xFFE6E6E6)),
+          SizedBox(height: 16), // 간격 추가
+          if (user != null)
+            AccountManagement(
+                screenWidth, screenHeight, _logout, _deleteAccount),
+        ],
+      ),
+    );
   }
 }
