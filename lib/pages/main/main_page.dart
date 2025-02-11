@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/guest_page.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
@@ -12,7 +10,6 @@ import 'package:hotbap/pages/main/widgets/mood_n_vibe.dart';
 import 'package:hotbap/pages/main/widgets/my_favorites.dart';
 import 'package:hotbap/pages/main/widgets/recipe_result.dart';
 import 'package:hotbap/pages/main/widgets/say_hi.dart';
-import 'package:hotbap/theme.dart';
 
 /**
  * [Main Landing Page]
@@ -39,7 +36,7 @@ class _MainPageState extends ConsumerState<MainPage> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); //make the initialized bool to have the filter <-> mainpage to have less errors
     _initializeData();
   }
   //FixMe: separate these state controller to viewModel
@@ -87,11 +84,13 @@ class _MainPageState extends ConsumerState<MainPage> {
         resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
         resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
         isLoading = false;
+
+
       });
     }
 
   }
-
+  //get user data (name & saved recipe)
   Future<QuerySnapshot> getUserData(String uid) async {
 
     QuerySnapshot savedRecipesSnapshot = await FirebaseFirestore.instance

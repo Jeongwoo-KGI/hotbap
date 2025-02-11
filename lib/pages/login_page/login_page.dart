@@ -27,7 +27,7 @@ class LoginPage extends ConsumerWidget {
                 return Center(child: Text('오류 발생: ${snapshot.error}'));
               } else if (snapshot.data == true) {
                 // Firestore에 UID가 존재하면 MainPage로 이동
-                return MainPage();
+                return ContainerPage();
               } else {
                 // Firestore에 UID가 없으면 ConditionsPage로 이동
                 return ConditionsPage();
