@@ -87,11 +87,11 @@ class LoginWidget extends ConsumerWidget {
               ),
             ),
 
-            Container(
-              height: 464,
-              width: double.infinity,
-              color: Colors.grey,
-              alignment: Alignment.center,
+            Expanded(
+              // height: 464,
+              // width: double.infinity,
+              // color: Colors.grey,
+              // alignment: Alignment.center,
               child: PageView(
                 controller: _controller,
                 children: [
@@ -139,12 +139,21 @@ class LoginWidget extends ConsumerWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/login_image_01.png',
-                          width: 228, // 가로 크기
-                          height: 383, // 세로 크기
-                          fit: BoxFit.cover,
+                        SizedBox(height: 37),
+                        Expanded(
+                          child: ClipRect(
+                            child: Align(
+                              alignment: Alignment.topCenter, // 이미지의 상단을 고정
+                              child: FittedBox(
+                                fit: BoxFit.cover, // 컨테이너보다 큰 부분은 잘라냄
+                                child: Image.asset(
+                                  'assets/images/login_image_01.png',
+                                  width: 228,
+                                  height: 383, // 기준 높이
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
