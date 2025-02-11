@@ -122,7 +122,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         preferredSize: Size.fromHeight(0),
         
         child: AppBar(
-          //scrolledUnderElevation: 0,
+          scrolledUnderElevation: 0.0,
           //foregroundColor: Colors.white,
           backgroundColor: Colors.white,
           // systemOverlayStyle: SystemUiOverlayStyle(
@@ -132,43 +132,41 @@ class _MainPageState extends ConsumerState<MainPage> {
         ),
         
       ),
-      body: widget(
-        child: SingleChildScrollView(
-          child:StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance
-            .collection('user')
-            .doc(user!.uid)
-            .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              }
-              if (!snapshot.hasData || !snapshot.data!.exists) {
-                return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV:resultRecipesMNV, resultJechul:resultJechul);
-              }
-              var userData = snapshot.data!.data() as Map<String, dynamic>;
-              userName = userData['userName'] ?? "Empty";
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //logo and filter button
-                  LogoAndFilter(),
-                  Padding(
-                    padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
-                    child: SayHi(userName: userName)
-                  ),
-                  //Recipe Results
-                  RecipeResult(searchResult: resultRecipesAI),
-                  //Recipe My Favorites
-                  MyFavorites(),
-                  //Recipe Curated1: mood n vibe
-                  MoodNVibe(resultRecipes: resultRecipesMNV),
-                  //Recipe Jechul
-                  JechulFoodRec(resultRecipes: resultJechul,),
-                ],
-              );
+      body: SingleChildScrollView(
+        child:StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+          .collection('user')
+          .doc(user!.uid)
+          .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
             }
-          ),
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV:resultRecipesMNV, resultJechul:resultJechul);
+            }
+            var userData = snapshot.data!.data() as Map<String, dynamic>;
+            userName = userData['userName'] ?? "Empty";
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //logo and filter button
+                LogoAndFilter(),
+                Padding(
+                  padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
+                  child: SayHi(userName: userName)
+                ),
+                //Recipe Results
+                RecipeResult(searchResult: resultRecipesAI),
+                //Recipe My Favorites
+                MyFavorites(),
+                //Recipe Curated1: mood n vibe
+                MoodNVibe(resultRecipes: resultRecipesMNV),
+                //Recipe Jechul
+                JechulFoodRec(resultRecipes: resultJechul,),
+              ],
+            );
+          }
         ),
       ),
     );
