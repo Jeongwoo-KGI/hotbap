@@ -31,7 +31,7 @@ class _InputBoxState extends State<InputBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 335,
+      width: double.infinity,
       height: 40,
       padding: const EdgeInsets.symmetric(horizontal: 8), // 여백 수정
       decoration: ShapeDecoration(
