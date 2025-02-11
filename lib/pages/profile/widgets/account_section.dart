@@ -38,8 +38,8 @@ class _AccountSectionState extends State<AccountSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            width: widget.screenWidth,
+            padding: EdgeInsets.symmetric(horizontal: widget.screenWidth * 0.025),
             child: Text(
               '내 계정',
               style: TextStyle(
@@ -51,11 +51,11 @@ class _AccountSectionState extends State<AccountSection> {
               ),
             ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: widget.screenHeight * 0.02), // 비율에 맞춘 간격
           Container(
-            width: 375,
-            height: 40,
-            padding: const EdgeInsets.only(left: 10), // 왼쪽에만 20 여백 추가
+            width: widget.screenWidth * 0.9,
+            height: widget.screenHeight * 0.05,
+            padding: EdgeInsets.only(left: widget.screenWidth * 0.025), // 왼쪽에 비율에 맞춘 여백 추가
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -72,15 +72,15 @@ class _AccountSectionState extends State<AccountSection> {
                         '닉네임 수정',
                         style: TextStyle(
                           color: Color(0xFF4D4D4D),
-                          fontSize: 14,
+                          fontSize: widget.screenWidth * 0.035,
                           fontFamily: 'Pretendard',
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                SizedBox(width: 240), // 텍스트와 아이콘 사이 간격을 253으로 설정
+                SizedBox(width: widget.screenWidth * 0.64), // 텍스트와 아이콘 사이 간격을 비율로 설정
                 SizedBox(
-                  width: 24,
-                  height: 24,
+                  width: widget.screenWidth * 0.06,
+                  height: widget.screenWidth * 0.06,
                   child: IconButton(
                     icon: SvgPicture.asset(
                       isEditing

@@ -15,8 +15,8 @@ class AccountManagement extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          width: screenWidth,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
           child: Text(
             '계정 관리',
             style: TextStyle(
@@ -28,17 +28,17 @@ class AccountManagement extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20), // 간격 추가
+        SizedBox(height: screenHeight * 0.02), // 비율에 맞춘 간격
         GestureDetector(
           onTap: logout, // 로그아웃 기능 설정
           child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            width: screenWidth,
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
             child: Text(
               '로그아웃',
               style: TextStyle(
                 color: Color(0xFFDD0909),
-                fontSize: 14,
+                fontSize: screenWidth * 0.035,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w600,
                 height: 1.35,
@@ -46,17 +46,17 @@ class AccountManagement extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 20), // 간격 추가
+        SizedBox(height: screenHeight * 0.02), // 비율에 맞춘 간격
         GestureDetector(
           onTap: deleteAccount, // 회원 탈퇴 기능 설정
           child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            width: screenWidth,
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
             child: Text(
               '회원 탈퇴',
               style: TextStyle(
                 color: Color(0xFF4D4D4D),
-                fontSize: 14,
+                fontSize: screenWidth * 0.035,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w600,
                 height: 1.35,
