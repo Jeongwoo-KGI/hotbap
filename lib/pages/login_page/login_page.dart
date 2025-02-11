@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/pages/containter_page.dart/container_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/search/search_page.dart';
@@ -280,89 +281,90 @@ class LoginWidget extends ConsumerWidget {
             ),
 
             // 하단 로그인 영역
-            Container(
-              height: 205,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Spacer(),
-                  Text(
-                    '3초 만에 빠른 로그인',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  // Apple 로그인 버튼
-                  GestureDetector(
-                    onTap: () async {
-                      try {
-                        final uid = await loginViewModel.signInWithApple(
-                          context,
-                        );
-                        if (uid != null) {
-                          print("로그인 성공: UID -> $uid");
-                        }
-                      } catch (e) {
-                        print("로그인 실패: $e");
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 56,
-                      alignment: Alignment.center,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFF333333),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.apple, color: Colors.white),
-                          SizedBox(width: 8),
-                          Text(
-                            'Apple로 시작하기',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainPage(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      '건너뛰기',
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Spacer(),
+                    Text(
+                      '3초 만에 빠른 로그인',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF656565),
+                        color: Color(0xFF333333),
                         fontSize: 14,
-                        fontFamily: 'Pretendard',
-                        fontWeight: FontWeight.w500,
-                        height: 1.35,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 26,
-                  )
-                ],
+                    const SizedBox(height: 12),
+                    // Apple 로그인 버튼
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          final uid = await loginViewModel.signInWithApple(
+                            context,
+                          );
+                          if (uid != null) {
+                            print("로그인 성공: UID -> $uid");
+                          }
+                        } catch (e) {
+                          print("로그인 실패: $e");
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 56,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF333333),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.apple, color: Colors.white),
+                            SizedBox(width: 8),
+                            Text(
+                              'Apple로 시작하기',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContainerPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        '건너뛰기',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF656565),
+                          fontSize: 14,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w500,
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 26,
+                    )
+                  ],
+                ),
               ),
             ),
           ],

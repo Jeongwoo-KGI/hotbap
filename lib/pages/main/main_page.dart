@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/guest_page.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
@@ -73,18 +75,21 @@ class _MainPageState extends ConsumerState<MainPage> {
     user!=null ? recipesSnapshot = await getUserData(user.uid): recipesSnapshot = null;
 
     //save the data that has been fetched
-    setState(
-    () {
-      if (user != null && recipesSnapshot != null) {
-        savedRecipes = recipesSnapshot.docs.map( 
-        (doc) => doc['title'] as String
-        ).toList();
-      }
-      resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
-      resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
-      resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
-      isLoading = false;
-    });
+    if (mounted) { //flutter bool var false = disposed screen
+      setState(
+      () {
+        if (user != null && recipesSnapshot != null) {
+          savedRecipes = recipesSnapshot.docs.map( 
+          (doc) => doc['title'] as String
+          ).toList();
+        }
+        resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
+        resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
+        resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
+        isLoading = false;
+      });
+    }
+
   }
 
   Future<QuerySnapshot> getUserData(String uid) async {
@@ -115,9 +120,17 @@ class _MainPageState extends ConsumerState<MainPage> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
+        
         child: AppBar(
+          scrolledUnderElevation: 0.0,
+          //foregroundColor: Colors.white,
           backgroundColor: Colors.white,
+          // systemOverlayStyle: SystemUiOverlayStyle(
+          //   statusBarColor: Colors.white,
+          //   statusBarBrightness: Brightness.light,
+          // ),
         ),
+        
       ),
       body: SingleChildScrollView(
         child:StreamBuilder<DocumentSnapshot>(
@@ -156,8 +169,6 @@ class _MainPageState extends ConsumerState<MainPage> {
           }
         ),
       ),
-      bottomNavigationBar:
-          BottomNavBar(initialIndex: 0), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
     }
   }

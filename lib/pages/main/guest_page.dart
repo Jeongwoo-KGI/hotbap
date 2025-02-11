@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
@@ -40,9 +41,7 @@ class GuestPageMain extends StatelessWidget{
             JechulFoodRec(resultRecipes: resultJechul,),
           ],
         ),
-      ),
-      bottomNavigationBar:
-          BottomNavBar(initialIndex: 0), // 초기 인덱스를 설정하여 네비게이션 바 추가
+      ), // 초기 인덱스를 설정하여 네비게이션 바 추가
       );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/pages/containter_page.dart/container_page.dart';
 import 'package:hotbap/pages/filter/filter_selected_list.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/filter/widgets/filter_page_widget.dart';
@@ -79,7 +80,7 @@ class _FilterPageState extends State<FilterPage> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MainPage()),
+              MaterialPageRoute(builder: (context) => ContainerPage()),
             );
           },
         ),
