@@ -86,11 +86,11 @@ class LoginWidget extends ConsumerWidget {
               ),
             ),
 
-            Container(
-              height: 464,
-              width: double.infinity,
-              color: Colors.grey,
-              alignment: Alignment.center,
+            Expanded(
+              // height: 464,
+              // width: double.infinity,
+              // color: Colors.grey,
+              // alignment: Alignment.center,
               child: PageView(
                 controller: _controller,
                 children: [
@@ -138,12 +138,21 @@ class LoginWidget extends ConsumerWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/login_image_01.png',
-                          width: 228, // 가로 크기
-                          height: 383, // 세로 크기
-                          fit: BoxFit.cover,
+                        SizedBox(height: 37),
+                        Expanded(
+                          child: ClipRect(
+                            child: Align(
+                              alignment: Alignment.topCenter, // 이미지의 상단을 고정
+                              child: FittedBox(
+                                fit: BoxFit.cover, // 컨테이너보다 큰 부분은 잘라냄
+                                child: Image.asset(
+                                  'assets/images/login_image_01.png',
+                                  width: 228,
+                                  height: 383, // 기준 높이
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -271,90 +280,89 @@ class LoginWidget extends ConsumerWidget {
             ),
 
             // 하단 로그인 영역
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Spacer(),
-                    Text(
-                      '3초 만에 빠른 로그인',
+            Container(
+              height: 205,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Spacer(),
+                  Text(
+                    '3초 만에 빠른 로그인',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF333333),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // Apple 로그인 버튼
+                  GestureDetector(
+                    onTap: () async {
+                      try {
+                        final uid = await loginViewModel.signInWithApple(
+                          context,
+                        );
+                        if (uid != null) {
+                          print("로그인 성공: UID -> $uid");
+                        }
+                      } catch (e) {
+                        print("로그인 실패: $e");
+                      }
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 56,
+                      alignment: Alignment.center,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFF333333),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.apple, color: Colors.white),
+                          SizedBox(width: 8),
+                          Text(
+                            'Apple로 시작하기',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      '건너뛰기',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF333333),
+                        color: Color(0xFF656565),
                         fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w500,
+                        height: 1.35,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    // Apple 로그인 버튼
-                    GestureDetector(
-                      onTap: () async {
-                        try {
-                          final uid = await loginViewModel.signInWithApple(
-                            context,
-                          );
-                          if (uid != null) {
-                            print("로그인 성공: UID -> $uid");
-                          }
-                        } catch (e) {
-                          print("로그인 실패: $e");
-                        }
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 56,
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFF333333),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.apple, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              'Apple로 시작하기',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainPage(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        '건너뛰기',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF656565),
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                          height: 1.35,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 26,
-                    )
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 26,
+                  )
+                ],
               ),
             ),
           ],
