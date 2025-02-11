@@ -133,7 +133,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               if (uid == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: Color(0xFF4C4C4C).withOpacity(0.9),
+                    backgroundColor: Color(0xFF4D4D4D).withOpacity(0.9),
                     behavior: SnackBarBehavior.fixed, // 떠 있는 형태
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -193,7 +193,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               if (!isFavorite) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: Color(0xFF4C4C4C).withOpacity(0.9),
+                    backgroundColor: Color(0xFF4D4D4D).withOpacity(0.9),
                     behavior: SnackBarBehavior.fixed, // 떠 있는 형태
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -621,7 +621,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 weight,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF4C4C4C),
+                  color: Color(0xFF4D4D4D),
                   fontSize: 16,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w500,
@@ -632,7 +632,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 unit,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF4C4C4C),
+                  color: Color(0xFF4D4D4D),
                   fontSize: 14,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w500,

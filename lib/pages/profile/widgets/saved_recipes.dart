@@ -32,6 +32,11 @@ class SavedRecipes extends StatelessWidget {
                 color: Color(0xFFFCE3DD),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
+                  side: BorderSide(
+                    width: 2,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                    color: Color(0xFFFACFC6),
+                  ),
                 ),
               ),
               child: Row(

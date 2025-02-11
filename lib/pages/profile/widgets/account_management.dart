@@ -55,7 +55,7 @@ class AccountManagement extends StatelessWidget {
             child: Text(
               '회원 탈퇴',
               style: TextStyle(
-                color: Color(0xFF333333),
+                color: Color(0xFF4D4D4D),
                 fontSize: 14,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w600,
