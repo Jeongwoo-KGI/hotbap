@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:hotbap/pages/profile/widgets/profile_page_widget.dart';
 import 'package:hotbap/theme.dart';
 
@@ -27,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(16.0),
         child: ProfilePageWidget(),
       ),
-      bottomNavigationBar: BottomNavBar(initialIndex: 2), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
   }
 }

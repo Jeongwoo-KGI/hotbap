@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/guest_page.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
@@ -118,49 +120,57 @@ class _MainPageState extends ConsumerState<MainPage> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
+        
         child: AppBar(
+          //scrolledUnderElevation: 0,
+          //foregroundColor: Colors.white,
           backgroundColor: Colors.white,
+          // systemOverlayStyle: SystemUiOverlayStyle(
+          //   statusBarColor: Colors.white,
+          //   statusBarBrightness: Brightness.light,
+          // ),
+        ),
+        
+      ),
+      body: widget(
+        child: SingleChildScrollView(
+          child:StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+            .collection('user')
+            .doc(user!.uid)
+            .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              if (!snapshot.hasData || !snapshot.data!.exists) {
+                return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV:resultRecipesMNV, resultJechul:resultJechul);
+              }
+              var userData = snapshot.data!.data() as Map<String, dynamic>;
+              userName = userData['userName'] ?? "Empty";
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //logo and filter button
+                  LogoAndFilter(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
+                    child: SayHi(userName: userName)
+                  ),
+                  //Recipe Results
+                  RecipeResult(searchResult: resultRecipesAI),
+                  //Recipe My Favorites
+                  MyFavorites(),
+                  //Recipe Curated1: mood n vibe
+                  MoodNVibe(resultRecipes: resultRecipesMNV),
+                  //Recipe Jechul
+                  JechulFoodRec(resultRecipes: resultJechul,),
+                ],
+              );
+            }
+          ),
         ),
       ),
-      body: SingleChildScrollView(
-        child:StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-          .collection('user')
-          .doc(user!.uid)
-          .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
-            if (!snapshot.hasData || !snapshot.data!.exists) {
-              return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV:resultRecipesMNV, resultJechul:resultJechul);
-            }
-            var userData = snapshot.data!.data() as Map<String, dynamic>;
-            userName = userData['userName'] ?? "Empty";
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //logo and filter button
-                LogoAndFilter(),
-                Padding(
-                  padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
-                  child: SayHi(userName: userName)
-                ),
-                //Recipe Results
-                RecipeResult(searchResult: resultRecipesAI),
-                //Recipe My Favorites
-                MyFavorites(),
-                //Recipe Curated1: mood n vibe
-                MoodNVibe(resultRecipes: resultRecipesMNV),
-                //Recipe Jechul
-                JechulFoodRec(resultRecipes: resultJechul,),
-              ],
-            );
-          }
-        ),
-      ),
-      bottomNavigationBar:
-          BottomNavBar(initialIndex: 0), // 초기 인덱스를 설정하여 네비게이션 바 추가
     );
     }
   }

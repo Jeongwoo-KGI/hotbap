@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/pages/containter_page.dart/container_page.dart';
 import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/pages/search/search_page.dart';
@@ -334,7 +335,7 @@ class LoginWidget extends ConsumerWidget {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainPage(),
+                            builder: (context) => ContainerPage(),
                           ),
                         );
                       },

@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hotbap/firebase_options.dart';
-import 'package:hotbap/pages/search/search_page.dart';
 import 'package:hotbap/pages/splash_page/splash_page.dart';
 import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
-import 'package:hotbap/pages/filter/filter_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

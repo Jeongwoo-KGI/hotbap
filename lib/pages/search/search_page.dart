@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotbap/theme.dart';
+import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:provider/provider.dart';
 import '../../application/viewmodels/recipe_viewmodel.dart';
 import '../../data/data_source/api_recipe_repository.dart';
@@ -125,7 +125,7 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
           ),
-          bottomNavigationBar: BottomNavBar(initialIndex: 1),
+          
         ),
       ),
     );
