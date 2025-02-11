@@ -11,8 +11,8 @@ void showNoSavedRecipesDialog(BuildContext context) {
           borderRadius: BorderRadius.circular(12), // 모서리 둥글게
         ),
         child: SizedBox(
-          width: 335, // 다이얼로그 너비 조정
-          height: 175, // 다이얼로그 높이 조정
+          width: MediaQuery.of(context).size.width * 0.9, // 다이얼로그 너비 조정
+          height: MediaQuery.of(context).size.height * 0.25, // 다이얼로그 높이 조정
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -22,19 +22,19 @@ void showNoSavedRecipesDialog(BuildContext context) {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF333333),
-                  fontSize: 18,
+                  fontSize: MediaQuery.of(context).size.width * 0.045,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
                   height: 1.35,
                 ),
               ),
-              SizedBox(height: 34), // 간격 추가
+              SizedBox(height: MediaQuery.of(context).size.height * 0.04), // 간격 추가
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 101,
-                    height: 51,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     child: TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // 팝업 닫기
@@ -53,7 +53,7 @@ void showNoSavedRecipesDialog(BuildContext context) {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFFE33811),
-                          fontSize: 14,
+                          fontSize: MediaQuery.of(context).size.width * 0.035,
                           fontFamily: 'Pretendard',
                           fontWeight: FontWeight.w600,
                           height: 1.35,
@@ -61,10 +61,10 @@ void showNoSavedRecipesDialog(BuildContext context) {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   SizedBox(
-                    width: 152,
-                    height: 51,
+                    width: MediaQuery.of(context).size.width * 0.38,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     child: TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // 팝업 닫기
@@ -82,7 +82,7 @@ void showNoSavedRecipesDialog(BuildContext context) {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: MediaQuery.of(context).size.width * 0.035,
                           fontFamily: 'Pretendard',
                           fontWeight: FontWeight.w600,
                           height: 1.35,

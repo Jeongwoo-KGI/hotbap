@@ -24,8 +24,8 @@ class SupportSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          width: screenWidth,
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
           child: Text(
             '핫밥 정보 및 지원',
             style: TextStyle(
@@ -37,29 +37,28 @@ class SupportSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: screenHeight * 0.015),
         Container(
-          width: 375,
-          height: 40,
-          padding: const EdgeInsets.only(left: 10),
+          width: screenWidth * 0.9, // 너비를 화면 너비의 90%로 설정
+          height: screenHeight * 0.05, // 높이를 화면 높이의 5%로 설정
+          padding: EdgeInsets.only(left: screenWidth * 0.025),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 '이용약관',
                 style: TextStyle(
                   color: Color(0xFF4D4D4D),
-                  fontSize: 14,
+                  fontSize: screenWidth * 0.035,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(width: 255),
               SizedBox(
-                width: 24,
-                height: 24,
+                width: screenWidth * 0.06,
+                height: screenWidth * 0.06,
                 child: IconButton(
                   icon: SvgPicture.asset('assets/icons/svg/arrow_s_right.svg'),
                   onPressed: _launchURL, // 버튼을 눌렀을 때 URL을 열도록 설정
@@ -70,29 +69,28 @@ class SupportSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 0),
+        SizedBox(height: screenHeight * 0.005),
         Container(
-          width: 375,
-          height: 40,
-          padding: const EdgeInsets.only(left: 10),
+          width: screenWidth * 0.9, // 너비를 화면 너비의 90%로 설정
+          height: screenHeight * 0.05, // 높이를 화면 높이의 5%로 설정
+          padding: EdgeInsets.only(left: screenWidth * 0.025),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'FAQ',
                 style: TextStyle(
-                  color: Color(0xFF333333),
-                  fontSize: 14,
+                  color: Color(0xFF4D4D4D),
+                  fontSize: screenWidth * 0.035,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(width: 275),
               SizedBox(
-                width: 24,
-                height: 24,
+                width: screenWidth * 0.06,
+                height: screenWidth * 0.06,
                 child: IconButton(
                   icon: SvgPicture.asset('assets/icons/svg/arrow_s_right.svg'),
                   onPressed: () {},
