@@ -71,7 +71,7 @@ List<BottomNavigationBarItem> bottomNavItems = [
     label: '마이',
   ),
 ];
-
+//navigator 돌
 class BottomNavBar extends StatefulWidget {
   final int initialIndex;
 
@@ -91,6 +91,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   void _onItemTapped(int index) {
+    if (_selectedIndex == index) {
+      return ;
+    }
     setState(() {
       _selectedIndex = index;
     });
