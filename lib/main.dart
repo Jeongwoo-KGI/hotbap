@@ -8,6 +8,8 @@ import 'package:hotbap/pages/splash_page/splash_page.dart';
 import 'package:hotbap/theme.dart';
 import 'package:hotbap/pages/profile/profile_page.dart';
 import 'package:hotbap/pages/login_page/login_page.dart';
+import 'package:hotbap/update_page.dart';
+import 'package:hotbap/version_check.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,12 +25,17 @@ void main() async {
   // 앱 실행 시 Firebase 인증 초기화//배포할 때 삭제할것
   // await FirebaseAuth.instance.signOut();
 
+  // 버전 체크
+  VersionCheckService versionCheckService = VersionCheckService();
+  bool shouldUpdate = await versionCheckService.isUpdateRequired();
+
   // ProviderScope로 앱을 감싸서 RiverPod이 ViewModel 관리할 수 있게 선언
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp(shouldUpdate: shouldUpdate)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool shouldUpdate;
+  const MyApp({super.key, required this.shouldUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +44,10 @@ class MyApp extends StatelessWidget {
       title: 'Hot Bap',
       debugShowCheckedModeBanner: false,
       theme: appTheme, // 테마 파일 적용
-      initialRoute: '/splash', // 초기 화면을 로그인 페이지로 설정
+      initialRoute:
+          shouldUpdate ? '/update' : '/splash', // 업데이트가 필요하면 업데이트 페이지로 이동
       routes: {
+        '/update': (context) => UpdatePage(), // 업데이트 페이지 추가
         '/splash': (context) => SplashPage(), // 로그인 페이지 추가
         '/login': (context) => LoginPage(), // 로그인 페이지 추가
         '/profile': (context) => ProfilePage(), // 프로필 페이지 추가
