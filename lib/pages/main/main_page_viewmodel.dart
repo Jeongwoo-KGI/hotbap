@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotbap/domain/entity/user.dart';
 import 'package:hotbap/user_providers.dart';

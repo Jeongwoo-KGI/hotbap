@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hotbap/pages/login_page/conditions_page.dart';
 import 'package:hotbap/pages/main/main_page.dart';
 import 'package:hotbap/providers.dart';
 import 'package:hotbap/domain/usecase/save_user.dart';
@@ -92,7 +93,7 @@ class JoinSuccessPage extends ConsumerWidget {
 
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
+                    MaterialPageRoute(builder: (context) => ConditionsPage()),
                     (route) => false, // 모든 기존 스택 제거
                   );
                 },
