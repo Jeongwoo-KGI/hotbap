@@ -21,22 +21,7 @@ class LogoAndFilter extends StatelessWidget{
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 color: Color(0xFF1A1717),
               ),
-              // child: IconButton(
-              //   //color: Color(0xFF1A1717),
-              //   onPressed: (){
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => 
-              //           FilterPage()
-              //         )
-              //       );
-              //   }, 
-              //   //아이콘 변경 
-              //   icon: Image.asset('assets/icons/Filter.png',height: 24, width: 24,),
-              //   //iconSize: 24, <- this does not work for icon with image.asset
-              //   //https://github.com/flutter/flutter/issues/137580
-              // ),
+
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
