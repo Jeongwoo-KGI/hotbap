@@ -88,200 +88,143 @@ class LoginWidget extends ConsumerWidget {
             ),
 
             Expanded(
-              // height: 464,
-              // width: double.infinity,
-              // color: Colors.grey,
-              // alignment: Alignment.center,
               child: PageView(
                 controller: _controller,
                 children: [
-                  Container(
-                    color: Color(0xFFF7F7F7),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 375,
-                          child: Text.rich(
+                  pageViewContainer(
+                      Text.rich(
+                        TextSpan(
+                          children: [
                             TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '당장 뭐 먹을지 고민이라면\n',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: 'AI 추천 리스트',
-                                  style: TextStyle(
-                                    color: Color(0xFFE33811),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '로 편리하게!',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        SizedBox(height: 37),
-                        Expanded(
-                          child: ClipRect(
-                            child: Align(
-                              alignment: Alignment.topCenter, // 이미지의 상단을 고정
-                              child: FittedBox(
-                                fit: BoxFit.cover, // 컨테이너보다 큰 부분은 잘라냄
-                                child: Image.asset(
-                                  'assets/images/login_image_01.png',
-                                  width: 228,
-                                  height: 383, // 기준 높이
-                                ),
+                              text: '당장 뭐 먹을지 고민이라면\n',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: Color(0xFFF7F7F7),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 375,
-                          child: Text.rich(
                             TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '필터기능으로 ',
-                                  style: TextStyle(
-                                    color: Color(0xFFE33811),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '내가 원하는\n',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '레시피를 쉽게 찾을 수 있어요!',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                              ],
+                              text: 'AI 추천 리스트',
+                              style: TextStyle(
+                                color: Color(0xFFE33811),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w700,
+                                height: 1.35,
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/login_image_02.png',
-                          width: 228, // 가로 크기
-                          height: 383, // 세로 크기
-                          fit: BoxFit.cover,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: Color(0xFFF7F7F7),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 375,
-                          child: Text.rich(
                             TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '원하는 재료나 레시피 이름 그리고\n',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '키워드로 ',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '쉽게 검색',
-                                  style: TextStyle(
-                                    color: Color(0xFFE33811),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.35,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '해보세요!',
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.35,
-                                  ),
-                                ),
-                              ],
+                              text: '로 편리하게!',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
+                          ],
                         ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/login_image_03.png',
-                          width: 228, // 가로 크기
-                          height: 383, // 세로 크기
-                          fit: BoxFit.cover,
+                        textAlign: TextAlign.center,
+                      ),
+                      'assets/images/login_image_01.png'),
+                  pageViewContainer(
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '필터기능으로 ',
+                              style: TextStyle(
+                                color: Color(0xFFE33811),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '내가 원하는\n',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w700,
+                                height: 1.35,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '레시피를 쉽게 찾을 수 있어요!',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                        textAlign: TextAlign.center,
+                      ),
+                      'assets/images/login_image_02.png'),
+                  pageViewContainer(
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '원하는 재료나 레시피 이름 그리고\n',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '키워드로 ',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '쉽게 검색',
+                              style: TextStyle(
+                                color: Color(0xFFE33811),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w700,
+                                height: 1.35,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '해보세요!',
+                              style: TextStyle(
+                                color: Color(0xFF333333),
+                                fontSize: 16,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w600,
+                                height: 1.35,
+                              ),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      'assets/images/login_image_03.png'),
                 ],
               ),
             ),
 
             // 하단 로그인 영역
-            Expanded(
+            SizedBox(
+              height: 204,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -369,6 +312,35 @@ class LoginWidget extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Container pageViewContainer(Widget textRich, String imgPath) {
+    return Container(
+      color: Color(0xFFF7F7F7),
+      child: Column(
+        children: [
+          SizedBox(child: textRich),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 73),
+              child: ClipRect(
+                child: Align(
+                  alignment: Alignment.bottomCenter, // 이미지의 상단을 고정
+                  child: FittedBox(
+                    fit: BoxFit.cover, // 컨테이너보다 큰 부분은 잘라냄
+                    child: Image.asset(
+                      imgPath,
+                      // width: 228,
+                      // height: 383, // 기준 높이
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
