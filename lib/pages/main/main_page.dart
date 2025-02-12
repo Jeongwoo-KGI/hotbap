@@ -58,12 +58,10 @@ class _MainPageState extends ConsumerState<MainPage> {
     //for mood and vibe
     // List<String> query = ["파스타","스테이크","와인","연인"];
     List<String> substituteQuery = [
-      '조기',
       '파인애플',
       '잡채',
       '잣',
       '자몽',
-      '한라봉',
       '복숭아',
       '당근',
       '두부'
