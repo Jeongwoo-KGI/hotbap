@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // SVG 지원 추가
 import 'package:provider/provider.dart';
 import 'package:hotbap/application/viewmodels/recipe_viewmodel.dart';
 
@@ -39,19 +40,12 @@ class _SearchWidgetState extends State<SearchWidget> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
+                  SvgPicture.asset(
+                    _isSearchComplete
+                        ? 'assets/icons/svg/search_dark.svg'
+                        : 'assets/icons/svg/search.svg',
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          _isSearchComplete
-                              ? 'assets/icons/search_icon_grey.png'
-                              : 'assets/icons/search_icon_white.png',
-                        ),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
                   ),
                   SizedBox(width: 8),
                   Expanded(
@@ -97,15 +91,10 @@ class _SearchWidgetState extends State<SearchWidget> {
                           _showClearButton = false;
                         });
                       },
-                      child: Container(
+                      child: SvgPicture.asset(
+                        'assets/icons/svg/cancel.svg',
                         width: 24,
                         height: 24,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/icons/clear_icon.png'),
-                            fit: BoxFit.contain,
-                          ),
-                        ),
                       ),
                     ),
                 ],
