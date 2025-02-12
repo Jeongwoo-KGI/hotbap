@@ -24,9 +24,10 @@ class MainPage extends ConsumerStatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
+
 class _MainPageState extends ConsumerState<MainPage> {
   //initial values
-  String userName = ''; 
+  String userName = '';
   List<String> savedRecipes = [];
   User? user = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
@@ -39,6 +40,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     super.initState(); //make the initialized bool to have the filter <-> mainpage to have less errors
     _initializeData();
   }
+
   //FixMe: separate these state controller to viewModel
   Future<void> _initializeData() async {
     dataRecipeGetAll(user);
@@ -55,120 +57,131 @@ class _MainPageState extends ConsumerState<MainPage> {
     isLoading = true;
     //for mood and vibe
     // List<String> query = ["파스타","스테이크","와인","연인"];
-    List<String> substituteQuery = ['조기','파인애플','잡채', '잣', '자몽', '한라봉', '복숭아', '당근', '두부'];
+    List<String> substituteQuery = [
+      '조기',
+      '파인애플',
+      '잡채',
+      '잣',
+      '자몽',
+      '한라봉',
+      '복숭아',
+      '당근',
+      '두부'
+    ];
     List<Recipe> recipes = [];
 
     final repository = ref.read(recipeRepositoryProvider);
 
     int i = 0;
     //잠수함패치
-    while (recipes.length < 11 && i<substituteQuery.length){//random -> indx increment 
-      i ++;
-      recipes += await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
+    while (recipes.length < 11 && i < substituteQuery.length) {
+      //random -> indx increment
+      i++;
+      recipes +=
+          await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
     }
-    
+
     //Saved Recipe
     QuerySnapshot? recipesSnapshot;
-    user!=null ? recipesSnapshot = await getUserData(user.uid): recipesSnapshot = null;
+    user != null
+        ? recipesSnapshot = await getUserData(user.uid)
+        : recipesSnapshot = null;
 
     //save the data that has been fetched
-    if (mounted) { //flutter bool var false = disposed screen
-      setState(
-      () {
+    if (mounted) {
+      //flutter bool var false = disposed screen
+      setState(() {
         if (user != null && recipesSnapshot != null) {
-          savedRecipes = recipesSnapshot.docs.map( 
-          (doc) => doc['title'] as String
-          ).toList();
+          savedRecipes = recipesSnapshot.docs
+              .map((doc) => doc['title'] as String)
+              .toList();
         }
         resultRecipesMNV = [recipes[0], recipes[1], recipes[2], recipes[3]];
-        resultRecipesAI = [recipes[4], recipes[5], recipes[6], recipes[7], recipes[12]];
+        resultRecipesAI = [
+          recipes[4],
+          recipes[5],
+          recipes[6],
+          recipes[7],
+          recipes[12]
+        ];
         resultJechul = [recipes[8], recipes[9], recipes[10], recipes[11]];
         isLoading = false;
 
 
       });
     }
-
   }
   //get user data (name & saved recipe)
   Future<QuerySnapshot> getUserData(String uid) async {
-
     QuerySnapshot savedRecipesSnapshot = await FirebaseFirestore.instance
-    .collection('user')
-    .doc(uid)
-    .collection('favorites')
-    .get(); 
-    
-    return savedRecipesSnapshot;
+        .collection('user')
+        .doc(uid)
+        .collection('favorites')
+        .get();
 
+    return savedRecipesSnapshot;
   }
 
   @override
   Widget build(BuildContext context) {
-    
     if (isLoading) {
       return Center(
-        child: CircularProgressIndicator(
-          color: Color(0xFFE33811),
-        ) 
+          child: CircularProgressIndicator(
+        color: Color(0xFFE33811),
+      ));
+    } else if (user == null) {
+      return GuestPageMain(
+        resultRecipesAI: resultRecipesAI,
+        resultRecipesMNV: resultRecipesMNV,
+        resultJechul: resultJechul,
       );
-    } else if (user == null){
-      return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV: resultRecipesMNV, resultJechul: resultJechul,);
     } else {
       return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
-        
-        child: AppBar(
-          scrolledUnderElevation: 0.0,
-          //foregroundColor: Colors.white,
-          backgroundColor: Colors.white,
-          // systemOverlayStyle: SystemUiOverlayStyle(
-          //   statusBarColor: Colors.white,
-          //   statusBarBrightness: Brightness.light,
-          // ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(user!.uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (!snapshot.hasData || !snapshot.data!.exists) {
+                    return GuestPageMain(
+                        resultRecipesAI: resultRecipesAI,
+                        resultRecipesMNV: resultRecipesMNV,
+                        resultJechul: resultJechul);
+                  }
+                  var userData = snapshot.data!.data() as Map<String, dynamic>;
+                  userName = userData['userName'] ?? "Empty";
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //logo and filter button
+                      LogoAndFilter(),
+                      Padding(
+                          padding:
+                              EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
+                          child: SayHi(userName: userName)),
+                      //Recipe Results
+                      RecipeResult(searchResult: resultRecipesAI),
+                      //Recipe My Favorites
+                      MyFavorites(),
+                      //Recipe Curated1: mood n vibe
+                      MoodNVibe(resultRecipes: resultRecipesMNV),
+                      //Recipe Jechul
+                      JechulFoodRec(
+                        resultRecipes: resultJechul,
+                      ),
+                    ],
+                  );
+                }),
+          ),
         ),
-        
-      ),
-      body: SingleChildScrollView(
-        child:StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-          .collection('user')
-          .doc(user!.uid)
-          .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
-            if (!snapshot.hasData || !snapshot.data!.exists) {
-              return GuestPageMain(resultRecipesAI: resultRecipesAI, resultRecipesMNV:resultRecipesMNV, resultJechul:resultJechul);
-            }
-            var userData = snapshot.data!.data() as Map<String, dynamic>;
-            userName = userData['userName'] ?? "Empty";
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //logo and filter button
-                LogoAndFilter(),
-                Padding(
-                  padding: EdgeInsets.only(left: 22, bottom: 12, top: 25.73),
-                  child: SayHi(userName: userName)
-                ),
-                //Recipe Results
-                RecipeResult(searchResult: resultRecipesAI),
-                //Recipe My Favorites
-                MyFavorites(),
-                //Recipe Curated1: mood n vibe
-                MoodNVibe(resultRecipes: resultRecipesMNV),
-                //Recipe Jechul
-                JechulFoodRec(resultRecipes: resultJechul,),
-              ],
-            );
-          }
-        ),
-      ),
-    );
+      );
     }
   }
 }
