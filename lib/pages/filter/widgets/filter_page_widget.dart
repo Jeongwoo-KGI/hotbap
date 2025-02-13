@@ -7,6 +7,8 @@ Widget buildSectionWithInput(
   List<String> options,
   TextEditingController controller,
   Function(String) onSubmitted,
+  List<String> selectedTags,
+  Function(String) onSelected
 ) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +32,11 @@ Widget buildSectionWithInput(
         children: options.map((option) {
           return TagBox(
             text: option,
-            initiallySelected: false,
+            isSelected: selectedTags.contains(option),
+            isDefault: options.contains(option),
+            onSelected: (tag){
+              onSelected(tag);
+            },
             onRemove: () {
               options.remove(option);
             },
@@ -42,7 +48,8 @@ Widget buildSectionWithInput(
   );
 }
 
-Widget buildSectionWithoutInput(String title, List<String> options) {
+Widget buildSectionWithoutInput(String title, List<String> options,List<String> selectedTags,
+  Function(String) onSelected) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -57,6 +64,11 @@ Widget buildSectionWithoutInput(String title, List<String> options) {
         children: options.map((option) {
           return TagBox(
             text: option,
+            isSelected: selectedTags.contains(option),
+            isDefault: options.contains(option),
+            onSelected: (tag){
+              onSelected(tag);
+            },
             onRemove: () {
               options.remove(option);
             },
