@@ -14,6 +14,7 @@ class _FilterPageState extends State<FilterPage> {
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController ingredientController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  List<String> selectedTags = [];
 
   List<String> defaultCategories = [
     '혼밥',
@@ -62,15 +63,25 @@ class _FilterPageState extends State<FilterPage> {
   }
 
   void goToDetailResultsPage() {
-    print(filterSelectedList);
+    print(selectedTags);
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilterDetailResultsPage(selectedTags: filterSelectedList), 
+        builder: (context) => FilterDetailResultsPage(selectedTags: selectedTags), 
       ),
     );
+    setState(() {
+      selectedTags = [];
+    });
   }
-
+void onSelectedTag(tag){
+  setState(() {
+  if(selectedTags.contains(tag)){
+    selectedTags.remove(tag);
+  }
+  else {selectedTags.add(tag);}
+    });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +128,10 @@ class _FilterPageState extends State<FilterPage> {
                           categories.add(value);
                         });
                       },
+                      selectedTags,
+                      (value) {
+                        onSelectedTag(value);
+                      }
                     ),
                     buildSectionWithInput(
                       '좋아하는 재료',
@@ -127,9 +142,17 @@ class _FilterPageState extends State<FilterPage> {
                           ingredients.add(value);
                         });
                       },
+                      selectedTags,
+                      (value) {
+                        onSelectedTag(value);
+                      }
                     ),
-                    buildSectionWithoutInput('날씨', weather),
-                    buildSectionWithoutInput('계절', seasons),
+                    buildSectionWithoutInput('날씨', weather, selectedTags, (value) {
+                        onSelectedTag(value);
+                      }),
+                    buildSectionWithoutInput('계절', seasons, selectedTags,(value) {
+                        onSelectedTag(value);
+                      }),
                   ],
                 ),
               ),

@@ -20,11 +20,18 @@ class FilterDetailResultsPage extends StatefulWidget {
 class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
   List<Recipe> recipes = [];
   bool isLoading = true;
+  bool _isDisposed = false; // 🔥 페이지가 닫혔는지 확인하는 변수
 
   @override
   void initState() {
     super.initState();
     fetchRecipesBasedOnFilters();
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true; // 페이지가 dispose되었음을 표시
+    super.dispose();
   }
 
   Future<void> fetchRecipesBasedOnFilters() async {
@@ -36,6 +43,8 @@ class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
 
       List<Recipe> fetchedRecipes = [];
       for (String recipeName in recommendedRecipeNames) {
+        if (_isDisposed) return; // 🔥 페이지가 닫혔으면 실행 중지
+
         final String apiUrl =
             'https://openapi.foodsafetykorea.go.kr/api/${dotenv.env['FOOD_SAFETY_API_KEY']!}/COOKRCP01/json/1/5/RCP_NM=$recipeName';
 
@@ -49,19 +58,21 @@ class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
               return recipeDTO.toEntity();
             }).toList());
           }
-        } else {
-          print('Failed to fetch recipe for $recipeName');
         }
       }
 
-      setState(() {
-        recipes = fetchedRecipes;
-        isLoading = false;
-      });
+      if (!_isDisposed) { // 🔥 페이지가 살아있다면 `setState()` 실행
+        setState(() {
+          recipes = fetchedRecipes;
+          isLoading = false;
+        });
+      }
     } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+      if (!_isDisposed) { // 🔥 페이지가 닫히면 `setState()` 실행 방지
+        setState(() {
+          isLoading = false;
+        });
+      }
       print('Error fetching recipes: $e');
     }
   }
@@ -130,4 +141,3 @@ class _FilterDetailResultsPageState extends State<FilterDetailResultsPage> {
     );
   }
 }
-
