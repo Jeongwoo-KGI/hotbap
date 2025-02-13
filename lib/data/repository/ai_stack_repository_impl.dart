@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
-import 'package:hotbap/domain/repository/ai_recipe_repository.dart';
+import 'package:hotbap/domain/repository/ai_stack_repository.dart';
 
-class AiRecipeRepositoryImpl implements AiRecipeRepository{
+class AiStackRepositoryImpl implements AiStackRepository{
   final FirebaseFirestore firebaseFirestore;
 
-  AiRecipeRepositoryImpl({required this.firebaseFirestore});
+  AiStackRepositoryImpl({required this.firebaseFirestore});
   //save recipe
   @override
   Future<void> addRecipe(Recipe recipe) async {

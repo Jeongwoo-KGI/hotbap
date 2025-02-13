@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotbap/data/repository/ai_stack_repository_impl.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
+import 'package:hotbap/domain/repository/ai_stack_repository.dart';
+import 'package:hotbap/domain/usecase/ai_stack_usecase.dart';
 import 'package:hotbap/pages/main/guest_page.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
@@ -19,7 +22,8 @@ import 'package:hotbap/pages/main/widgets/say_hi.dart';
  */
 
 class MainPage extends ConsumerStatefulWidget {
-  const MainPage({super.key});
+  final AiStackUsecase useCase;
+  const MainPage(this.useCase, {super.key});
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -39,6 +43,10 @@ class _MainPageState extends ConsumerState<MainPage> {
   void initState() {
     super.initState(); //make the initialized bool to have the filter <-> mainpage to have less errors
     _initializeData();
+  }
+
+  void saveFetchedRecipe(Recipe recipe) {
+    widget.useCase.executeAdd(recipe);
   }
 
   //FixMe: separate these state controller to viewModel
@@ -77,6 +85,10 @@ class _MainPageState extends ConsumerState<MainPage> {
       i++;
       recipes +=
           await repository.getJechulRecipeWithoutGemini(substituteQuery[i]);
+    }
+
+    for (int i = 0; i <recipes.length ; i++) {
+      saveFetchedRecipe(recipes[i]);
     }
 
     //Saved Recipe
