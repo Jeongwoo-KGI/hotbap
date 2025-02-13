@@ -40,9 +40,10 @@ class UpdatePage extends StatelessWidget {
               GestureDetector(
                 onTap: () async {
                   final url =
-                      "itms-apps://itunes.apple.com/kr/app/id6741564422";
-                  if (await canLaunch(url)) {
-                    await launch(url);
+                      "itms-apps://itunes.apple.com/kr/app/id6741564422"; //https://apps.apple.com/kr/app/id6741564422?l=en-GB
+                  final uri = Uri.parse(url);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
                   }
                 },
                 child: Container(
