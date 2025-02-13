@@ -14,22 +14,27 @@ class AiStackRepositoryImpl implements AiStackRepository{
     .doc('fetchedData')
     .collection('jechul')
     .doc(recipe.title);
-
-    await docRef.set({
-      'title': recipe.title,
-      'nutritionInfo': recipe.nutritionInfo,
-      'imageUrl': recipe.imageUrl,
-      'ingredients': recipe.ingredients,
-      'material': recipe.material,
-      'category': recipe.category,
-      'calorie': recipe.calorie,
-      'carbohydrate': recipe.carbohydrate,
-      'protein': recipe.protein,
-      'fat': recipe.fat,
-      'sodium': recipe.sodium,
-      'manuals': recipe.manuals,
-      'lowSodiumTip': recipe.lowSodiumTip,
-    });
+    //check if the menu elready exists
+    final recipeData = await docRef.get();
+    if (recipeData.exists) {
+      return ;
+    } else {
+      await docRef.set({
+        'title': recipe.title,
+        'nutritionInfo': recipe.nutritionInfo,
+        'imageUrl': recipe.imageUrl,
+        'ingredients': recipe.ingredients,
+        'material': recipe.material,
+        'category': recipe.category,
+        'calorie': recipe.calorie,
+        'carbohydrate': recipe.carbohydrate,
+        'protein': recipe.protein,
+        'fat': recipe.fat,
+        'sodium': recipe.sodium,
+        'manuals': recipe.manuals,
+        'lowSodiumTip': recipe.lowSodiumTip,
+      });
+    }
   }
   //get recipe
   @override

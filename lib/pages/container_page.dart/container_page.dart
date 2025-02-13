@@ -11,13 +11,13 @@ class ContainerPage extends StatefulWidget{
   @override
   State<ContainerPage> createState() => _ContainerPageState();
 
-  final AiStackRepositoryImpl repository = AiStackRepositoryImpl(firebaseFirestore: FirebaseFirestore.instance);
+  //final AiStackRepositoryImpl repository = AiStackRepositoryImpl(firebaseFirestore: FirebaseFirestore.instance);
 }
 
 class _ContainerPageState extends State<ContainerPage> {
   int _selectedIndex = 0;
   
-  //final AiStackUsecase useCase = AiStackUsecase(widget.repository);
+  //un comment to save more recipes for the suggestion values 
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _ContainerPageState extends State<ContainerPage> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          MainPage(AiStackUsecase(widget.repository)),
+          MainPage(),//AiStackUsecase(widget.repository)),
           SearchPage(),
           ProfilePage(),
         ],
