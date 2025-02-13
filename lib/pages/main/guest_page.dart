@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hotbap/btm_nvg_bar.dart';
 import 'package:hotbap/domain/entity/recipe.dart';
 import 'package:hotbap/pages/main/widgets/jechul_food_rec.dart';
 import 'package:hotbap/pages/main/widgets/logo_and_filter.dart';
 import 'package:hotbap/pages/main/widgets/mood_n_vibe.dart';
 import 'package:hotbap/pages/main/widgets/recipe_result.dart';
-import 'package:hotbap/theme.dart';
 
 class GuestPageMain extends StatelessWidget {
   List<Recipe> resultRecipesAI;
@@ -38,7 +36,7 @@ class GuestPageMain extends StatelessWidget {
               MoodNVibe(resultRecipes: resultRecipesMNV),
               //Recipe Jechul
               JechulFoodRec(
-                resultRecipes: resultJechul,
+              //  resultRecipes: resultJechul,
               ),
             ],
           ),
