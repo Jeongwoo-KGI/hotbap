@@ -155,9 +155,6 @@ class _MainPageState extends ConsumerState<MainPage> {
   //       .collection('favorites')
   //       .get();
 
-  //   return savedRecipesSnapshot;
-  // }
-
   Future<QuerySnapshot> getJechulData() async {
     QuerySnapshot jechulRecipesSnapshot = await FirebaseFirestore.instance
       .collection('Suggestion')

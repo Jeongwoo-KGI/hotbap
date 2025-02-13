@@ -44,7 +44,7 @@ class RecipeResult extends StatelessWidget{
                         );
                       },
                       child: Container(
-                        width: 350,
+                        width: double.infinity,
                         height: 452,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
@@ -58,7 +58,7 @@ class RecipeResult extends StatelessWidget{
                     Padding(
                       padding: const EdgeInsets.only(top: 300),
                       child: Container(
-                        width: 350,
+                        width: double.infinity,
                         height: 152,
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40))),
