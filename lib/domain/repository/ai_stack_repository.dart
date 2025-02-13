@@ -1,6 +1,6 @@
 import 'package:hotbap/domain/entity/recipe.dart';
 
-abstract class AiRecipeRepository {
+abstract class AiStackRepository {
 
   //레시피 저장
   Future<void> addRecipe(Recipe recipe);
