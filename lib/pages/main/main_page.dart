@@ -216,9 +216,7 @@ class _MainPageState extends ConsumerState<MainPage> {
                       //Recipe Curated1: mood n vibe
                       MoodNVibe(resultRecipes: resultRecipesMNV),
                       //Recipe Jechul
-                      JechulFoodRec(
-                        resultRecipes: resultJechul,
-                      ),
+                      JechulFoodRec(),
                     ],
                   );
                 }),
