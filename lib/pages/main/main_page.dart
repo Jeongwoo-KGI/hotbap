@@ -97,7 +97,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     // ];
     List<Recipe> recipes = [];
 
-    final repository = ref.read(recipeRepositoryProvider);
+    // final repository = ref.read(recipeRepositoryProvider);
 
     //query directly & save recipe mode
     // int i = 0;
@@ -114,14 +114,13 @@ class _MainPageState extends ConsumerState<MainPage> {
     // }
 
     //Call firebase recipe DB
-    QuerySnapshot jechulSnapshot = await getJechulData();
-    final jechulList = jechulSnapshot.docs;
-    for (int i = 0; i<jechulList.length;i++) {
-      final recipe = jechulList[i].data() as Map<String,dynamic>;
+    QuerySnapshot aiSnapshot = await getJechulData();
+    final aiList = aiSnapshot.docs;
+    for (int i = 0; i<aiList.length;i++) {
+      final recipe = aiList[i].data() as Map<String,dynamic>;
       recipes.add(Recipe.fromMap(recipe));
     }
     
-
     // //Saved favorite Recipe
     // QuerySnapshot? recipesSnapshot;
     // user != null
@@ -140,9 +139,9 @@ class _MainPageState extends ConsumerState<MainPage> {
         // }
         
         //query recipe directly mode
-        resultRecipesMNV = recipes.sample(5);
+        resultRecipesMNV = recipes.sample(6);
         resultRecipesAI = recipes.sample(6);
-        resultJechul = recipes.sample(4);
+        // resultJechul = recipes.sample(4);
         isLoading = false;
       });
     }
