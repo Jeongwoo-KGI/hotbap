@@ -12,7 +12,12 @@
           "package_name": "com.example.hotbap"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "495549020839-i8saa5ve2i0pj9qosj497p8jep7e6tub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA0EYgZpCDlLbksMpD2e-jSFh7v3PCplOw"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495549020839-i8saa5ve2i0pj9qosj497p8jep7e6tub.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "495549020839-l766bv5p3ihjsntb5voqbr34bq0n757u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hotbap"
+              }
+            }
+          ]
         }
       }
     }
