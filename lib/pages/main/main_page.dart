@@ -64,7 +64,7 @@ class _MainPageState extends ConsumerState<MainPage> {
       '자몽',
       '복숭아',
       '당근',
-      '두부'
+      '두부',
     ];
     List<Recipe> recipes = [];
 

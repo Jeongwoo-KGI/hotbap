@@ -6,8 +6,8 @@ abstract class AiRecipeRepository {
   Future<void> addRecipe(Recipe recipe);
 
   //레시피 삭제 
-  Future<void> removeRecipe(Recipe recipe);
+  Future<void> removeRecipe(String recipeTitle);
 
   //레시피 불러오기 
-  Future<void> getRecipe(Recipe recipe);
+  Future<void> getRecipe(String recipeTitle);
 }
