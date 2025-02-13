@@ -1,9 +1,9 @@
 
 import 'package:hotbap/domain/entity/recipe.dart';
-import 'package:hotbap/domain/repository/ai_recipe_repository.dart';
+import 'package:hotbap/domain/repository/ai_stack_repository.dart';
 
 class AiStackUsecase {
-  final AiRecipeRepository repository;
+  final AiStackRepository repository;
 
   AiStackUsecase(this.repository);
 
