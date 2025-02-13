@@ -50,7 +50,7 @@ class UpdatePage extends StatelessWidget {
                   width: 137,
                   height: 51,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
                   decoration: ShapeDecoration(
                     color: Color(0xFFE33811),
                     shape: RoundedRectangleBorder(
