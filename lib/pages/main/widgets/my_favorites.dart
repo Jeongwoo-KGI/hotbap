@@ -28,7 +28,7 @@ class _MyFavoritesState extends State<MyFavorites> {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('저장된 레시피가 없습니다.'));
+            return const SizedBox(width: double.infinity, height: 1,);//Center(child: Text('저장된 레시피가 없습니다.'));
           }
 
           final recipeData = snapshot.data!.docs;
