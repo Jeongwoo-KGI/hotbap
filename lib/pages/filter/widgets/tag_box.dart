@@ -1,58 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hotbap/pages/filter/filter_selected_list.dart';
-
-class TagBox extends StatefulWidget {
+class TagBox extends StatelessWidget {
+  const TagBox({super.key, required this.onSelected, required this.isSelected, required this.text, required this.onRemove, required this.isDefault, });
+  final bool isSelected;
   final String text;
-  final bool initiallySelected;
   final Function onRemove;
   final bool isDefault;
-
-  TagBox({required this.text, this.initiallySelected = false, required this.onRemove, this.isDefault = false});
-
-  @override
-  _TagBoxState createState() => _TagBoxState();
-}
-
-class _TagBoxState extends State<TagBox> {
-  bool isSelected = false;
-  //List<String> selectedFilters = [];
-
-  void wordSelect(String filter) {
-    //버튼이 선택 되었을때 리스트에 추가
-    if (isSelected) {
-      //selectedFilters.add(filter);
-      filterSelectedList.add(filter);
-    }
-  }
-
-  void wordUnselect(String filter) {
-    //버튼이 선택 취소 되었을때 
-    if (isSelected==false) {
-      //selectedFilters.removeWhere((item) => item == filter);
-      filterSelectedList.removeWhere((item) => item == filter);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    isSelected = widget.initiallySelected;
-  }
-
-  bool isSelectedTag() {
-    return isSelected;
-  }
+  final Function onSelected;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+        return GestureDetector(
       onTap: () {
-        setState(() {
-          isSelected = !isSelected;
-          wordSelect(widget.text);
-          wordUnselect(widget.text);
+          onSelected(text);
           //print(filterSelectedList);
-        });
+        
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -67,7 +29,7 @@ class _TagBoxState extends State<TagBox> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              widget.text ?? '',
+              text ?? '',
               style: TextStyle(
                 color: isSelected ? Color(0xFFE33811) : Color(0xFF000000),
               ),
@@ -78,11 +40,9 @@ class _TagBoxState extends State<TagBox> {
                   SizedBox(width: 8),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isSelected = false;
-                      });
-                      if (!widget.isDefault) {
-                        widget.onRemove();
+                      
+                      if (!isDefault) {
+                        onRemove();
                       }
                     },
                     child: Icon(Icons.close, size: 16, color: Color(0xFFE33811)),
